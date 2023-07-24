@@ -49,7 +49,7 @@ ERR_MICROPY_LIST_NOT_SUCH_MICROPY = 404
 
 ERR_USER_NOT_VALID_MICROPY_ANSWER = 300
 
-ERR_USER_LIST_NOT_SUCH_USER = 404
+ERR_USER_LIST_NO_SUCH_USER = 404
 
 ERR_CLIENT_NOT_RUNNING = 402
 ERR_CLIENT_NOT_CONNECTED = 403
@@ -128,7 +128,7 @@ class MicropyListError(_microportalError):
 
 class UserListError(_microportalError):
     def getMessage(self):
-        if   self._num == ERR_USER_LIST_NOT_SUCH_USER:
+        if   self._num == ERR_USER_LIST_NO_SUCH_USER:
             return "no such user"
 
 class ClientError(_microportalError):

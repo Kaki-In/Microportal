@@ -36,7 +36,7 @@ class UserList():
 		| ulist (internal, please don't use) : the users list file that generated the users list
 	"""
 	def __init__(self, ulist = None, idlevel = 0):
-		self._file = mlist
+		self._file = ulist
 		self._users = []
 		self._idlevel = idlevel
 	
@@ -94,16 +94,16 @@ class UserList():
 		for i in self._users:
 			if i.identificator() == id:
 				return i
-		raise UserListError(ERR_USER_LIST_NOT_SUCH_USER)
+		raise UserListError(ERR_USER_LIST_NO_SUCH_USER)
 
 	def getUserFromMail(self, mail):
 		"""
 		Returns the user with the given address
 		"""
 		for i in self._users:
-			if i.address() == addr:
+			if i.address() == mail:
 				return i
-		raise UserListError(ERR_USER_LIST_NOT_SUCH_USER)
+		raise UserListError(ERR_USER_LIST_NO_SUCH_USER)
 
 	def getUsersFromLogin(self, login):
 		"""

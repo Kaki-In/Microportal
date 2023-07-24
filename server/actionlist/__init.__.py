@@ -49,6 +49,6 @@ class ActionsList():
     
     async def execute(self, actionName, user, **args):
         action  = self.getActionByName(actionName)
-        action()
+        return await action(user)
         
         

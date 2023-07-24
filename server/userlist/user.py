@@ -38,7 +38,7 @@ class User():
     User():
      -> instantiate a blank user (automatically used, please don't do it yourself)
     """
-    def __init__(self, id, mail, password = None, login = None, image = None, ulist = None, vpol = None, i18n = None):
+    def __init__(self, id, mail, password = None, login = None, image = None, ulist = None, mlist = None, vpol = None, i18n = None):
         self._mail = mail
         self._password = password
         self._login = login
@@ -55,7 +55,8 @@ class User():
         self._socket = None
         self._protocolManager = None
         self._version = None
-        self._ulist = list
+        self._ulist = ulist
+        self._mlist = mlist
         self._id = id
         self._vpol = vpol
         self._i18n = i18n
