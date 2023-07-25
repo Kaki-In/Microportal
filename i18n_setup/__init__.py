@@ -1,4 +1,5 @@
 import os as _os
+import verbosePolicy as _vpol
 
 class I18NFileParser():
     def __init__(self, path):
@@ -58,12 +59,12 @@ class I18NFileParser():
             raise ValueError("no language specified")
         
         return result, language
-
-    def getI18NLanguage(self):
+    
+    def getLanguage():
         fileContent, language = self.read()
-        i18nLanguage = I18NLanguage(language)
-        i18nLanguage.updateTranslations(fileContent)
-        return i18nLanguage
+        i18nResult = I18NLanguage(language)
+        i18nResult.updateTranslations(fileContent)
+        return i18nResult
 
 class I18NLanguage ():
     def __init__(self, languageName):
@@ -76,6 +77,10 @@ class I18NLanguage ():
     def updateTranslations(self, translations):
         self._translations.update(translations)
     
+    def loadFile(self, i18nFile):
+        fileContent, language = i18nFile.read()
+        self.updateTranslations(fileContent)
+    
     def addTranslation(self, keyWord, translation):
         self._translations[ keyWord ] = translation
     
@@ -83,10 +88,39 @@ class I18NLanguage ():
         if keyWord in self._translations:
             return self._translations[ keyWord ].format(**args)
         else:
-            raise ValueError("keyword not found")
+            raise KeyError("keyword not found : " + repr(keyWord))
+    
+    def __iter__(self):
+        return iter(self._translations)
 
 class I18NTranslator():
-    def __init__(self, lang="en"):
-        self._translations = []
+    def __init__(self, lang="en", default="en", verbosePolicy=None):
+        self._languages = {}
         self._language = lang
+        self._defaultLanguage = default
+        
+        self._verbosePolicy = verbosePolicy or VerbosePolicy()
+    
+    def getLanguage(self, language):
+        if language in self._languages:
+            return self._languages[ language ]
+        else:
+            raise KeyError("no such language : " + repr(language))
+    
+    def translate(self, keyWord, **args):
+        language = self.getLanguage(self._language)
+        defaultLanguage = self.getLanguage(self._defaultLanguage)
+        try:
+            try:
+                result = language.translate(keyWord)
+            except KeyError:
+                result = defaultLanguage.translate(keyWord)
+                self._verbosePolicy.log("translation not found for", repr(keyWord), "in language", repr(self._language), infolevel = _verboaePolicy.LEVEL_WARNING)
+        except KeyError:
+            self._verbosePolicy.log("translation not found for", repr(keyWord), infolevel = _verboaePolicy.LEVEL_FATAL)
+            raise
+        else:
+            return result
+
+
     
