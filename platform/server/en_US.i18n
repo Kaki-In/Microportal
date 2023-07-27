@@ -1,0 +1,3 @@
+~LANGUAGE~ : en_US
+
+SERVER_WARNING_CONNECTION_BAD_PATH : A client tried to access the unknown path "{path}"

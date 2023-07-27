@@ -1,0 +1,5 @@
+~LANGUAGE~ : en_US
+
+ERR_ACTION_EXECUTION_FAILED : An error occured while running action "{name}" : {type}: {error}
+ERR_ACTION_NOT_FOUND : No action named "{name}"
+

@@ -1,6 +1,8 @@
 from .server import *
-from .world import *
+from .world.shelve import *
 import i18n_setup as _i18n
+
+from .i18n import getPlatformI18n
 
 class Platform():
     def __init__(self, path="~/.microportal/data.db", vpol=None, i18n=None):
@@ -11,7 +13,7 @@ class Platform():
         
         self._server = Server()
         
-        self._i18n = i18n or _i18n.I18NTranslator()
+        self._i18n = i18n or getPlatformI18n()
     
     def verbosePolicy(self):
         return self._vpol

@@ -1,6 +1,0 @@
-~LANGUAGE~ : en
-
-SERVER_WARNING_CONNECTION_BAD_PATH : a client tried to access the unknown path "{}"
-
-
-

@@ -26,9 +26,10 @@ class ClientWebSocket():
         pass
 
 class Client(ClientWebSocket):
-    def __init__(self, wsock, actionsList):
-        self._list = actionsList
+    def __init__(self, wsock, actionsList, id):
         super().__init__(wsock)
+        self._list = actionsList
+        self._id = id
     
     async def onMessage(self, message, platform):
         self._list.execute(self, message, platform)

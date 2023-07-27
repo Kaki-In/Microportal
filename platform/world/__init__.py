@@ -4,16 +4,15 @@ import os as _os
 
 class World():
     def __init__(self):
-        self._users = UserList()
+        self._users = UsersList()
         self._robots = RobotsList()
         
-    def userList(self):
+    def usersList(self):
         return self._users
     
     def robotsList(self):
         return self._robots
 
-class WorldShelve():
-    def __init__(self, path):
-        if not (_os.path.exists(path) and _os.path.isfile(path)):
+    
+
             
