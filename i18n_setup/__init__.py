@@ -71,7 +71,7 @@ class I18NLanguage ():
         self._name = languageName
         self._translations = {}
     
-    def languageName(self):
+    def name(self):
         return self._name
     
     def updateTranslations(self, translations):
@@ -83,6 +83,9 @@ class I18NLanguage ():
     
     def addTranslation(self, keyWord, translation):
         self._translations[ keyWord ] = translation
+    
+    def translations(self):
+        return self._translations.copy()
     
     def translate(self, keyWord, **args):
         if keyWord in self._translations:
@@ -107,6 +110,15 @@ class I18NTranslator():
         else:
             raise KeyError("no such language : " + repr(language))
     
+    def languages(self):
+        return self._languages.copy()
+    
+    def addLanguage(self, language):
+        if language.name() in self._languages:
+            raise KeyError("already present language " + repr(language.name()))
+        else:
+            self._languages[ language.name() ] = language
+    
     def translate(self, keyWord, **args):
         language = self.getLanguage(self._language)
         defaultLanguage = self.getLanguage(self._defaultLanguage)
@@ -115,12 +127,19 @@ class I18NTranslator():
                 result = language.translate(keyWord)
             except KeyError:
                 result = defaultLanguage.translate(keyWord)
-                self._verbosePolicy.log("translation not found for", repr(keyWord), "in language", repr(self._language), infolevel = _verboaePolicy.LEVEL_WARNING)
+                self._verbosePolicy.log("translation not found for", repr(keyWord), "in language", repr(self._language), infolevel = _verbosePolicy.LEVEL_WARNING)
         except KeyError:
-            self._verbosePolicy.log("translation not found for", repr(keyWord), infolevel = _verboaePolicy.LEVEL_FATAL)
+            self._verbosePolicy.log("translation not found for", repr(keyWord), infolevel = _verbosePolicy.LEVEL_FATAL)
             raise
         else:
             return result
-
-
     
+    def loadFrom(self, i18n):
+        languages = i18n.languages()
+        for name in languages:
+            if name in self._languages:
+                self._languages[ name ].updateTranslations( languages[ name ].translations() )
+            else:
+                self._languages[ name ] = languages[ name ]
+
+
