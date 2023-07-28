@@ -1,4 +1,4 @@
-from platform import *
+from main_platform import *
 import sys
 
 def printHelp():

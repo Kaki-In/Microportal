@@ -2,3 +2,4 @@
 
 ERR_ACTION_EXECUTION_FAILED : Une erreur est intervenue pendant l'exécution de l'action "{name}" : {type}: {error}
 ERR_ACTION_NOT_FOUND : Aucune action nommée "{name}"
+

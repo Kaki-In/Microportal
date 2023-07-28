@@ -1,5 +1,5 @@
 import os as _os
-import verbosePolicy as _vpol
+import verbosePolicy as _verbosePolicy
 
 class I18NFileParser():
     def __init__(self, path):
@@ -34,6 +34,15 @@ class I18NFileParser():
         for i in range(len(data)):
             line = data[i]
 
+            while line.endswith(" "):
+                line = line[ : -1 ]
+            
+            while line.startswith(" "):
+                line = line[ 1 : ]
+                
+            if line.startswith("#"):
+                continue
+            
             if not ":" in line:
                 raise SyntaxError("missing ':' in file on line " + str(line))
             
@@ -60,7 +69,7 @@ class I18NFileParser():
         
         return result, language
     
-    def getLanguage():
+    def getLanguage(self):
         fileContent, language = self.read()
         i18nResult = I18NLanguage(language)
         i18nResult.updateTranslations(fileContent)
@@ -102,7 +111,10 @@ class I18NTranslator():
         self._language = lang
         self._defaultLanguage = default
         
-        self._verbosePolicy = verbosePolicy or VerbosePolicy()
+        self._verbosePolicy = verbosePolicy or _verbosePolicy.VerbosePolicy()
+    
+    def setVerbosePolicy(self, vpol):
+        self._verbosePolicy = vpol
     
     def getLanguage(self, language):
         if language in self._languages:
