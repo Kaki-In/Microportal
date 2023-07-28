@@ -6,7 +6,7 @@ def printHelp():
 
 Options : 
     	--server : starts the local server
-    	--help|-s : displays this help
+    	--help|-h : displays this help
 
 """.format(PATH = sys.argv[0]))
 

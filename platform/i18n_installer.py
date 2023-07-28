@@ -18,7 +18,7 @@ class I18nInstaller():
         for l in self.langs:
             if not l + ".i18n" in os.listdir(path):
                 if "." + l + ".i18n" in os.listdir(path):
-                    os.rename(path + sep + "." + l + ".i18n", l + ".i18n")
+                    os.rename(path + sep + "." + l + ".i18n", path + sep + l + ".i18n")
                 else:
                     a = open(path + sep + l + ".i18n", "w")
                     a.write("~LANGUAGE~ : " + l + "\n\n")
