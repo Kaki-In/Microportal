@@ -7,7 +7,7 @@ import i18n_setup as _i18n
 
 from .user.i18n import getUserI18n as _getUserI18n
 
-LANGUAGES = []
+LANGUAGES = ['fr_FR', 'en_US']
 
 def getUsersI18n():
     i18n = _i18n.I18NTranslator()

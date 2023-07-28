@@ -5,7 +5,7 @@
 
 import i18n_setup as _i18n
 
-LANGUAGES = []
+LANGUAGES = ['fr_FR', 'en_US']
 
 def getMailI18n():
     i18n = _i18n.I18NTranslator()

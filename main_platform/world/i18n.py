@@ -8,7 +8,7 @@ import i18n_setup as _i18n
 from .robots.i18n import getRobotsI18n as _getRobotsI18n
 from .users.i18n import getUsersI18n as _getUsersI18n
 
-LANGUAGES = []
+LANGUAGES = ['fr_FR', 'en_US']
 
 def getWorldI18n():
     i18n = _i18n.I18NTranslator()

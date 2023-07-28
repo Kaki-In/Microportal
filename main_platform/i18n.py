@@ -9,7 +9,7 @@ from .server.i18n import getServerI18n as _getServerI18n
 from .configuration.i18n import getConfigurationI18n as _getConfigurationI18n
 from .world.i18n import getWorldI18n as _getWorldI18n
 
-LANGUAGES = []
+LANGUAGES = ['fr_FR', 'en_US']
 
 def getMain_platformI18n():
     i18n = _i18n.I18NTranslator()

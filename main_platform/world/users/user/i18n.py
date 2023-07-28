@@ -8,7 +8,7 @@ import i18n_setup as _i18n
 from .mail.i18n import getMailI18n as _getMailI18n
 from .icon.i18n import getIconI18n as _getIconI18n
 
-LANGUAGES = []
+LANGUAGES = ['fr_FR', 'en_US']
 
 def getUserI18n():
     i18n = _i18n.I18NTranslator()

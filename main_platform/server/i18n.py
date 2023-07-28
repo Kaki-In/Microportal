@@ -7,7 +7,7 @@ import i18n_setup as _i18n
 
 from .clients.i18n import getClientsI18n as _getClientsI18n
 
-LANGUAGES = []
+LANGUAGES = ['fr_FR', 'en_US']
 
 def getServerI18n():
     i18n = _i18n.I18NTranslator()
