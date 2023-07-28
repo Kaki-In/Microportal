@@ -30,15 +30,15 @@ class User():
     def setIcon(self, icon):
         self._icon = icon
     
-    def mailAddress(self, mail):
-        self._mail = mail
+    def mailAddress(self):
+        return self._main
     
     def setMailAddress(self, address):
-        self._address = address
+        self._mail = address
     
     def loadNewUser(name, mail):
         user = User(name)
         user.setLastConnectionDateNow()
         user.setIcon(UserIcon.createNew())
-        user.setMail()
+        user.setMailAddress(mail)
         return user

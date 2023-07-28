@@ -69,7 +69,7 @@ def get{nameTitled}I18n():
     def getDirectories(self, directory):
         directories = []
         for i in os.listdir(directory):
-            if os.path.isdir(directory + os.path.sep + i):
+            if os.path.isdir(directory + os.path.sep + i) and i != "__pycache__":
                 directories.append(i)
         return directories
 
@@ -93,7 +93,7 @@ class I18nUninstaller():
         for i in ldir:
            fpath = path + sep + i
            print(fpath)
-           if os.path.isdir(fpath):
+           if os.path.isdir(fpath) and i != "__pycache__":
                self.loadDirectory(fpath)
            elif i == "i18n.py":
                os.remove(fpath)
@@ -102,13 +102,6 @@ class I18nUninstaller():
                    os.remove(fpath)
                else:
                    os.rename(fpath, path + sep + "." + i[ : -5 ].replace(".", '') + ".i18n")
-
-    def getDirectories(self, directory):
-        directories = []
-        for i in os.listdir(directory):
-            if os.path.isdir(directory + os.path.sep + i):
-                directories.append(i)
-        return directories
 
     def load(self):
         self.loadDirectory(self.directory)

@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from main_platform import *
 import sys
 

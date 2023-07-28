@@ -5,18 +5,16 @@
 
 import i18n_setup as _i18n
 
-from .robot.i18n import getRobotI18n as _getRobotI18n
-
 LANGUAGES = ['fr_FR', 'en_US']
 
-def getRobotsI18n():
+def getRobotI18n():
     i18n = _i18n.I18NTranslator()
 
     for i in LANGUAGES:
         parser = _i18n.I18NFileParser("./{}.i18n".format(i))
         i18n.addLanguage(parser.getLanguage())
 
-    for subTranslator in [_getRobotI18n()]:
+    for subTranslator in []:
         i18n.loadFrom(subTranslator)
 
     return i18n

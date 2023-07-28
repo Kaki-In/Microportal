@@ -5,7 +5,7 @@ class MailConfigurationFile(ConfigurationFile):
     def __init__(self, configuration):
         super().__init__(configuration, host="smtp.google.com", port="465", ssl="true", username="johndoe@google.com", password="password")
     
-    def getSmtpObject(self):
+    def getSMTP(self):
         configuration = self.configuration()
 
         if configuration[ "ssl" ] == "true":

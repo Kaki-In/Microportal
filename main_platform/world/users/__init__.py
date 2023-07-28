@@ -22,5 +22,5 @@ class UsersList():
         user.setName(newName)
         self.addUser(newName, user)
     
-    def getUser(name):
+    def getUser(self, name):
         return self._users[ name ]
