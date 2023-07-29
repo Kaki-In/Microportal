@@ -34,7 +34,9 @@ class I18nInstaller():
 ### PLEASE DON'T MODIFY THIS FILE, WHICH     ###
 ### WILL BE RE-GENERATED                     ###
 
-import i18n_setup as _i18n\n""")
+import i18n_setup as _i18n
+import os as _os
+""")
 
         subs = ""
         if d:
@@ -54,7 +56,7 @@ def get{nameTitled}I18n():
     i18n = _i18n.I18NTranslator()
 
     for i in LANGUAGES:
-        parser = _i18n.I18NFileParser(\"./{}.i18n\".format(i))
+        parser = _i18n.I18NFileParser(_os.path.abspath("./{}.i18n".format(i)))
         i18n.addLanguage(parser.getLanguage())
 
     for subTranslator in [{i18nGet}]:
