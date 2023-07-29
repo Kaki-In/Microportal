@@ -2,8 +2,8 @@ from . import *
 import verbosePolicy as _verbosePolicy
 
 class VerbosePolicyConfigurationFile(ConfigurationFile):
-    def __init__(self, configuration, outputPath):
-        super().__init__(configuration, trace="false", debug="false", info="false", warn="true", error="true", fatal="true")
+    def __init__(self, outputPath):
+        super().__init__(trace="false", debug="false", info="false", warn="true", error="true", fatal="true")
         self._path = outputPath
     
     def getVerbosePolicy(self):

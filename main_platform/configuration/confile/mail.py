@@ -2,8 +2,8 @@ from . import *
 import smtplib as _smtp
 
 class MailConfigurationFile(ConfigurationFile):
-    def __init__(self, configuration):
-        super().__init__(configuration, host="smtp.google.com", port="465", ssl="true", username="johndoe@google.com", password="password")
+    def __init__(self):
+        super().__init__(host="smtp.google.com", port="465", ssl="true", username="johndoe@google.com", password="password")
     
     def getSMTP(self):
         configuration = self.configuration()

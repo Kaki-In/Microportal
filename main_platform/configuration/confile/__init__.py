@@ -1,26 +1,29 @@
 import os as _os
+from .exception import *
 
 class ConfigurationFile():
-    def __init__(self, actualConfiguration, **defaultConfiguration):
-        self._defaultConfiguration = defaultConfiguration
-        self._actualConfiguration = actualConfiguration
-    
-    def getDefaultConfiguration(self):
-        return self._defaultConfiguration
+    def __init__(self, **defaultConfiguration):
+        self._configuration = actualConfiguration
+        
+    def setConfiguration(self, configuration):
+        match = self.matches(configuration)[ 0 ]
+        if not match[ 0 ]:
+            raise ConfigurationError(match[ 1 ])
+        self._configuration = configuration
 
     def matches(self, configuration):
         for parameter in configuration:
-            if not parameter in self._defaultConfiguration:
+            if not parameter in self._configuration:
                 return False, "unknown parameter " + repr(parameter)
 
-        for parameter in self._defaultConfiguration:
+        for parameter in self._configuration:
             if not parameter in configuration:
                 return False, "missing parameter " + repr(parameter)
         
         return True, ""
 
     def configuration(self):
-        return self._actualConfiguration
+        return self._configuration
         
     
 

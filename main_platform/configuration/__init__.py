@@ -9,12 +9,15 @@ class Configuration():
         self.logDirectory = "/var/log/microportal"
         self.confDirectory = "/etc/microportal"
         
-        self.mailConfiguration = MailConfigurationFile( self.readConfiguration("mail") )
-        self.verboseConfiguration = VerbosePolicyConfigurationFile( self.readConfiguration("verbosePolicy"), self.logDirectory + "/output.log" )
+        self.mailConfiguration = MailConfigurationFile()
+        self.mailConfiguration.setConfiguration( self.readConfiguration("mail", self.mailConfiguration.configuration()) )
+
+        self.verboseConfiguration = VerbosePolicyConfigurationFile( self.logDirectory + "/output.log" )
+        self.verboseConfiguration.setConfiguration( self.readConfiguration("verbosePolicy"), self.verboseConfiguration.configuration() )
         
         self.resources = MainResources(self.confDirectory + "/resources")
 
-    def readConfiguration(self, name):
+    def readConfiguration(self, name, default):
         path = self.confDirectory + "/" + name + ".conf"
         if _os.path.exists(path):
             a = open(path, "r")
@@ -41,7 +44,7 @@ class Configuration():
                 args = arguments[ 1 : ]
                 configuration[ parameter ] = args
         else:
-            configuration = self.getDefaultConfiguration()
+            configuration = default
             a = open(self._path, "w")
             a.write("### DEFAULT CONFIGURATION FOR {name} ###\n\n".format(name))
             for parameter in configuration:
