@@ -11,7 +11,7 @@ class Configuration():
 
         for i in (self.localDirectory, self.logDirectory, self.confDirectory):
             if not _os.path.exists(i):
-                _os.mkdirs(i)
+                _os.makedirs(i)
         
         self.mailConfiguration = MailConfigurationFile()
         self.mailConfiguration.setConfiguration( self.readConfiguration("mail", self.mailConfiguration.configuration()) )

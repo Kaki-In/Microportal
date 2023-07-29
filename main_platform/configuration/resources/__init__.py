@@ -6,7 +6,7 @@ class ResourcesDirectory():
         self._files = files
 
         if not _os.path.exists(directory):
-            _os.mkdirs(directory)
+            _os.makedirs(directory)
 
         for file in files:
             path = directory + "/" + file
