@@ -21,7 +21,7 @@ class Configuration():
         self.verboseConfiguration.setConfiguration( self.readConfiguration("verbosePolicy", self.verboseConfiguration.configuration()) )
         
         self.i18nConfiguration = I18nConfigurationFile()
-        self.i18nConfiguration.etConfiguration( self.readConfiguration( "i18n", self.i18nConfiguration.configuration()) )
+        self.i18nConfiguration.setConfiguration( self.readConfiguration( "i18n", self.i18nConfiguration.configuration()) )
         
         self.resources = Resources(self.confDirectory + "/resources")
 
