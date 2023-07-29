@@ -7,9 +7,10 @@ from .i18n import getMain_platformI18n
 
 class Platform():
     def __init__(self, configuration=None):
-        self._shelve = WorldShelve(configuration.localDirectory + "/world.db")
-        self._world = self._shelve.readWorld()
         self._configuration = configuration or Configuration()
+
+        self._shelve = WorldShelve(self._configuration.localDirectory + "/world.db")
+        self._world = self._shelve.readWorld()
         
         self._server = Server()
         
