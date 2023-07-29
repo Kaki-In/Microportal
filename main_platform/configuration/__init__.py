@@ -53,7 +53,7 @@ class Configuration():
             a.write("### DEFAULT CONFIGURATION FOR {name} ###\n\n".format(name=name))
             for parameter in configuration:
                 a.write(parameter)
-                for i in lines[parameter]:
+                for i in configuration[parameter]:
                     a.write(" " + i)
                 a.write("\n")
             a.close()
