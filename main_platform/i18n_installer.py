@@ -36,6 +36,7 @@ class I18nInstaller():
 
 import i18n_setup as _i18n
 import os as _os
+print(_os.path.abspath(_os.path.curdir))
 """)
 
         subs = ""
