@@ -3,7 +3,7 @@ import os
 import i18n_setup as _i18n
 
 class I18nConfigurationFile(ConfigurationFile):
-    def __init__(self, outputPath):
+    def __init__(self):
         if "LANG" in _os.environ:
             lang = os.environ[ "LANG" ].split('.')[ 0 ]
         else:
