@@ -45,7 +45,7 @@ class Configuration():
                 configuration[ parameter ] = args
         else:
             configuration = default
-            a = open(self._path, "w")
+            a = open(path, "w")
             a.write("### DEFAULT CONFIGURATION FOR {name} ###\n\n".format(name))
             for parameter in configuration:
                 a.write(parameter)
