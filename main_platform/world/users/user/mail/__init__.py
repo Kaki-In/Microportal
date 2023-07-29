@@ -40,8 +40,8 @@ class MailAddress():
     def send(self, platform, subject, title, content):
         sender = platform.configuration().ownerConfiguration.getSenderMail()
         
-        html = platform.configuration().resources.mail.get( "index.html" )
-        style = platform.configuration().resources.mail.get( "style.css" )
+        html = platform.configuration().resources.mail.getFile( "index.html" )
+        style = platform.configuration().resources.mail.getFile( "style.css" )
         html = content.format(STYLE=style, TITLE=title, CONTENT=content)
         
         message = _msg.Message()
