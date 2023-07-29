@@ -8,12 +8,12 @@ class MailConfigurationFile(ConfigurationFile):
     def getSMTP(self):
         configuration = self.configuration()
 
-        if configuration[ "ssl" ] == "true":
+        if configuration[ "ssl" ][ 0 ] == "true":
             smtp_class = _smtp.SMTP_SSL
         else:
             smtp_class = _smtp.SMTP
-        smtp = smtp_class(configuration[ "host" ], int(configuration[ "port"]) )
-        smtp.login(configuration[ "username" ], configuration[ "password" ])
+        smtp = smtp_class(configuration[ "host" ][ 0 ], int(configuration[ "port"][ 0 ]) )
+        smtp.login(configuration[ "username" ][ 0 ], configuration[ "password" ][ 0 ])
 
         return smtp
 
@@ -22,10 +22,10 @@ class MailConfigurationFile(ConfigurationFile):
         if not parentMatch[ 0 ]:
             return parentMatch
         
-        if not configuration[ "ssl" ] in ("true", "false"):
+        if not configuration[ "ssl" ][ 0 ] in ("true", "false"):
             return False, '"ssl" must be a boolean'
 
-        if not configuration[ "port" ].isdigit():
+        if not configuration[ "port" ][ 0 ].isdigit():
             return False, '"port" must be an integer'
     
         return True, ""

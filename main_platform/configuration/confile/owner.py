@@ -6,15 +6,15 @@ class OwnerConfigurationFile(ConfigurationFile):
     
     def getSenderMail(self):
         configuration = self.configuration()
-        return configuration[ "address" ]
+        return configuration[ "address" ][ 0 ]
     
     def getSenderName(self):
         configuration = self.configuration()
-        return configuration[ "name" ]
+        return configuration[ "name" ][ 0 ]
     
     def getSenderSurname(self):
         configuration = self.configuration()
-        return configuration[ "surname" ]
+        return configuration[ "surname" ][ 0 ]
 
         
         
