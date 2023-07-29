@@ -2,7 +2,7 @@ from . import *
 import os
 import i18n_setup as _i18n
 
-class I18nPolicyConfigurationFile(ConfigurationFile):
+class I18nConfigurationFile(ConfigurationFile):
     def __init__(self, outputPath):
         if "LANG" in _os.environ:
             lang = os.environ[ "LANG" ].split('.')[ 0 ]
