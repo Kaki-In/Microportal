@@ -10,7 +10,6 @@ class Server():
     def __init__(self, host="", port=8266, sslContext=None):
         self._host = host
         self._port = port
-        self._world = world
         self._context = sslContext
         self._serve = _websockets.serve(self._registerClient, self._host, self._port, ssl=sslContext)
         
