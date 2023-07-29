@@ -5,6 +5,7 @@
 
 import i18n_setup as _i18n
 import os as _os
+print(_os.path.abspath(_os.path.curdir))
 
 from .icon.i18n import getIconI18n as _getIconI18n
 from .mail.i18n import getMailI18n as _getMailI18n

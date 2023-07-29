@@ -5,6 +5,7 @@
 
 import i18n_setup as _i18n
 import os as _os
+print(_os.path.abspath(_os.path.curdir))
 
 from .confile.i18n import getConfileI18n as _getConfileI18n
 from .resources.i18n import getResourcesI18n as _getResourcesI18n

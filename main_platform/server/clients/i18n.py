@@ -5,6 +5,7 @@
 
 import i18n_setup as _i18n
 import os as _os
+print(_os.path.abspath(_os.path.curdir))
 
 from .actions.i18n import getActionsI18n as _getActionsI18n
 

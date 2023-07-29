@@ -5,6 +5,7 @@
 
 import i18n_setup as _i18n
 import os as _os
+print(_os.path.abspath(_os.path.curdir))
 
 from .robots.i18n import getRobotsI18n as _getRobotsI18n
 from .users.i18n import getUsersI18n as _getUsersI18n
