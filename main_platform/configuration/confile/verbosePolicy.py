@@ -7,7 +7,7 @@ class VerbosePolicyConfigurationFile(ConfigurationFile):
         self._path = outputPath
         self._verbosePolicy = self.loadVerbosePolicy()
     
-    def laodVerbosePolicy(self):
+    def loadVerbosePolicy(self):
         configuration = self.configuration()
         
         l = ("info", "trace", "debug", "warning", "error", "fatal")
