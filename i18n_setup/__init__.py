@@ -148,9 +148,9 @@ class I18NTranslator():
         defaultLanguage = self.getLanguage(self._defaultLanguage)
         try:
             try:
-                result = language.translate(keyWord)
+                result = language.translate(keyWord, **args)
             except KeyError:
-                result = defaultLanguage.translate(keyWord)
+                result = defaultLanguage.translate(keyWord, **args)
                 self._verbosePolicy.log("translation not found for", repr(keyWord), "in language", repr(self._language), infolevel = _verbosePolicy.LEVEL_WARNING)
         except KeyError:
             self._verbosePolicy.log("translation not found for", repr(keyWord), infolevel = _verbosePolicy.LEVEL_FATAL)
