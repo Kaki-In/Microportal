@@ -2,7 +2,7 @@ from . import *
 
 import os as _os
 
-class Resources(ResourcesDirectory):
+class MailResources(ResourcesDirectory):
     def __init__(self, directory):
         defaultFiles = {}
         defaultFiles[ "index.html" ] = """
