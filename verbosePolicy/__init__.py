@@ -91,5 +91,5 @@ class VerbosePolicy():
 
 		while len(logname) < 10:
 			logname = " " + logname if len(logname) % 2 == 0 else logname + " "
-
+   
 		print("[" + _colored(logname, self.getConstColor(infolevel), attrs = ("bold",)) + "]", "[" + str(_os.path.abspath(frame.filename)) + ":" + str(frame.function) + ":" + str(frame.lineno) + "]", *message, file = self._output, flush = True)

@@ -5,8 +5,9 @@ class VerbosePolicyConfigurationFile(ConfigurationFile):
     def __init__(self, outputPath):
         super().__init__(display=("warning", "error", "fatal"))
         self._path = outputPath
+        self._verbosePolicy = self.loadVerbosePolicy()
     
-    def getVerbosePolicy(self):
+    def laodVerbosePolicy(self):
         configuration = self.configuration()
         
         l = ("info", "trace", "debug", "warning", "error", "fatal")
@@ -14,11 +15,14 @@ class VerbosePolicyConfigurationFile(ConfigurationFile):
         d = {}
         for i in l:
             d[ i ] = i in configuration[ "display" ]
-        
-        verbosePolicy = _verbosePolicy.VerbosePolicy(output = self._path, **d)
+            
+        verbosePolicy = _verbosePolicy.VerbosePolicy(output = open(self._path, "a"), **d)
 
         return verbosePolicy
-    
+   
+    def getVerbosePolicy(self):
+        return self._verbosePolicy
+     
     def matches(self, configuration):
         parentMatch = super().matches(configuration)
         if not parentMatch[ 0 ]:
