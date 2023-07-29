@@ -20,6 +20,12 @@ class ConfigurationFile():
             if not parameter in configuration:
                 return False, "missing parameter " + repr(parameter)
         
+        for parameter in configuration:
+            if len( configuration ) < len( self._configuration ):
+                return False, "too less arguments for parameter " + repr(parameter)
+            if len( configuration ) > len( self._configuration ):
+                return False, "too much arguments for parameter " + repr(parameter)
+        
         return True, ""
 
     def configuration(self):
