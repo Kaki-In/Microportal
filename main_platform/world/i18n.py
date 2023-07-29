@@ -5,7 +5,8 @@
 
 import i18n_setup as _i18n
 import os as _os
-print(_os.path.abspath(_os.path.curdir))
+
+DIRNAME = _os.path.abspath(_os.path.dirname(__FILE__))
 
 from .robots.i18n import getRobotsI18n as _getRobotsI18n
 from .users.i18n import getUsersI18n as _getUsersI18n
@@ -16,7 +17,7 @@ def getWorldI18n():
     i18n = _i18n.I18NTranslator()
 
     for i in LANGUAGES:
-        parser = _i18n.I18NFileParser(_os.path.abspath("./{}.i18n".format(i)))
+        parser = _i18n.I18NFileParser(DIRNAME + "/{}.i18n".format(i))
         i18n.addLanguage(parser.getLanguage())
 
     for subTranslator in [_getRobotsI18n(), _getUsersI18n()]:
