@@ -17,7 +17,7 @@ class Configuration():
         self.mailConfiguration.setConfiguration( self.readConfiguration("mail", self.mailConfiguration.configuration()) )
 
         self.verboseConfiguration = VerbosePolicyConfigurationFile( self.logDirectory + "/output.log" )
-        self.verboseConfiguration.setConfiguration( self.readConfiguration("verbosePolicy"), self.verboseConfiguration.configuration() )
+        self.verboseConfiguration.setConfiguration( self.readConfiguration("verbosePolicy", self.verboseConfiguration.configuration()) )
         
         self.resources = MainResources(self.confDirectory + "/resources")
 
