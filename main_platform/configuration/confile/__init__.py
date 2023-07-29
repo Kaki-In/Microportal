@@ -3,7 +3,7 @@ from .exception import *
 
 class ConfigurationFile():
     def __init__(self, **defaultConfiguration):
-        self._configuration = actualConfiguration
+        self._configuration = defaultConfiguration
         
     def setConfiguration(self, configuration):
         match = self.matches(configuration)[ 0 ]
