@@ -6,7 +6,7 @@
 import i18n_setup as _i18n
 import os as _os
 
-DIRNAME = _os.path.abspath(_os.path.dirname(__FILE__))
+DIRNAME = _os.path.abspath(_os.path.dirname(__file__))
 
 from .confile.i18n import getConfileI18n as _getConfileI18n
 from .resources.i18n import getResourcesI18n as _getResourcesI18n

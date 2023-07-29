@@ -6,7 +6,7 @@
 import i18n_setup as _i18n
 import os as _os
 
-DIRNAME = _os.path.abspath(_os.path.dirname(__FILE__))
+DIRNAME = _os.path.abspath(_os.path.dirname(__file__))
 
 from .configuration.i18n import getConfigurationI18n as _getConfigurationI18n
 from .server.i18n import getServerI18n as _getServerI18n

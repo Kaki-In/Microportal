@@ -6,7 +6,7 @@
 import i18n_setup as _i18n
 import os as _os
 
-DIRNAME = _os.path.abspath(_os.path.dirname(__FILE__))
+DIRNAME = _os.path.abspath(_os.path.dirname(__file__))
 
 from .clients.i18n import getClientsI18n as _getClientsI18n
 
