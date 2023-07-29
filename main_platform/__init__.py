@@ -22,3 +22,6 @@ class Platform():
 
     def verbosePolicy(self):
         return self._vpol
+    
+    def i18n(self):
+        return self._i18n
