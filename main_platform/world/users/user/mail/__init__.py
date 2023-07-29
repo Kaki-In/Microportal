@@ -22,7 +22,7 @@ class MailAddress():
 
         subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
         title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
-        content = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT").format(code=self.verificationCode())
+        content = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT", code=self.verificationCode())
         
         self.send(platform, subject, title, content)
         
