@@ -1,5 +1,5 @@
 from . import *
-import os
+import os as _os
 import i18n_setup as _i18n
 
 class I18nConfigurationFile(ConfigurationFile):
