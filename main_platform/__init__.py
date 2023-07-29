@@ -15,7 +15,7 @@ class Platform():
         self._server = Server()
         
         self._i18n = self._configuration.i18nConfiguration.getI18n()
-        self._i18n.load(getMain_platformI18n())
+        self._i18n.loadFrom(getMain_platformI18n())
         self._i18n.setVerbosePolicy(self._configuration.verboseConfiguration.getVerbosePolicy())
 
     def configuration(self):

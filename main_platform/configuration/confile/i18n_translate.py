@@ -14,7 +14,6 @@ class I18nConfigurationFile(ConfigurationFile):
         configuration = self.configuration()
         language = configuration[ "language" ]
         default = configuration[ "default" ]
-        print(language, default)
         i18n = _i18n.I18NTranslator(language[ 0 ] + "_" + language[ 1 ], default[ 0 ] + "_" + default[ 1 ])
         return i18n
     
