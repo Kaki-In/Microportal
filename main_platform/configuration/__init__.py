@@ -30,20 +30,20 @@ class Configuration():
 
             configuration = {}
             for line in lines:
-                line = line.replace("\t", " ")
+                line = line.replace("\t", " ")[ : -1 ]
                 while line.startswith(" "):
                     line = line[ 1 : ]
 
                 while line.endswith(" "):
                     line = line[ : -1 ]
 
-                if not line or line.startswith("#"):
+                if (not line) or line.startswith("#"):
                     continue
                     
                 while "  " in line:
                     line = line.replace("  ", " ")
                     
-                arguments = line.split()
+                arguments = line.split(' ')
                 parameter = arguments[ 0 ]
                 args = arguments[ 1 : ]
                 configuration[ parameter ] = args
