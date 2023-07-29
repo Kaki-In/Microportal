@@ -50,7 +50,7 @@ class Configuration():
         else:
             configuration = default
             a = open(path, "w")
-            a.write("### DEFAULT CONFIGURATION FOR {name} ###\n\n".format(name))
+            a.write("### DEFAULT CONFIGURATION FOR {name} ###\n\n".format(name=name))
             for parameter in configuration:
                 a.write(parameter)
                 for i in lines[parameter]:
