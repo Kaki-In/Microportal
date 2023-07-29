@@ -6,7 +6,7 @@ class ConfigurationFile():
         self._configuration = defaultConfiguration
         
     def setConfiguration(self, configuration):
-        match = self.matches(configuration)[ 0 ]
+        match = self.matches(configuration)
         if not match[ 0 ]:
             raise ConfigurationError(match[ 1 ])
         self._configuration = configuration
