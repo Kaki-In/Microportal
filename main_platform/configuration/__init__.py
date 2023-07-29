@@ -8,6 +8,10 @@ class Configuration():
         self.localDirectory = "~/.microportal"
         self.logDirectory = "/var/log/microportal"
         self.confDirectory = "/etc/microportal"
+
+        for i in (self.localDirectory, self.logDirectory, self.confDirectory):
+            if not _os.path.exists(i):
+                _os.mkdirs(i)
         
         self.mailConfiguration = MailConfigurationFile()
         self.mailConfiguration.setConfiguration( self.readConfiguration("mail", self.mailConfiguration.configuration()) )
