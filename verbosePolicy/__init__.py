@@ -31,7 +31,7 @@ from termcolor import colored as _colored
 LEVEL_TRACE = 0
 LEVEL_DEBUG = 1
 LEVEL_INFO  = 2
-LEVEL_WARN  = 3
+LEVEL_WARNING  = 3
 LEVEL_ERROR = 4
 LEVEL_FATAL = 5
 
@@ -39,14 +39,14 @@ _consts = _types.SimpleNamespace()
 _consts.LEVEL_TRACE = LEVEL_TRACE
 _consts.LEVEL_DEBUG = LEVEL_DEBUG
 _consts.LEVEL_INFO  = LEVEL_INFO
-_consts.LEVEL_WARN  = LEVEL_WARN
+_consts.LEVEL_WARN  = LEVEL_WARNING
 _consts.LEVEL_ERROR = LEVEL_ERROR
 _consts.LEVEL_FATAL = LEVEL_FATAL
 
 
 class VerbosePolicy():
-	def __init__(self, trace = False, debug = False, info = False, warn = False, error = False, fatal = False, output = _sys.stdout):
-		self._enableLogs = (trace, debug, info, warn, error, fatal)
+	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout):
+		self._enableLogs = (trace, debug, info, warning, error, fatal)
 		self._output = output
 
 	def getConstName(self, const):

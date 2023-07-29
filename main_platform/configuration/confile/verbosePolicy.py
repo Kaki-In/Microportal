@@ -3,13 +3,13 @@ import verbosePolicy as _verbosePolicy
 
 class VerbosePolicyConfigurationFile(ConfigurationFile):
     def __init__(self, outputPath):
-        super().__init__(display=("warnings", "error", "fatal"))
+        super().__init__(display=("warning", "error", "fatal"))
         self._path = outputPath
     
     def getVerbosePolicy(self):
         configuration = self.configuration()
         
-        l = ("info", "trace", "debug", "warnings", "error", "fatal")
+        l = ("info", "trace", "debug", "warning", "error", "fatal")
         
         d = {}
         for i in l:
@@ -25,7 +25,7 @@ class VerbosePolicyConfigurationFile(ConfigurationFile):
             return parentMatch
         
         for i in configuration[ "display" ]:
-            if not i in ("info", "trace", "debug", "warnings", "error", "fatal"):
+            if not i in ("info", "trace", "debug", "warning", "error", "fatal"):
                 return False, "unknown verbose " + repr(i)
         
         return True, ""        
