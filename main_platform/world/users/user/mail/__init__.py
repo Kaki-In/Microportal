@@ -2,32 +2,31 @@ from email import message as _msg
 import random as _rd
 
 class MailAddress():
-    def __init__(self, address):
+    def __init__(self, address, username):
         self._address = address
+        self._user = username
         self._verified = False
         self._verifyData = None
     
-    def startVerification(self, platform, name):
+    def createVerificationCode(self):
         verificationData = ''
         for _ in range(6):
             verificationData += _rd.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         self._verifyData = verificationData
+    
+    def verificationCode(self):
+        return self._verifyData
         
-        message = """
+    def startVerification(self, platform):
+        self.createVerificationCode()
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <style></style>
-    </head>
-
-    <body>
-    </body>
-</html>
-
-"""
+        subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
+        title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
+        content = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT").format(code=self.verificationCode())
         
-        self.send(platform, platform.i18n().translate("USER_EMAIL_SEND_PLEASE_VERIFY_YOUR_MAIL"), message)
+        self.send(platform, subject, title, content)
+        
+        self._verified = False
     
     def setVerified(self):
         self._verified = True
@@ -35,11 +34,15 @@ class MailAddress():
     def address(self):
         return self._address
 
-    def send(self, platform, subject, content):
+    def send(self, platform, subject, title, content):
         sender = platform.configuration().owner.getSenderMail()
         
+        html = platform.configuration().resources.mail.get( "index.html" )
+        style = platform.configuration().resources.mail.get( "style.css" )
+        html = content.format(STYLE=style, TITLE=title, CONTENT=content)
+        
         message = _msg.Message()
-        message.set_content(content)
+        message.set_content( html )
         message[ "Subject" ] = subject
         message[ "From" ] = sender
         message[ "To" ] = self._address

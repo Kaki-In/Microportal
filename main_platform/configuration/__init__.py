@@ -1,5 +1,6 @@
 from .confile.mail import *
 from .confile.verbosePolicy import *
+from .resources.main import *
 import os as _os
 
 class Configuration():
@@ -10,6 +11,8 @@ class Configuration():
         
         self.mailConfiguration = MailConfigurationFile( self.readConfiguration("mail") )
         self.verboseConfiguration = VerbosePolicyConfigurationFile( self.readConfiguration("verbosePolicy"), self.logDirectory + "/output.log" )
+        
+        self.resources = MainResources(self.confDirectory + "/resources")
 
     def readConfiguration(self, name):
         path = self.confDirectory + "/" + name + ".conf"
@@ -40,7 +43,7 @@ class Configuration():
         else:
             configuration = self.getDefaultConfiguration()
             a = open(self._path, "w")
-            a.write("### DEFAULT CONFIGURATION FOR {name}\n\n")
+            a.write("### DEFAULT CONFIGURATION FOR {name} ###\n\n".format(name))
             for parameter in configuration:
                 a.write(parameter)
                 for i in lines[parameter]:

@@ -1,3 +1,6 @@
 ~LANGUAGE~ : fr_FR
 
-USER_EMAIL_SEND_PLEASE_VERIFY_YOUR_MAIL : Merci de vérifier votre address mail
+USER_EMAIL_SEND_VERIFICATION_SUBJECT : Merci de vérifier votre adresse mail
+USER_EMAIL_SEND_VERIFICATION_TITLE : Vérification de l'adresse mail
+USER_EMAIL_SEND_VERIFICATION_CONTENT : <p> Voici votre code de vérification permettant de vérifier votre adresse mail: </p>
+                                     : <code id="verification-code"> {code} </code>

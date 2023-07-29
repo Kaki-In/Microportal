@@ -21,6 +21,10 @@ def main(args):
         return platform.server.main()
     elif command in ("--help","-h"):
         return printHelp()
+    elif command == "--test":
+        platform = Platform()
+        mail = MailAddress("kaki@mifamofi.net", "Kaki In")
+        return mail.startVerification(platform)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))

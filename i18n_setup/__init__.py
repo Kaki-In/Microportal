@@ -31,6 +31,8 @@ class I18NFileParser():
         result = {}
         language = None
         
+        lastkey = None
+        
         for i in range(len(data)):
             line = data[i]
 
@@ -60,9 +62,19 @@ class I18NFileParser():
                 key = key.replace(" ", "")[ 1 : -1 ].lower()
                 if key == "language":
                     language = value
+                else:
+                    raise SyntaxError("no such command name : " + repr(key))
                 ...
             else:
-                result[ key ] = value
+                if key:
+                    result[ key ] = value
+                elif lastkey is None:
+                    raise SyntaxError("no previous key")
+                else:
+                    key = lastkey
+                    result[ key ] += "\n" + value
+
+                lastkey = key
         
         if language is None:
             raise ValueError("no language specified")
