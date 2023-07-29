@@ -5,7 +5,7 @@ import i18n_setup as _i18n
 class I18nConfigurationFile(ConfigurationFile):
     def __init__(self):
         if "LANG" in _os.environ:
-            lang = os.environ[ "LANG" ].split('.')[ 0 ]
+            lang = _os.environ[ "LANG" ].split('.')[ 0 ]
         else:
             lang = "en_US"
         super().__init__(language=tuple(lang.split("_")),default=("en","US"))
