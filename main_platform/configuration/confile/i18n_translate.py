@@ -9,7 +9,6 @@ class I18nConfigurationFile(ConfigurationFile):
         else:
             lang = "en_US"
         super().__init__(language=tuple(lang.split("_")),default=("en","US"))
-        self._path = outputPath
     
     def getI18n(self):
         configuration = self.configuration()
