@@ -3,13 +3,7 @@ import os as _os
 class ConfigurationFile():
     def __init__(self, actualConfiguration, **defaultConfiguration):
         self._defaultConfiguration = defaultConfiguration
-        if self.configurationIsValid(actualConfiguration):
-            self._actualConfiguration = {}
-        else:
-            raise TypeError("unvalid configuration")
-    
-    def configurationIsValid(self, configuration):
-        return self.matches(configuration) == ([], [])
+        self._actualConfiguration = actualConfiguration
     
     def getDefaultConfiguration(self):
         return self._defaultConfiguration
