@@ -1,6 +1,6 @@
 from .confile.mail import *
 from .confile.verbosePolicy import *
-from .confile.i18n_translator import *
+from .confile.i18n_translate import *
 from .resources.main import *
 import os as _os
 
