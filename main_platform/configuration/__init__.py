@@ -1,5 +1,6 @@
 from .confile.mail import *
 from .confile.verbosePolicy import *
+from .confile.i18n_translator import *
 from .resources.main import *
 import os as _os
 
@@ -18,6 +19,9 @@ class Configuration():
 
         self.verboseConfiguration = VerbosePolicyConfigurationFile( self.logDirectory + "/output.log" )
         self.verboseConfiguration.setConfiguration( self.readConfiguration("verbosePolicy", self.verboseConfiguration.configuration()) )
+        
+        self.i18nConfiguration = I18nConfiguration()
+        self.i18nConfiguration.etConfiguration( self.readConfiguration( "i18n", self.i18nConfiguration.configuration()) )
         
         self.resources = Resources(self.confDirectory + "/resources")
 
