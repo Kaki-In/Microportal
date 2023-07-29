@@ -1,6 +1,7 @@
 from .confile.mail import *
 from .confile.verbosePolicy import *
 from .confile.i18n_translate import *
+from .confile.owner import *
 from .resources.main import *
 import os as _os
 
@@ -22,6 +23,9 @@ class Configuration():
         
         self.i18nConfiguration = I18nConfigurationFile()
         self.i18nConfiguration.setConfiguration( self.readConfiguration( "i18n", self.i18nConfiguration.configuration()) )
+        
+        self.ownerConfiguration = OwnerConfigurationFile()
+        self.ownerConfiguration.setConfiguration( self.readConfiguration("owner", self.ownerConfiguration.configuration()) )
         
         self.resources = Resources(self.confDirectory + "/resources")
 

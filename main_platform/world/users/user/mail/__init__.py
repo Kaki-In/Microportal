@@ -38,7 +38,7 @@ class MailAddress():
         return self._address
 
     def send(self, platform, subject, title, content):
-        sender = platform.configuration().owner.getSenderMail()
+        sender = platform.configuration().ownerConfiguration.getSenderMail()
         
         html = platform.configuration().resources.mail.get( "index.html" )
         style = platform.configuration().resources.mail.get( "style.css" )
