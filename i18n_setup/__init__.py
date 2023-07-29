@@ -4,7 +4,7 @@ import verbosePolicy as _verbosePolicy
 class I18NFileParser():
     def __init__(self, path):
         if not (_os.path.exists(path) and _os.path.isfile(path)):
-            raise FileNotFoundError("no such file")
+            raise FileNotFoundError(path + " : no such file")
         self._path = path
     
     def getraw(self):
