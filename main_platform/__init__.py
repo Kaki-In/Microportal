@@ -12,12 +12,14 @@ class Platform():
         self._shelve = WorldShelve(self._configuration.localDirectory + "/world.db")
         self._world = self._shelve.load()
         
+        self._vpol = self._configuration.verboseConfiguration.getVerbosePolicy()
+
         self._server = Server()
         
         self._i18n = self._configuration.i18nConfiguration.getI18n()
         self._i18n.loadFrom(getMain_platformI18n())
-        self._i18n.setVerbosePolicy(self._configuration.verboseConfiguration.getVerbosePolicy())
-
+        self._i18n.setVerbosePolicy(self._vpol)
+        
     def configuration(self):
         return self._configuration
 
