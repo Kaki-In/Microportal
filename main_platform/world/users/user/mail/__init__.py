@@ -24,7 +24,7 @@ class MailAddress():
         subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
         title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
         
-        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT"), infolevel = LEVEL_DEBUG)
+        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT", code="TEST"), infolevel = LEVEL_DEBUG)
         content = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT", code=self.verificationCode())
         
         self.send(platform, subject, title, content)
