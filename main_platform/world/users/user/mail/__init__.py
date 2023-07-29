@@ -1,5 +1,6 @@
 from email import message as _msg
 import random as _rd
+from verbosePolicy import *
 
 class MailAddress():
     def __init__(self, address, username):
@@ -22,6 +23,8 @@ class MailAddress():
 
         subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
         title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
+        
+        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT"), infolevel = LEVEL_DEBUG)
         content = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT", code=self.verificationCode())
         
         self.send(platform, subject, title, content)
