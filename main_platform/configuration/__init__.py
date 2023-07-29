@@ -19,7 +19,7 @@ class Configuration():
         self.verboseConfiguration = VerbosePolicyConfigurationFile( self.logDirectory + "/output.log" )
         self.verboseConfiguration.setConfiguration( self.readConfiguration("verbosePolicy", self.verboseConfiguration.configuration()) )
         
-        self.resources = MainResources(self.confDirectory + "/resources")
+        self.resources = Resources(self.confDirectory + "/resources")
 
     def readConfiguration(self, name, default):
         path = self.confDirectory + "/" + name + ".conf"
