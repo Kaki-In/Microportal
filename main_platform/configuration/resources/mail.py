@@ -53,9 +53,4 @@ body {
 """
 
         super().__init__(directory, defaultFiles)
-
-        self._directory = directory
-        
-        self.mailResources = MailResources(self._directory + "/mail")
-    
     
