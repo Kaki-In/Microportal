@@ -10,7 +10,7 @@ class Platform():
         self._configuration = configuration or Configuration()
 
         self._shelve = WorldShelve(self._configuration.localDirectory + "/world.db")
-        self._world = self._shelve.readWorld()
+        self._world = self._shelve.load()
         
         self._server = Server()
         
