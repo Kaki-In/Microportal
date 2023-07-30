@@ -1,6 +1,12 @@
 ~LANGUAGE~ : fr_FR
 
+### Communs
+USER_EMAIL_SEND_FAILED : Une erreur est intervenue lors de l'envoi du mail : {type} : {error}
+USER_EMAIL_SEND_SUCCESS : Le mail a bien été envoyé!
+
+### Vérification de mail
 USER_EMAIL_SEND_VERIFICATION_SUBJECT : Merci de vérifier votre adresse mail
 USER_EMAIL_SEND_VERIFICATION_TITLE : Vérification de l'adresse mail
 USER_EMAIL_SEND_VERIFICATION_CONTENT : <p> Voici votre code de vérification permettant de vérifier votre adresse mail: </p>
                                      : <code id="verification-code"> {code} </code>
+
