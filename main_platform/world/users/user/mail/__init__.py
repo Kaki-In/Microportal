@@ -17,14 +17,13 @@ class MailAddress():
             verificationData += _rd.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         self._verifyData = verificationData
 
-        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_NEW_VERIFICATION_CODE", username=self._user, code=self._verifyData), infolevel = LEVEL_INFO)
-    
     def verificationCode(self):
         return self._verifyData
         
     def startVerification(self, platform):
         self.createVerificationCode()
-
+        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_NEW_VERIFICATION_CODE", username=self._user, code=self._verifyData), infolevel = LEVEL_INFO)
+    
         subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
         title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
         
