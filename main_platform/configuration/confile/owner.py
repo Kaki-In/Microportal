@@ -2,7 +2,7 @@ from . import *
 
 class OwnerConfigurationFile(ConfigurationFile):
     def __init__(self):
-        super().__init__(address=('john.doe@gmail.com',), name=('doe',), surname=('john',))
+        super().__init__(address=('YOUR_MAIL_ADDRESS',), name=('doe',), surname=('john',))
     
     def getSenderMail(self):
         configuration = self.configuration()
