@@ -1,5 +1,5 @@
 # from email import message as _msg
-from email.mime.multipart import MIMEMultipart as _Multipary
+from email.mime.multipart import MIMEMultipart as _Multipart
 from email.mime.text import MIMEText as _MText
 import random as _rd
 from verbosePolicy import *
