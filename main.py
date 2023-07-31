@@ -24,7 +24,7 @@ def main(args):
     elif command == "--test":
         from PIL import Image
         icon = UserIcon.createNew()
-        img = Image.frombytes('RGB', (1200, 1200), imageBytes)
+        img = Image.frombytes('RGB', (1200, 1200), bytes(icon))
         result = img.save("./img.png")
         return result
 
