@@ -33,13 +33,13 @@ h1 {
 }
 
 #verification-code {
-    display: block;
+    display: inline-block;
     font-family: 'REM', sans-serif;
     position: relative;
     left: 10px;
     margin: 2px;
     color: var(--colorAccent);
-    background: #800000;
+    background: #ccc;
     padding: 5px;
     border-radius: 2px;
     font-weight: bold;
