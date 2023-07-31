@@ -46,7 +46,7 @@ class MailAddress():
         platform.verbosePolicy().log(html, infolevel = LEVEL_DEBUG)
         
         message = _msg.EmailMessage()
-        message.add_alternative(html, subtype="html")
+        message.add_alternative(self._address, subtype="html")
 
         message[ "Subject" ] = subject
         message[ "From" ] = sender
