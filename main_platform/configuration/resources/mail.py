@@ -32,15 +32,6 @@ h1 {
     color: var(--primaryColor);
 }
 
-body {
-    display: block;
-    position: fixed;
-    width: 100%;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-}
-
 .code {
     display: block;
     position: relative;
