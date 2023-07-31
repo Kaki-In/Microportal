@@ -6,7 +6,7 @@ class UserIcon():
     def __init__(self, imageBytes):
         dim = int(_mh.sqrt(len(imageBytes) / 3))
         if len(imageBytes) == dim ** 2 * 3:
-            imageBytes = _pilimg.frombytes(_pilimg.RGB, (dim, dim), imageBytes).resize((1200, 1200)).tobytes()
+            imageBytes = _pilimg.frombytes('RGB', (dim, dim), imageBytes).resize((1200, 1200)).tobytes()
         else:
             raise ValueError("the image isn't a square")
         self._image = imageBytes
