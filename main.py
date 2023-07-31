@@ -22,7 +22,7 @@ def main(args):
     elif command in ("--help","-h"):
         return printHelp()
     elif command == "--test":
-        from PIL import *
+        from PIL import Image
         icon = UserIcon.createNew()
         img = Image.frombytes(_pilimg.RGB, (dim, dim), imageBytes).resize((1200, 1200))
         result = img.save("./img.png")
