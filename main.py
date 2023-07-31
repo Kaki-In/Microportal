@@ -23,7 +23,7 @@ def main(args):
         return printHelp()
     elif command == "--test":
         platform = Platform()
-        mail = MailAddress("kaki@mifamofi.net", "Kaki In")
+        mail = MailAddress(args[2], "Kaki In")
         return mail.startVerification(platform)
 
 if __name__ == "__main__":
