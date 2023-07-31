@@ -5,7 +5,7 @@ import os as _os
 class MailResources(ResourcesDirectory):
     def __init__(self, directory):
         defaultFiles = {}
-        defaultFiles[ "index.html" ] = """
+        defaultFiles[ "index.html" ] = """\
 <html>
     <head>
         <meta charset='utf-8'>
