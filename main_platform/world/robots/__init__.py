@@ -9,9 +9,6 @@ class RobotsList():
         self._id += 1
         return self._id
     
-    def robots(self):
-        return self._robots.copy()
-    
     def addRobot(self, robot):
         self._robots[ self.getNewRobotId() ] = robot
     
@@ -20,3 +17,20 @@ class RobotsList():
     
     def getRobot(self, id):
         return self._robots[ id ]
+    
+    def __iter__(self):
+        return iter(self._robots)
+    
+    def toJson(self):
+        r = {}
+        a = {'id':self._id, 'robots':r}
+        for id in a:
+            r[ id ] = self._robots[ id ].toJson()
+        return a
+    
+    def fromJson(json):
+        r = RobotsList()
+        r._id = json[ 'id' ]
+        for id in json[ 'robots' ]:
+            r._robots[ id ] = Robot.fromJson(json[ 'robots' ][ id ])
+        return r

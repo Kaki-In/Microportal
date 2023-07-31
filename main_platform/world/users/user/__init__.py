@@ -42,3 +42,18 @@ class User():
         user.setIcon(UserIcon.createNew())
         user.setMailAddress(mail)
         return user
+    
+    def toJson(self):
+        return {
+                   'name': self._name,
+                   'lastConnection': self._lastConnection,
+                   'icon': self._icon.toJson(),
+                   'mail': self._mail.toJson()
+               }
+    
+    def fromJson(json):
+        u = User(json[ 'name' ])
+        u._lastConnection = json[ 'lastConnection' ]
+        u._icon = UserIcon.fromJson(json[ 'icon' ])
+        u._mail = MailAddress.fromJson(json[ 'mail' ])
+        return u

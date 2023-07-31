@@ -37,5 +37,27 @@ class Robot():
     def setIpAddress(self, address):
         self._address = address
     
+    def type(self):
+        return self._type
+    
+    def setType(self, type):
+        self._type = type
+    
     def requests(self):
         return self._waitingRequests
+    
+    def toJson(self):
+        return {
+                   'name': self._name,
+                   'type': self._type,
+                   'address': self._address,
+                   'lastConn': self._lastConnection,
+                   'waitingRequest': self._waitingRwquest.toJson()
+               }
+    def fromJson(json):
+        robot = Robot()
+        robot._name = json[ 'name' ]
+        robot._type = json[ 'type' ]
+        robot._address = json[ 'address' ]
+        robot._lastConnection = json[ 'lastConn' ]
+        robot._waitingRequests = RequestsList.fromJson(json[ 'waitingRequests' ])

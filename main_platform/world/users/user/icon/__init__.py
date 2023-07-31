@@ -16,6 +16,23 @@ class UserIcon():
     
     def __bytes__(self):
         return self.bytes()
+    
+    def int(self):
+        d = 0
+        for i in range(len(self._image)):
+            d *= 256
+            d += ord(i)
+        return d
+    
+    def __int__(self):
+        return self.int()
+    
+    def fromInt(n):
+        b = b''
+        while n:
+            b += chr(n).encode()
+            n //= 256
+        return UserIcon(b)
 
     def createNew():
         b = ""
@@ -44,3 +61,8 @@ class UserIcon():
         b = b.encode("latin1")
         return UserIcon(b)
 
+    def toJson(self):
+        return int(self)
+    
+    def fromJson(json):
+        return UserIcon.fromInt(json)

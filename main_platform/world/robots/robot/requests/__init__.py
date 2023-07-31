@@ -15,3 +15,12 @@ class RequestsList():
     
     def __len__(self):
         return len(self._requests)
+    
+    def toJson(self):
+        return [i.toJson() for i in self]
+    
+    def fromJson(json):
+        l = RequestsList()
+        for r in json:
+            l.addRequest(Request.fromJson(r))
+        return l

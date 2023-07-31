@@ -12,7 +12,18 @@ class World():
     
     def robotsList(self):
         return self._robots
-
     
+    def toJson(self):
+        return {
+                   'users': self._users.toJson(),
+                   'robots': self._robots.toJson()
+               }
+    
+    def fromJson(json):
+        w = World()
+        w._users = UsersList.fromJson(json[ 'users' ])
+        w._robots = UsersList.fromJson(json[ 'robots' ])
+        return w
+
 
             

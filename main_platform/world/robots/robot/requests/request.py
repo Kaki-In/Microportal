@@ -1,8 +1,8 @@
 import time as _tm
 
 class Request():
-    def __init__(self, user, name, **args):
-        self._user = user
+    def __init__(self, username, name, **args):
+        self._user = username
         self._name = name
         self._args = args
         self._creation = monotonic()
@@ -18,3 +18,16 @@ class Request():
         
     def creationDate(self):
         return self._creation
+    
+    def toJson(self):
+        return {
+                   'user': self._user,
+                   'name': self._name,
+                   'args': self._args,
+                   'creation': self._creation
+               }
+    
+    def fromJson(json):
+        r = Request(json[ 'user' ], json[ 'name' ], **json[ 'args' ])
+        r._creation = json[ 'creation' ]
+        return r

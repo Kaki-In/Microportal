@@ -7,7 +7,7 @@ import os as _os
 
 class Configuration():
     def __init__(self):
-        self.localDirectory = "~/.microportal"
+        self.localDirectory = "../.microportal"
         self.logDirectory = "/var/log/microportal"
         self.confDirectory = "/etc/microportal"
 

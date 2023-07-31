@@ -65,4 +65,18 @@ class MailAddress():
         smtp.quit()
         return result
     
+    def toJson(self):
+        return {
+                   'address': self._address,
+                   'user': self._user,
+                   'verified': self._verified,
+                   'verifyData': self._verifyData
+               }
+    
+    def fromJson(json):
+        mail = MailAddress(json[ 'address' ], json[ 'user' ])
+        mail._verified = json[ 'verified' ]
+        mail._verifyData = json[ 'verifyData' ]
+        return mail
+    
         
