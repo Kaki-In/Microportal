@@ -43,10 +43,10 @@ class MailAddress():
         style = platform.configuration().resources.mail.getFile( "style.css" )
         html = html.format(STYLE=style, TITLE=title, CONTENT=content)
         
-        platform.verbosePolicy().log(html, infolevel = LEVEL_DEBUG)
+        platform.verbosePolicy().log(self._address, infolevel = LEVEL_DEBUG)
         
         message = _msg.EmailMessage()
-        message.add_alternative(self._address, subtype="html")
+        message.add_alternative(html, subtype="html")
 
         message[ "Subject" ] = subject
         message[ "From" ] = sender
