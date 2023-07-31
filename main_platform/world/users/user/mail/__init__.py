@@ -45,14 +45,14 @@ class MailAddress():
         style = platform.configuration().resources.mail.getFile( "style.css" )
         html = html.format(STYLE=style, TITLE=title, CONTENT=content)
         
-        platform.verbosePolicy().log(self._address, infolevel = LEVEL_DEBUG)
-        
         message = _Multipart('alternative')
         message.attach(_MText(html, 'html'))
 
         message[ "Subject" ] = subject
         message[ "From" ] = sender
         message[ "To" ] = self._address
+        
+        platform.verbosePolicy().log(message.as_string(), infolevel = LEVEL_DEBUG)
         
         smtp = platform.configuration().mailConfiguration.getSMTP()
         try:
