@@ -1,4 +1,6 @@
-from email import message as _msg
+from email.mime.multipart import MIMEMultipart as _Multipart
+from email.mime.text import MIMEText as _MText
+
 import random as _rd
 from verbosePolicy import *
 
@@ -43,19 +45,19 @@ class MailAddress():
         style = platform.configuration().resources.mail.getFile( "style.css" )
         html = html.format(STYLE=style, TITLE=title, CONTENT=content)
         
-        message = _msg.Message()
+        message = _Multipart()
         message[ "Subject" ] = subject
         message[ "From" ] = sender
         message[ "To" ] = self._address
-        message.add_header('Content-Type', 'text/html')
-        message.set_payload(html)
+
+        message.attach( _MText(html, 'html') )
+        message.attach( _MText(subject, 'plain') )
         
         platform.verbosePolicy().log(message.as_string(), infolevel = LEVEL_DEBUG)
         
         smtp = platform.configuration().mailConfiguration.getSMTP()
-        message = message.as_bytes()
         try:
-            smtp.sendmail(sender, self._address, message.decode(encoding='UTF-8'))
+            smtp.sendmail(sender, self._address, message.as_string())
         except Exception as exc:
             platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_FAILED", type=type(exc).__name__, error=str(exc)), infolevel = LEVEL_ERROR)
             result = False
