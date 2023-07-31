@@ -3,7 +3,7 @@
 #
 #  __init__.py
 #
-#  Copyright 2023 Kaki In <kaki@mifamofi.net>
+#  Copyright 2023 Kaki In <91763754+Kaki-In@users.noreply.github.com>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
