@@ -54,8 +54,6 @@ class MailAddress():
         message.attach( _MText(html, 'html') )
         message.attach( _MText(html, 'plain') )
         
-        platform.verbosePolicy().log(message.as_string(), infolevel = LEVEL_DEBUG)
-        
         smtp = platform.configuration().mailConfiguration.getSMTP()
         try:
             smtp.sendmail(sender, self._address, message.as_bytes() )
