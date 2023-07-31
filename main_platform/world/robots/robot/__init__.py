@@ -1,4 +1,5 @@
 import time as _time
+from .requests import *
 
 class Robot():
     def __init__(self):
@@ -6,6 +7,8 @@ class Robot():
         self._type = ""
         self._address = ""
         self._lastConnection = 0
+        
+        self._waitingRequests = RequestsList()
 
     def name(self):
         return self._name
@@ -33,3 +36,6 @@ class Robot():
     
     def setIpAddress(self, address):
         self._address = address
+    
+    def requests(self):
+        return self._waitingRequests

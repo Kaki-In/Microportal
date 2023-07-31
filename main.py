@@ -22,10 +22,10 @@ def main(args):
     elif command in ("--help","-h"):
         return printHelp()
     elif command == "--test":
-        platform = Platform()
-        mail = MailAddress(args[2], "Kaki In")
-        result = mail.startVerification(platform)
-        platform.configuration().verboseConfiguration.getVerbosePolicy().log("Code :", mail.verificationCode())
+        from PIL import *
+        icon = UserIcon.createNew()
+        img = Image.frombytes(_pilimg.RGB, (dim, dim), imageBytes).resize((1200, 1200))
+        result = img.save("./img.png")
         return result
 
 if __name__ == "__main__":

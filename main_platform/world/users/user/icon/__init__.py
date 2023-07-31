@@ -13,6 +13,9 @@ class UserIcon():
 
     def bytes(self):
         return self._imagebytes
+    
+    def __bytes__(self):
+        return self.bytes()
 
     def createNew():
         b = ""
