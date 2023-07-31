@@ -16,6 +16,8 @@ class MailAddress():
         for _ in range(6):
             verificationData += _rd.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         self._verifyData = verificationData
+
+        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_NEW_VERIFICATION_CODE", username=self._user, code=self._verifyData), infolevel = LEVEL_INFO)
     
     def verificationCode(self):
         return self._verifyData
@@ -51,7 +53,6 @@ class MailAddress():
         message[ "To" ] = self._address
 
         message.attach( _MText(html, 'html') )
-        message.attach( _MText(subject, 'plain') )
         
         platform.verbosePolicy().log(message.as_string(), infolevel = LEVEL_DEBUG)
         
@@ -62,7 +63,7 @@ class MailAddress():
             platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_FAILED", type=type(exc).__name__, error=str(exc)), infolevel = LEVEL_ERROR)
             result = False
         else:
-            platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_SUCCESS", infolevel = LEVEL_INFO))
+            platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_SUCCESS"), infolevel = LEVEL_INFO)
             result = True
         smtp.quit()
         return result

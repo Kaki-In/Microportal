@@ -24,7 +24,9 @@ def main(args):
     elif command == "--test":
         platform = Platform()
         mail = MailAddress(args[2], "Kaki In")
-        return mail.startVerification(platform)
+        result = mail.startVerification(platform)
+        print("Code :", mail.verificationCode())
+        return result
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
