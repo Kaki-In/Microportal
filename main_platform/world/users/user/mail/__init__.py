@@ -52,7 +52,6 @@ class MailAddress():
         message[ "To" ] = self._address
 
         message.attach( _MText(html, 'html') )
-        message.attach( _MText(html, 'plain') )
         
         smtp = platform.configuration().mailConfiguration.getSMTP()
         try:
