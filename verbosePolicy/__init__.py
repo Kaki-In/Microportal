@@ -48,6 +48,9 @@ class VerbosePolicy():
 	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout):
 		self._enableLogs = (trace, debug, info, warning, error, fatal)
 		self._output = output
+	
+	def close(self):
+		self._output.close()
 
 	def getConstName(self, const):
 		match const:

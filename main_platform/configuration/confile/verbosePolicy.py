@@ -33,6 +33,10 @@ class VerbosePolicyConfigurationFile(ConfigurationFile):
                 return False, "unknown verbose " + repr(i)
         
         return True, ""        
+    
+    def setConfiguration(self, configuration):
+        super().setConfiguration(configuration)
+        self._verbosePolicy = self.loadVerbosePolicy()
 
 
         
