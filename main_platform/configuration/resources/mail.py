@@ -40,8 +40,8 @@ h1 {
     margin: 2px;
     color: var(--colorAccent);
     background: #ccc;
-    padding: 5px;
-    border-radius: 2px;
+    padding: 10px;
+    border-radius: 5px;
     font-weight: bold;
 }
 
