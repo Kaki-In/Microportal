@@ -24,7 +24,6 @@ class MailAddress():
         subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
         title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
         
-        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT", code="TEST"), infolevel = LEVEL_DEBUG)
         content = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_CONTENT", code=self.verificationCode())
         
         self.send(platform, subject, title, content)
@@ -46,14 +45,23 @@ class MailAddress():
         
         platform.verbosePolicy().log("html", infolevel = LEVEL_DEBUG)
         
-        message = _msg.Message()
+        message = _msg.EmailMessage()
         message.set_raw( html )
+
         message[ "Subject" ] = subject
         message[ "From" ] = sender
         message[ "To" ] = self._address
         
         smtp = platform.configuration().mailConfiguration.getSMTP()
-        smtp.send_message(message)
+        try:
+            smtp.send_message(message)
+        except Exception as exc:
+            platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_FAILED", type=type(exc).__type__, error=str(exc)), infolevel = LEVEL_ERROR)
+            result = False
+        else:
+            platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_SUCCESS", infolevel = LEVEL_INFO))
+            result = True
         smtp.quit()
+        return result
     
         
