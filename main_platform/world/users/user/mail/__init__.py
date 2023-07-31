@@ -57,7 +57,7 @@ class MailAddress():
         
         smtp = platform.configuration().mailConfiguration.getSMTP()
         try:
-            smtp.sendmail(sender, self._address, html.encode(encoding="utf-8"))
+            smtp.sendmail(sender, self._address, message.as_bytes(encoding="utf-8") )
         except Exception as exc:
             platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_FAILED", type=type(exc).__name__, error=str(exc)), infolevel = LEVEL_ERROR)
             result = False
