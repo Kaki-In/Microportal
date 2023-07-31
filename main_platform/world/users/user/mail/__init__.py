@@ -1,4 +1,6 @@
-from email import message as _msg
+# from email import message as _msg
+from email.mime.multipart import MIMEMultipart as _Multipary
+from email.mime.text import MIMEText as _MText
 import random as _rd
 from verbosePolicy import *
 
@@ -45,9 +47,8 @@ class MailAddress():
         
         platform.verbosePolicy().log(self._address, infolevel = LEVEL_DEBUG)
         
-        message = _msg.EmailMessage()
-        message.set_content(html)
-        message.add_alternative(html, subtype="html")
+        message = _Multipart('alternative')
+        message.attach(_MText(html, 'html'))
 
         message[ "Subject" ] = subject
         message[ "From" ] = sender
