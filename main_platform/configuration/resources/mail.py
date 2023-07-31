@@ -32,13 +32,17 @@ h1 {
     color: var(--primaryColor);
 }
 
-.code {
+#verification-code {
     display: block;
+    font-family: 'REM', sans-serif;
     position: relative;
     left: 10px;
-    padding: 3px;
     margin: 2px;
     color: var(--colorAccent)
+    background: #800000;
+    padding: 5px;
+    border-radius: 2px;
+    font-weight: bold;
 }
 
 """

@@ -8,5 +8,5 @@ USER_EMAIL_SEND_SUCCESS : Le mail a bien été envoyé!
 USER_EMAIL_SEND_VERIFICATION_SUBJECT : Merci de vérifier votre adresse mail
 USER_EMAIL_SEND_VERIFICATION_TITLE : Vérification de l'adresse mail
 USER_EMAIL_SEND_VERIFICATION_CONTENT : <p> Voici votre code de vérification permettant de vérifier votre adresse mail: </p>
-                                     : <code id="verification-code"> {code} </code>
+                                     : <p id="verification-code"> {code} </p>
 USER_EMAIL_NEW_VERIFICATION_CODE : L'utilisateur {username} a obtenu le code {code} pour vérifier son adresse mail
