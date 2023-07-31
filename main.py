@@ -18,7 +18,7 @@ def main(args):
     command = args[1]
     if  command in ("--server",):
         platform = Platform()
-        return platform.server.main()
+        return platform.handle()
     elif command in ("--help","-h"):
         return printHelp()
     elif command == "--test":

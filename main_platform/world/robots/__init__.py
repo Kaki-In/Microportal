@@ -24,7 +24,7 @@ class RobotsList():
     def toJson(self):
         r = {}
         a = {'id':self._id, 'robots':r}
-        for id in a:
+        for id in self._robots:
             r[ id ] = self._robots[ id ].toJson()
         return a
     

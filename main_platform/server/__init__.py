@@ -1,4 +1,3 @@
-import verbosePolicy as _verbosePolicy
 import i18n_setup as _i18n
 import websockets as _websockets
 import asyncio as _asyncio
@@ -17,13 +16,12 @@ class Server():
         
         self._clients = []
     
-    def getNewId(self, id):
+    def getNewId(self):
         self._cid += 1
         return self._cid
         
     def run(self, platform):
         self._platform = platform
-        self._platform.i18n().loadFrom(getServerI18n())
 
         _asyncio.get_event_loop().run_until_complete(self._serve)
         _asyncio.get_event_loop().run_forever()
@@ -36,8 +34,9 @@ class Server():
             client = RobotClient(wsock, self.getNewId())
             # TODO
         else:
-            self._platform.verbosePolicy().log(platform.i18n().translate("SERVER_WARNING_CONNECTION_BAD_PATH", path=path), _verbosePolicy.LEVEL_WARNING)
+            verbosePolicy = self._platform.verbosePolicy()
+            verbosePolicy.log(self._platform.i18n().translate("SERVER_WARNING_CONNECTION_BAD_PATH", path=path), verbosePolicy.LEVEL_WARNING)
             return
-        client.loadPlatform(platform)
+        client.loadPlatform(self._platform)
         self._clients.append(client)
         await client.main()

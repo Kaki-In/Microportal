@@ -7,13 +7,14 @@ class WorldShelve():
     
     def save(self, world):
         a = open(self._path, "w")
-        a.write(_json.dump(world.toJson()))
+        a.write(_json.dumps(world.toJson()))
         a.close()
     
     def load(self):
+        return World()
         a = open(self._path, "r")
         data = a.read()
         a.close()
         
-        return World.fromJson(_json.dump(data))
+        return World.fromJson(_json.loads(data))
 

@@ -45,6 +45,13 @@ _consts.LEVEL_FATAL = LEVEL_FATAL
 
 
 class VerbosePolicy():
+	LEVEL_TRACE = LEVEL_TRACE
+	LEVEL_DEBUG = LEVEL_DEBUG
+	LEVEL_INFO  = LEVEL_INFO
+	LEVEL_WARNING  = LEVEL_WARNING
+	LEVEL_ERROR = LEVEL_ERROR
+	LEVEL_FATAL = LEVEL_FATAL
+
 	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout):
 		self._enableLogs = (trace, debug, info, warning, error, fatal)
 		self._output = output

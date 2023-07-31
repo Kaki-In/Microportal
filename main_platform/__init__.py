@@ -28,3 +28,12 @@ class Platform():
     
     def i18n(self):
         return self._i18n
+
+    def server(self):
+        return self._server
+
+    def handle(self):
+        try:
+            self._server.run(self)
+        finally:
+            self._shelve.save(self._world)
