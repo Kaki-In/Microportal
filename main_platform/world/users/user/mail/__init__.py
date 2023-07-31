@@ -47,6 +47,7 @@ class MailAddress():
         
         message = _msg.EmailMessage()
         message.set_content(html)
+        message.add_alternative(html, subtype="html")
 
         message[ "Subject" ] = subject
         message[ "From" ] = sender
