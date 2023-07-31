@@ -46,6 +46,7 @@ class MailAddress():
         html = html.format(STYLE=style, TITLE=title, CONTENT=content)
         
         message = _Multipart('alternative')
+        message.attach(_MText(html, 'plain'))
         message.attach(_MText(html, 'html'))
 
         message[ "Subject" ] = subject
