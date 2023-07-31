@@ -25,7 +25,7 @@ def main(args):
         platform = Platform()
         mail = MailAddress(args[2], "Kaki In")
         result = mail.startVerification(platform)
-        print("Code :", mail.verificationCode())
+        platform.configuration().verboseConfiguration.getVerbosePolicy().log("Code :", mail.verificationCode())
         return result
 
 if __name__ == "__main__":
