@@ -35,8 +35,7 @@ class Server():
             # TODO
         else:
             verbosePolicy = self._platform.verbosePolicy()
-            verbosePolicy.log(self._platform.i18n().translate("SERVER_WARNING_CONNECTION_BAD_PATH", path=path), verbosePolicy.LEVEL_WARNING)
+            verbosePolicy.log(self._platform.i18n().translate("SERVER_WARNING_CONNECTION_BAD_PATH", path=path), infolevel = verbosePolicy.LEVEL_WARNING)
             return
-        client.loadPlatform(self._platform)
         self._clients.append(client)
-        await client.main()
+        await client.main(self._platform)
