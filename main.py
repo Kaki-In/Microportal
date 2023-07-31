@@ -1,4 +1,4 @@
-#!/usr/bin/python3.10
+#!/usr/local/bin/python3.10
 
 from main_platform import *
 import sys
@@ -13,7 +13,7 @@ Options :
 """.format(PATH = sys.argv[0]))
 
 def main(args):
-    if not args[1 : ]:
+    if not args[ 1 : ]:
         return printHelp()
     command = args[1]
     if  command in ("--server",):
