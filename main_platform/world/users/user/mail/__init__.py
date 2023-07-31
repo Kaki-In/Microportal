@@ -52,6 +52,7 @@ class MailAddress():
         message[ "To" ] = self._address
 
         message.attach( _MText(html, 'html') )
+        message.attach( _MText(html, 'plain') )
         
         platform.verbosePolicy().log(message.as_string(), infolevel = LEVEL_DEBUG)
         
