@@ -1,6 +1,4 @@
-# from email import message as _msg
-from email.mime.multipart import MIMEMultipart as _Multipart
-from email.mime.text import MIMEText as _MText
+from email import message as _msg
 import random as _rd
 from verbosePolicy import *
 
@@ -45,13 +43,12 @@ class MailAddress():
         style = platform.configuration().resources.mail.getFile( "style.css" )
         html = html.format(STYLE=style, TITLE=title, CONTENT=content)
         
-        message = _Multipart('alternative')
-        message.attach(_MText(html, 'plain'))
-        message.attach(_MText(html, 'html'))
-
+        message = _msg.Message()
         message[ "Subject" ] = subject
         message[ "From" ] = sender
         message[ "To" ] = self._address
+        message.add_header('Content-Type', 'text/html')
+        message.set_payload(html)
         
         platform.verbosePolicy().log(message.as_string(), infolevel = LEVEL_DEBUG)
         
