@@ -38,7 +38,7 @@ h1 {
     position: relative;
     left: 10px;
     margin: 2px;
-    color: var(--colorAccent)
+    color: var(--colorAccent);
     background: #800000;
     padding: 5px;
     border-radius: 2px;
