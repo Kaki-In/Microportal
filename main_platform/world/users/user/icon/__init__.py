@@ -12,7 +12,7 @@ class UserIcon():
         self._image = imageBytes
 
     def bytes(self):
-        return self._imagebytes
+        return self._image
     
     def __bytes__(self):
         return self.bytes()
