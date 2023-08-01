@@ -13,7 +13,7 @@ class EventHandler():
     
     async def _run(self, func, values):
         if _asyncio.iscoroutinefunction(func):
-            await func( **values )
+            await func( *values )
         else:
-            func( **values )
+            func( *values )
 

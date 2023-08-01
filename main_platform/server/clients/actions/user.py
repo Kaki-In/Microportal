@@ -2,6 +2,6 @@ from . import *
 
 class UserActionsList(ActionsList):
     def __init__(self):
-        pass
-
+        super().__init__()
+    
 USER_ACTIONS = UserActionsList()

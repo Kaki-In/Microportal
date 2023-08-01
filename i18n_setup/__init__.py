@@ -151,9 +151,9 @@ class I18NTranslator():
                 result = language.translate(keyWord, **args)
             except KeyError:
                 result = defaultLanguage.translate(keyWord, **args)
-                self._verbosePolicy.log("translation not found for", repr(keyWord), "in language", repr(self._language), infolevel = _verbosePolicy.LEVEL_WARNING)
+                self._verbosePolicy.log("translation not found for", repr(keyWord), "in language", repr(self._language), infolevel = self._verbosePolicy.LEVEL_WARNING)
         except KeyError:
-            self._verbosePolicy.log("translation not found for", repr(keyWord), infolevel = _verbosePolicy.LEVEL_FATAL)
+            self._verbosePolicy.log("translation not found for", repr(keyWord), infolevel = self._verbosePolicy.LEVEL_FATAL)
             raise
         else:
             return result

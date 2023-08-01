@@ -2,6 +2,6 @@ from . import *
 
 class RobotActionsList(ActionsList):
     def __init__(self):
-        pass
+        super().__init__()
 
 ROBOT_ACTIONS = RobotActionsList()

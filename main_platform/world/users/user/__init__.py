@@ -3,11 +3,12 @@ from .icon import *
 from .mail import *
 
 class User():
-    def __init__(self, name):
+    def __init__(self, name, password, mail):
         self._name = name
+        self._password = password
         self._lastConnection = 0
         self._icon = None
-        self._mail = None
+        self._mail = MailAddress(mail)
         
     def name(self):
         return self._name
@@ -46,13 +47,14 @@ class User():
     def toJson(self):
         return {
                    'name': self._name,
+                   'password': self._password,
                    'lastConnection': self._lastConnection,
                    'icon': self._icon.toJson(),
                    'mail': self._mail.toJson()
                }
     
     def fromJson(json):
-        u = User(json[ 'name' ])
+        u = User(json[ 'name' ], json[ 'password' ], None)
         u._lastConnection = json[ 'lastConnection' ]
         u._icon = UserIcon.fromJson(json[ 'icon' ])
         u._mail = MailAddress.fromJson(json[ 'mail' ])

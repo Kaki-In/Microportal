@@ -3,6 +3,7 @@
 ### Commons
 USER_EMAIL_SEND_FAILED : An error occured while sending the mail : {type} : {error}
 USER_EMAIL_SEND_SUCCESS : The mail has been succesfully sent!
+USER_EMAIL_MICROPORTAL_NAME : Microportal server of {name} {surname}
 
 ### Mail verification
 USER_EMAIL_SEND_VERIFICATION_SUBJECT : Please verify your mail address

@@ -28,29 +28,13 @@ import types as _types
 import os as _os
 from termcolor import colored as _colored
 
-LEVEL_TRACE = 0
-LEVEL_DEBUG = 1
-LEVEL_INFO  = 2
-LEVEL_WARNING  = 3
-LEVEL_ERROR = 4
-LEVEL_FATAL = 5
-
-_consts = _types.SimpleNamespace()
-_consts.LEVEL_TRACE = LEVEL_TRACE
-_consts.LEVEL_DEBUG = LEVEL_DEBUG
-_consts.LEVEL_INFO  = LEVEL_INFO
-_consts.LEVEL_WARN  = LEVEL_WARNING
-_consts.LEVEL_ERROR = LEVEL_ERROR
-_consts.LEVEL_FATAL = LEVEL_FATAL
-
-
 class VerbosePolicy():
-	LEVEL_TRACE = LEVEL_TRACE
-	LEVEL_DEBUG = LEVEL_DEBUG
-	LEVEL_INFO  = LEVEL_INFO
-	LEVEL_WARNING  = LEVEL_WARNING
-	LEVEL_ERROR = LEVEL_ERROR
-	LEVEL_FATAL = LEVEL_FATAL
+	LEVEL_TRACE   = 0
+	LEVEL_DEBUG   = 1
+	LEVEL_INFO    = 2
+	LEVEL_WARNING = 3
+	LEVEL_ERROR   = 4
+	LEVEL_FATAL   = 5
 
 	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout):
 		self._enableLogs = (trace, debug, info, warning, error, fatal)
@@ -61,34 +45,34 @@ class VerbosePolicy():
 
 	def getConstName(self, const):
 		match const:
-			case _consts.LEVEL_TRACE :
+			case self.LEVEL_TRACE :
 				return "TRACE"
-			case _consts.LEVEL_DEBUG :
+			case self.LEVEL_DEBUG :
 				return "DEBUG"
-			case _consts.LEVEL_INFO  :
+			case self.LEVEL_INFO  :
 				return "INFO"
-			case _consts.LEVEL_WARN  :
+			case self.LEVEL_WARNING  :
 				return "WARNING"
-			case _consts.LEVEL_ERROR :
+			case self.LEVEL_ERROR :
 				return "ERROR"
-			case _consts.LEVEL_FATAL :
+			case self.LEVEL_FATAL :
 				return "FATAL"
 			case _:
 				raise ValueError("unknown info level")
 
 	def getConstColor(self, const):
 		match const:
-			case _consts.LEVEL_TRACE :
+			case self.LEVEL_TRACE :
 				return "magenta"
-			case _consts.LEVEL_DEBUG :
+			case self.LEVEL_DEBUG :
 				return "blue"
-			case _consts.LEVEL_INFO  :
+			case self.LEVEL_INFO  :
 				return "green"
-			case _consts.LEVEL_WARN  :
+			case self.LEVEL_WARNING :
 				return "light_yellow"
-			case _consts.LEVEL_ERROR :
+			case self.LEVEL_ERROR :
 				return "yellow"
-			case _consts.LEVEL_FATAL :
+			case self.LEVEL_FATAL :
 				return "red"
 			case _:
 				raise ValueError("unknown info level")

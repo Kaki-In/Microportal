@@ -1,3 +1,6 @@
 ~LANGUAGE~ : en_US
 
+SERVER_STARTING : The server is starting
+SERVER_STOPPED : The server is stopped
+
 SERVER_WARNING_CONNECTION_BAD_PATH : A client tried to access the unknown path "{path}"

@@ -3,6 +3,7 @@
 ### Communs
 USER_EMAIL_SEND_FAILED : Une erreur est intervenue lors de l'envoi du mail : {type} : {error}
 USER_EMAIL_SEND_SUCCESS : Le mail a bien été envoyé!
+USER_EMAIL_MICROPORTAL_NAME : Serveur microportal de {surname} {name}
 
 ### Vérification de mail
 USER_EMAIL_SEND_VERIFICATION_SUBJECT : Merci de vérifier votre adresse mail

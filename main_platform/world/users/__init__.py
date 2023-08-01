@@ -4,12 +4,22 @@ class UsersList():
     def __init__(self):
         self._users = {}
     
-    def addUser(self, user):
-        name = user.name()
-        if name in self._users:
+    def addUser(self, username, password, mail):
+        if username in self._users:
             raise KeyError("user already exists")
         else:
-            self._users[ name ] = user
+            user = User(username, password, mail)
+            self._users[ username ] = user
+            return user
+    
+    def addUserFromJson(self, json):
+        if username in self._users:
+            raise KeyError("user already exists")
+        else:
+            user = User.fromJson(json)
+            self._users[ username ] = user
+            user.mailAddress().startVerification()
+            return user
     
     def removeUser(self, name):
         del self._users[ name ]
@@ -35,6 +45,5 @@ class UsersList():
     def fromJson(json):
         l = UsersList()
         for name in json:
-            user = User.fromJson(json[ name ])
-            l.addUser(user)
+            l.addUserFromJson(json[ name ])
         return l

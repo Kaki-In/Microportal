@@ -22,20 +22,25 @@ class Server():
         
     def run(self, platform):
         self._platform = platform
-
-        _asyncio.get_event_loop().run_until_complete(self._serve)
-        _asyncio.get_event_loop().run_forever()
+        
+        platform.logInfo("SERVER_STARTING")
+        
+        try:
+            _asyncio.get_event_loop().run_until_complete(self._serve)
+            _asyncio.get_event_loop().run_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            platform.logInfo("SERVER_STOPPED")
         
     async def _registerClient(self, wsock, path):
         if   path == "/user":
             client = UserClient(wsock, self.getNewId())
-            # TODO
         elif path == "/robot":
             client = RobotClient(wsock, self.getNewId())
-            # TODO
         else:
-            verbosePolicy = self._platform.verbosePolicy()
-            verbosePolicy.log(self._platform.i18n().translate("SERVER_WARNING_CONNECTION_BAD_PATH", path=path), infolevel = verbosePolicy.LEVEL_WARNING)
+            self._platform.logWarning("SERVER_WARNING_CONNECTION_BAD_PATH")
+            await wsock.close()
             return
         self._clients.append(client)
         await client.main(self._platform)

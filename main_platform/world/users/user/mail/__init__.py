@@ -1,8 +1,6 @@
 from email.mime.multipart import MIMEMultipart as _Multipart
 from email.mime.text import MIMEText as _MText
-
 import random as _rd
-from verbosePolicy import *
 
 class MailAddress():
     def __init__(self, address, username):
@@ -22,7 +20,7 @@ class MailAddress():
         
     def startVerification(self, platform):
         self.createVerificationCode()
-        platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_NEW_VERIFICATION_CODE", username=self._user, code=self._verifyData), infolevel = LEVEL_INFO)
+        platform.logInfo("USER_EMAIL_NEW_VERIFICATION_CODE", username=self._user, code=self._verifyData)
     
         subject = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_SUBJECT")
         title = platform.i18n().translate("USER_EMAIL_SEND_VERIFICATION_TITLE")
@@ -41,6 +39,8 @@ class MailAddress():
 
     def send(self, platform, subject, title, content):
         sender = platform.configuration().ownerConfiguration.getSenderMail()
+        sendername = platform.configuration().ownerConfiguration.getSenderName()
+        sendersurname = platform.configuration().ownerConfiguration.getSenderSurname()
         
         html = platform.configuration().resources.mail.getFile( "index.html" )
         style = platform.configuration().resources.mail.getFile( "style.css" )
@@ -48,8 +48,8 @@ class MailAddress():
         
         message = _Multipart()
         message[ "Subject" ] = subject
-        message[ "From" ] = sender
-        message[ "To" ] = self._address
+        message[ "From" ] = platform.i18n().translate("USER_EMAIL_MICROPORTAL_NAME", name=sendername, surname=sendersurname) + " <{}>".format(sender)
+        message[ "To" ] = self._user + " <{}>".format(self._address)
 
         message.attach( _MText(html, 'html') )
         
@@ -57,10 +57,10 @@ class MailAddress():
         try:
             smtp.sendmail(sender, self._address, message.as_bytes() )
         except Exception as exc:
-            platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_FAILED", type=type(exc).__name__, error=str(exc)), infolevel = LEVEL_ERROR)
+            platform.logError("USER_EMAIL_SEND_FAILED", type=type(exc).__name__, error=str(exc))
             result = False
         else:
-            platform.verbosePolicy().log(platform.i18n().translate("USER_EMAIL_SEND_SUCCESS"), infolevel = LEVEL_INFO)
+            platform.logInfo("USER_EMAIL_SEND_SUCCESS")
             result = True
         smtp.quit()
         return result

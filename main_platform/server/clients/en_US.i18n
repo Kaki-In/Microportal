@@ -1,2 +1,12 @@
 ~LANGUAGE~ : en_US
 
+### Websockets ###
+
+CLIENT_WEB_SOCKET_ON_OPEN : Client {id} got connected
+CLIENT_WEB_SOCKET_ON_MESSAGE : Message {message!r} have been received from the client {id}
+CLIENT_WEB_SOCKET_ON_ERROR : An error occured while listening at the client {id} : {type} : {error}
+CLIENT_WEB_SOCKET_ON_CLOSE : Client {id} got disconnected
+
+### Clients ###
+
+CLIENT_REQUEST_ERROR : An error occured while receving request from client {id} : {type} : {error}

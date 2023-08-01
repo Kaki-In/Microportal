@@ -37,3 +37,21 @@ class Platform():
             self._server.run(self)
         finally:
             self._shelve.save(self._world)
+    
+    def logTrace(self, text, **args):
+        self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_TRACE)
+    
+    def logDebug(self, text, **args):
+        self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_DEBUG)
+    
+    def logInfo(self, text, **args):
+        self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_INFO)
+    
+    def logWarning(self, text, **args):
+        self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_WARNING)
+    
+    def logError(self, text, **args):
+        self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_ERROR)
+    
+    def logFatal(self, text, **args):
+        self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_FATAL)

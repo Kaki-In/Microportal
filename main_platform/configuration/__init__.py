@@ -7,7 +7,16 @@ import os as _os
 
 class Configuration():
     def __init__(self):
-        self.localDirectory = "../.microportal"
+        if "SUDO_USER" in _os.environ:
+            username = _os.environ["SUDO_USER"]
+        
+        else:
+            username = _os.environ["USER"]
+        
+        if username is "root":
+            self.localDirectory = "/root/.microportal"
+        else:
+            self.localDirectory = "/home/{}/.microportal".format(username)
         self.logDirectory = "/var/log/microportal"
         self.confDirectory = "/etc/microportal"
 
