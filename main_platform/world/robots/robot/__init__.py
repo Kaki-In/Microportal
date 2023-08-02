@@ -37,12 +37,6 @@ class Robot():
     def setIpAddress(self, address):
         self._address = address
     
-    def type(self):
-        return self._type
-    
-    def setType(self, type):
-        self._type = type
-    
     def requests(self):
         return self._waitingRequests
     
