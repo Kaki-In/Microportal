@@ -7,8 +7,8 @@ class User():
         self._name = name
         self._password = password
         self._lastConnection = 0
-        self._icon = None
-        self._mail = MailAddress(mail)
+        self._icon = UserIcon.createNew()
+        self._mail = MailAddress(mail, name)
         
     def name(self):
         return self._name
@@ -32,7 +32,7 @@ class User():
         self._icon = icon
     
     def mailAddress(self):
-        return self._main
+        return self._mail
     
     def setMailAddress(self, address):
         self._mail = address
@@ -43,6 +43,9 @@ class User():
         user.setIcon(UserIcon.createNew())
         user.setMailAddress(mail)
         return user
+
+    def passwordMatches(self, password):
+        return self._password == password
     
     def toJson(self):
         return {

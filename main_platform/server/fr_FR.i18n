@@ -3,5 +3,5 @@
 SERVER_STARTING : Le serveur est en train de démarrer
 SERVER_STOPPED : Le serveur s'est arrêté
 
-SERVER_WARNING_CONNECTION_BAD_PATH : Un client a tenté d'accéder au chemin inconnu "{path}"
+SERVER_WARNING_CONNECTION_BAD_PATH : Un client a tenté d'accéder au chemin inconnu {path!r}
 

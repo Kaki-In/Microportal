@@ -13,7 +13,7 @@ class Configuration():
         else:
             username = _os.environ["USER"]
         
-        if username is "root":
+        if username == "root":
             self.localDirectory = "/root/.microportal"
         else:
             self.localDirectory = "/home/{}/.microportal".format(username)

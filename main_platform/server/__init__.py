@@ -4,6 +4,7 @@ import asyncio as _asyncio
 
 from .clients.user import *
 from .clients.robot import *
+from .clients.admin import *
 
 class Server():
     def __init__(self, host="", port=8266, sslContext=None):
@@ -38,9 +39,14 @@ class Server():
             client = UserClient(wsock, self.getNewId())
         elif path == "/robot":
             client = RobotClient(wsock, self.getNewId())
+        elif path == "/admin":
+            client = AdminClient(wsock, self.getNewId())
         else:
-            self._platform.logWarning("SERVER_WARNING_CONNECTION_BAD_PATH")
+            self._platform.logWarning("SERVER_WARNING_CONNECTION_BAD_PATH", path=path)
             await wsock.close()
             return
         self._clients.append(client)
         await client.main(self._platform)
+    
+    def createRequest(self, name, **args):
+        return {"name" : name, "args" : args}

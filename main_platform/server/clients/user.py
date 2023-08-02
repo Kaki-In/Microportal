@@ -7,3 +7,13 @@ class UserClient(Client):
         super().__init__(wsock, DISCONNECTED_USER_ACTIONS, id)
         self._user = None
     
+    def setAccount(self, user):
+        if user is None:
+            self._user = None
+            self.setActionsList(USER_ACTIONS)
+        else:
+            self._user = user
+            self.setActionsList(DISCONNECTED_USER_ACTIONS)
+    
+    def account(self):
+        return self._user

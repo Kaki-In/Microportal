@@ -54,11 +54,19 @@ class Client(ClientWebSocket):
         super().__init__(wsock, id)
         self._list = actionsList
     
+    def actionsList(self):
+        return self._list
+
+    def setActionsList(self, actionsList):
+        self._list = actionsList
+    
     async def onMessage(self, message, platform):
         await super().onMessage(message, platform)
         try:
             obj = _json.loads(message)
-            await self._list.execute(self, platform, obj[ "name" ], **obj[ "args" ])
+            result = await self._list.execute(self, platform, obj[ "name" ], obj[ "args" ])
+            if result[ 0 ] and result[ 1 ] is not None:
+                await self.send(result[ 1 ])
         except Exception as exc:
             platform.logError("CLIENT_REQUEST_ERROR", type=type(exc).__name__, error=str(exc), id=self._id)
 

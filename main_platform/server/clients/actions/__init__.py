@@ -9,7 +9,7 @@ class ActionsList():
     def addActionListener(self, name, function):
         self._actions.update( { name: function } )
     
-    async def execute(self, client, platform, name, **args):
+    async def execute(self, client, platform, name, args):
         verbose = platform.verbosePolicy()
         if name in self._actions:
             try:

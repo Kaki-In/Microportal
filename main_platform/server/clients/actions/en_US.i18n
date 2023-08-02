@@ -1,5 +1,9 @@
 ~LANGUAGE~ : en_US
 
-ERR_ACTION_EXECUTION_FAILED : An error occured while running action "{name}" : {type}: {error}
-ERR_ACTION_NOT_FOUND : No action named "{name}"
+ERR_ACTION_EXECUTION_FAILED : An error occured while running action {name!r} : {type}: {error}
+ERR_ACTION_NOT_FOUND : No action named {name!r}
 
+ACTION_ACCOUNT_CREATION_ERR_ALREADY_EXISTING : {name} : this account already exists
+ACTION_MAIL_ERR_VERIFICATION_BAD_CODE : the given code isn't the expected one
+ACTION_CONNECT_ERR_BAD_PASSWORD : invalid password
+ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT : {name!r} : no such account

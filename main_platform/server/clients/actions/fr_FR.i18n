@@ -1,5 +1,9 @@
 ~LANGUAGE~ : fr_FR
 
-ERR_ACTION_EXECUTION_FAILED : Une erreur est intervenue pendant l'exécution de l'action "{name}" : {type}: {error}
-ERR_ACTION_NOT_FOUND : Aucune action nommée "{name}"
+ERR_ACTION_EXECUTION_FAILED : Une erreur est intervenue pendant l'exécution de l'action {name!r} : {type}: {error}
+ERR_ACTION_NOT_FOUND : Aucune action nommée {name!r}
 
+ACTION_ACCOUNT_CREATION_ERR_ALREADY_EXISTING : {name} : ce compte existe déjà
+ACTION_MAIL_ERR_VERIFICATION_BAD_CODE : le code fournit n'est pas celui attendu
+ACTION_CONNECT_ERR_BAD_PASSWORD : mot de passe invalide
+ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT : compte {name!r} introuvable

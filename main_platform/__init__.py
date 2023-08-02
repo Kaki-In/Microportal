@@ -32,11 +32,16 @@ class Platform():
     def server(self):
         return self._server
 
+    def world(self):
+        return self._world
+
     def handle(self):
         try:
             self._server.run(self)
         finally:
+            self.logInfo("PLATFORM_SAVING_WORLD")
             self._shelve.save(self._world)
+            self.logInfo("PLATFORM_WORLD_SAVED")
     
     def logTrace(self, text, **args):
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_TRACE)

@@ -31,11 +31,16 @@ class MailAddress():
         
         self._verified = False
     
-    def setVerified(self):
-        self._verified = True
+    def submitVerificationCode(self, verificationCode):
+        if verificationCode == self._verifyData:
+            self._verified = True
+        return self._verified
     
     def address(self):
         return self._address
+
+    def isVerified(self):
+        return self._verified
 
     def send(self, platform, subject, title, content):
         sender = platform.configuration().ownerConfiguration.getSenderMail()

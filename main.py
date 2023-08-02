@@ -25,6 +25,8 @@ def main(args):
         print()
     elif command in ("--help","-h"):
         return printHelp()
+    else:
+        printHelp()
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))

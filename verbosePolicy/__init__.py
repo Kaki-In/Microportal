@@ -79,7 +79,7 @@ class VerbosePolicy():
 
 	def log(self, *message, infolevel = LEVEL_INFO):
 		if not self._enableLogs[infolevel] : return
-		frame = _insp.getouterframes(_insp.currentframe(), 2) [1]
+		frame = _insp.getouterframes(_insp.currentframe(), 2) [2]
 
 		logname = self.getConstName(infolevel)
 
