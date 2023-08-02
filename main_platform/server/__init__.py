@@ -17,6 +17,9 @@ class Server():
         
         self._clients = []
     
+    def client(self):
+        return self._clients
+    
     def getNewId(self):
         self._cid += 1
         return self._cid
@@ -47,6 +50,7 @@ class Server():
             return
         self._clients.append(client)
         await client.main(self._platform)
+        self._clients.remove(client)
     
     def createRequest(self, name, **args):
         return {"name" : name, "args" : args}

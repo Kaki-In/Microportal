@@ -1,11 +1,12 @@
 import time as _time
 from .icon import *
 from .mail import *
+import hashlib as _hash
 
 class User():
     def __init__(self, name, password, mail):
         self._name = name
-        self._password = password
+        self._password = _hash.sha256(password.encode("utf-8")).hexdigest()
         self._lastConnection = 0
         self._icon = UserIcon.createNew()
         self._mail = MailAddress(mail, name)
@@ -45,7 +46,7 @@ class User():
         return user
 
     def passwordMatches(self, password):
-        return self._password == password
+        return self._password == _hash.sha256(password.encode("utf-8")).hexdigest()
     
     def toJson(self):
         return {
@@ -57,7 +58,8 @@ class User():
                }
     
     def fromJson(json):
-        u = User(json[ 'name' ], json[ 'password' ], None)
+        u = User(json[ 'name' ], None, None)
+        u._password = json[ 'password' ]
         u._lastConnection = json[ 'lastConnection' ]
         u._icon = UserIcon.fromJson(json[ 'icon' ])
         u._mail = MailAddress.fromJson(json[ 'mail' ])

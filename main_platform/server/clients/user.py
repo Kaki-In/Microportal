@@ -10,10 +10,10 @@ class UserClient(Client):
     def setAccount(self, user):
         if user is None:
             self._user = None
-            self.setActionsList(USER_ACTIONS)
+            self.setActionsList(DISCONNECTED_USER_ACTIONS)
         else:
             self._user = user
-            self.setActionsList(DISCONNECTED_USER_ACTIONS)
+            self.setActionsList(USER_ACTIONS)
     
     def account(self):
         return self._user
