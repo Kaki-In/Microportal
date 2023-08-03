@@ -7,9 +7,9 @@ class RobotActionsList(ActionsList):
         self.addActionListener("setRobotType", self.setRobotType)
     
     async def setRobotName(self, client, platform, name):
-        self._robot.setName(name)
+        client.robot().setName(name)
 
     async def setRobotType(self, client, platform, type):
-        self._robot.setType(type)
+        client.robot().setType(type)
 
 ROBOT_ACTIONS = RobotActionsList()
