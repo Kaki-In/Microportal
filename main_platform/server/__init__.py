@@ -1,6 +1,6 @@
-import i18n_setup as _i18n
 import websockets as _websockets
 import asyncio as _asyncio
+import signal as _signal
 
 from .clients.user import *
 from .clients.robot import *
@@ -16,8 +16,14 @@ class Server():
         self._cid = 0
         
         self._clients = []
+        
+    async def close(self):
+        loop = _asyncio.get_event_loop()
+        stop = loop.create_future()
+        loop.add_signal_handler(_signal.SIGTERM, stop.set_result, None)
+        await stop
     
-    def client(self):
+    def clients(self):
         return self._clients
     
     def getNewId(self):
@@ -52,5 +58,3 @@ class Server():
         await client.main(self._platform)
         self._clients.remove(client)
     
-    def createRequest(self, name, **args):
-        return {"name" : name, "args" : args}

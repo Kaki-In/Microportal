@@ -6,7 +6,7 @@ class RequestsList():
     
     def createRequest(self, user, name, **args):
         req = Request(user, name, **args)
-        self._requests.append(request)
+        self._requests.append(req)
         return req
         
     def __getitem__(self, index):

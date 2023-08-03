@@ -30,7 +30,7 @@ class User():
         return self._icon
 
     def setIcon(self, icon):
-        self._icon = icon
+        self._icon = UserIcon(icon)
     
     def mailAddress(self):
         return self._mail

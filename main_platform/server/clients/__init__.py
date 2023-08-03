@@ -2,12 +2,16 @@ from .actions import *
 import events as _events
 import websockets as _websockets
 import json as _json
+import asyncio as _asyncio
 
 class ClientWebSocket():
     def __init__(self, wsock, id):
         self._wsock = wsock
         self._closed = False
         self._id = id
+        
+        self._toSend = []
+        self._running = False
 
         self._open = _events.EventHandler()
         self._open.addEventFunction(self.onOpen)
@@ -20,9 +24,20 @@ class ClientWebSocket():
 
         self._close = _events.EventHandler()
         self._close.addEventFunction(self.onClose)
+    
+    async def mainDataSend(self):
+        while self._running:
+            await _asyncio.sleep(1)
+            if not self._toSend:
+                continue
+            await self._wsock.send(self._toSend.pop(0))
 
     async def main(self, platform):
+        self._running = True
         self._open.emit(platform)
+
+        _asyncio.create_task(self.mainDataSend())
+
         while True:
             try:
                 message = await self._wsock.recv()
@@ -31,6 +46,7 @@ class ClientWebSocket():
                 break
             except Exception as exc:
                 self._error.emit(exc, platform)
+        self._running = False
         self._close.emit(platform)
     
     async def onOpen(self, platform):
@@ -47,7 +63,7 @@ class ClientWebSocket():
     
     async def send(self, jsonObject):
         message = _json.dumps(jsonObject)
-        await self._wsock.send(message)
+        self._toSend.append(message)
 
 class Client(ClientWebSocket):
     def __init__(self, wsock, actionsList, id):
@@ -70,3 +86,5 @@ class Client(ClientWebSocket):
         except Exception as exc:
             platform.logError("CLIENT_REQUEST_ERROR", type=type(exc).__name__, error=str(exc), id=self._id)
 
+    def createRequest(self, name, **args):
+        return {"name" : name, "args" : args}

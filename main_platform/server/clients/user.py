@@ -14,6 +14,8 @@ class UserClient(Client):
         else:
             self._user = user
             self.setActionsList(USER_ACTIONS)
+            
+            user.setLastConnectionDateNow()
     
     def account(self):
         return self._user

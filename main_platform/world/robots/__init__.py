@@ -3,34 +3,35 @@ from .robot import *
 class RobotsList():
     def __init__(self):
         self._robots = {}
-        self._id = 0
     
-    def getNewRobotId(self):
-        self._id += 1
-        return self._id
+    def addRobot(self, macAddress):
+        robot = Robot()
+        self._robots[ macAddress ] = robot
+        return robot
     
-    def addRobot(self, robot):
-        self._robots[ self.getNewRobotId() ] = robot
+    def removeRobot(self, macAddress):
+        del self._robots[ macAddress ]
     
-    def removeRobot(self, id):
-        del self._robots[ id ]
-    
-    def getRobot(self, id):
-        return self._robots[ id ]
+    def getRobot(self, macAddress):
+        return self._robots[ macAddress ]
     
     def __iter__(self):
         return iter(self._robots)
+
+    def __len__(self):
+        return len(self._robots)
+    
+    def __getitem__(self, macAddress):
+        return self._robots[ macAddress ]
     
     def toJson(self):
         r = {}
-        a = {'id':self._id, 'robots':r}
         for id in self._robots:
             r[ id ] = self._robots[ id ].toJson()
-        return a
+        return r
     
     def fromJson(json):
         r = RobotsList()
-        r._id = json[ 'id' ]
-        for id in json[ 'robots' ]:
-            r._robots[ id ] = Robot.fromJson(json[ 'robots' ][ id ])
+        for id in json:
+            r._robots[ id ] = Robot.fromJson(json[ id ])
         return r

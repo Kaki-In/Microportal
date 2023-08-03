@@ -5,7 +5,6 @@ class Robot():
     def __init__(self):
         self._name = ""
         self._type = ""
-        self._address = ""
         self._lastConnection = 0
         
         self._waitingRequests = RequestsList()
@@ -31,12 +30,6 @@ class Robot():
     def setLastConnectionDateNow(self):
         self._lastConnection = _time.monotonic()
     
-    def ipAddress(self):
-        return self._address
-    
-    def setIpAddress(self, address):
-        self._address = address
-    
     def requests(self):
         return self._waitingRequests
     
@@ -44,14 +37,12 @@ class Robot():
         return {
                    'name': self._name,
                    'type': self._type,
-                   'address': self._address,
                    'lastConn': self._lastConnection,
-                   'waitingRequest': self._waitingRwquest.toJson()
+                   'waitingRequest': self._waitingRequests.toJson()
                }
     def fromJson(json):
         robot = Robot()
         robot._name = json[ 'name' ]
         robot._type = json[ 'type' ]
-        robot._address = json[ 'address' ]
         robot._lastConnection = json[ 'lastConn' ]
         robot._waitingRequests = RequestsList.fromJson(json[ 'waitingRequests' ])

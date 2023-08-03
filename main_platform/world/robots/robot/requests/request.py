@@ -8,7 +8,7 @@ class Request():
         self._user = username
         self._name = name
         self._args = args
-        self._creation = monotonic()
+        self._creation = _tm.monotonic()
         self._status = self.STATUS_WAITING
 
     def user(self):
@@ -17,7 +17,7 @@ class Request():
     def name(self):
         return self._name
     
-    def getArguments(self, argument):
+    def getArguments(self):
         return self._args.copy()
         
     def creationDate(self):

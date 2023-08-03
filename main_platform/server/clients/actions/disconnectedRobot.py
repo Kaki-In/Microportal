@@ -3,9 +3,14 @@ from . import *
 class DisconnectedRobotActionsList(ActionsList):
     def __init__(self):
         super().__init__()
-        self.addActionListener("mac", self.plugMacAddress())
+        self.addActionListener("mac", self.plugMacAddress)
     
-    def plugMacAddress(self, client, platform, mac):
-        pass
+    async def plugMacAddress(self, client, platform, mac):
+        rlist = platform.world().robotsList()
+        if mac in rlist:
+            robot = rlist.getRobot(mac)
+        else:
+            robot = rlist.addRobot(mac)
+        client.setRobot(robot)
 
 DISCONNECTED_ROBOT_ACTIONS = DisconnectedRobotActionsList()

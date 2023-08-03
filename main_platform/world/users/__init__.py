@@ -33,6 +33,9 @@ class UsersList():
     def getUser(self, name):
         return self._users[ name ]
     
+    def __getitem__(self, name):
+        return self._users[ name ]
+    
     def __iter__(self):
         return iter(self._users)
     

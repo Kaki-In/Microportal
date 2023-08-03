@@ -1,6 +1,7 @@
 from PIL import Image as _pilimg
 import math as _mh
 import random as _rd
+import base64 as _b64
 
 class UserIcon():
     def __init__(self, imageBytes):
@@ -47,7 +48,7 @@ class UserIcon():
         return UserIcon(b)
 
     def toJson(self):
-        return str(bytes(self))
+        return _b64.b64encode(self._image).decode()
     
     def fromJson(json):
-        return UserIcon(eval(json))
+        return UserIcon(_b64.b64decode(json))
