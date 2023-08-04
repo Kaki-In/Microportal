@@ -71,7 +71,7 @@ class UserActionsList(ActionsList):
         if robot in rlist:
             script = rlist[ robot ].scripts().createNewScripts(client.account().name())
             script.setTitle(title)
-           return client.createRequest("scriptCreationSuccess")
+            return client.createRequest("scriptCreationSuccess")
         else:
            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
            return client.createRequest("scriptCreationError", error=message)
