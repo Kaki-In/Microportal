@@ -4,6 +4,9 @@ class RobotsList():
     def __init__(self):
         self._robots = {}
     
+    def __repr__(self):
+        return "<{name} length={len}>".format(name=type(self).__name__, len=len(self))
+
     def addRobot(self, macAddress):
         robot = Robot()
         self._robots[ macAddress ] = robot

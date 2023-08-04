@@ -19,15 +19,15 @@ class UserActionsList(ActionsList):
     async def sendRobotAction(self, client, platform, robot, action, args):
         rlist = platform.world().robotsList()
         if robot in rlist:
-            rlist[ robot ].requests().createRequest(client.account().name, action, **args)
-            return client.createRequest("robotActionSent")
+            request = rlist[ robot ].requests().createRequest(client.account().name, action, **args)
+            return client.createRequest("robotActionSent", request=request.toJson())
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=robot)
             return client.createRequest("robotActionError", error=message)
      
     async def getRobotsList(self, client, platform):
         rlist = platform.world().robotsList()
-        return list(rlist)
+        return client.createRequest("updateRobotsList", robots=list(rlist))
      
     async def getRobotInformations(self, client, platform, mac):
        rlist = platform.world().robotsList()
@@ -40,7 +40,7 @@ class UserActionsList(ActionsList):
     
     async def getUsersList(self, client, platform):
         ulist = platform.world().usersList()
-        return list(ulist)
+        return client.createRequest("updateUsersList", users=list(ulist))
      
     async def getUserInformations(self, client, platform, name):
        ulist = platform.world().usersList()

@@ -8,6 +8,9 @@ class Robot():
         self._lastConnection = 0
         
         self._waitingRequests = RequestsList()
+    
+    def __repr__(self):
+        return "<{name} name={mac} type={type}>".format(name=type(self).__name__, mac=self.name(), type=self.type())
 
     def name(self):
         return self._name

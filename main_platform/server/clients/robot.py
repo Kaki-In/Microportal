@@ -22,15 +22,16 @@ class RobotClient(Client):
     
     async def mainRobotRequests(self, platform):
         while self._running:
-            await _asyncio.sleep(0.1)
+            await _asyncio.sleep(1)
             if self._robot is None:
                 continue
             rlist = self._robot.requests()
-            for request in rlist:
+            for reqid in range(len(rlist)):
+                request = rlist[ reqid ]
                 if request.status() == request.STATUS_WAITING:
-                    req = self.createRequest("executeAction", actionName=request.name(), args=request.getArguments())
+                    req = self.createRequest("executeAction", actionName=request.name(), args=request.getArguments(), reqid=reqid)
                     await self.send(req)
-                    request.markAsProcessed()
+                    request.markAsProcessing()
     
     async def onOpen(self, platform):
         await super().onOpen(platform)

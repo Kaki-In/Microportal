@@ -12,6 +12,9 @@ class UsersList():
             self._users[ username ] = user
             return user
     
+    def __repr__(self):
+        return "<{name} length={len}>".format(name=type(self).__name__, len=len(self))
+    
     def addUserFromJson(self, json):
         username = json[ 'name' ]
         if username in self._users:

@@ -15,7 +15,9 @@ class Server():
         
         self._cid = 0
         
-        self._clients = []
+        self._users = []
+        self._robots = []
+        self._admins = []
         
     async def close(self):
         loop = _asyncio.get_event_loop()
@@ -23,8 +25,14 @@ class Server():
         loop.add_signal_handler(_signal.SIGTERM, stop.set_result, None)
         await stop
     
-    def clients(self):
-        return self._clients
+    def users(self):
+        return self._users
+    
+    def robots(self):
+        return self._robots
+    
+    def admins(self):
+        return self._admins
     
     def getNewId(self):
         self._cid += 1
@@ -46,15 +54,17 @@ class Server():
     async def _registerClient(self, wsock, path):
         if   path == "/user":
             client = UserClient(wsock, self.getNewId())
+            self._users.append(client)
         elif path == "/robot":
             client = RobotClient(wsock, self.getNewId())
+            self._robots.append(client)
         elif path == "/admin":
             client = AdminClient(wsock, self.getNewId())
+            self._admins.append(client)
         else:
             self._platform.logWarning("SERVER_WARNING_CONNECTION_BAD_PATH", path=path)
             await wsock.close()
             return
-        self._clients.append(client)
         await client.main(self._platform)
         self._clients.remove(client)
     

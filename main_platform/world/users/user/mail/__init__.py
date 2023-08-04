@@ -9,6 +9,9 @@ class MailAddress():
         self._verified = False
         self._verifyData = None
     
+    def __repr__(self):
+        return "<{name} address={addr!r} user={user!r} verified={ver}>".format(name=type(self).__name__, addr=self._address, user=self._user, ver=self._verified)
+    
     def createVerificationCode(self):
         verificationData = ''
         for _ in range(6):

@@ -10,6 +10,9 @@ class User():
         self._lastConnection = 0
         self._icon = UserIcon.createNew()
         self._mail = MailAddress(mail, name)
+    
+    def __repr__(self):
+        return "<{name} name={username!r}>".format(type(self).__name__, self.name())
         
     def name(self):
         return self._name

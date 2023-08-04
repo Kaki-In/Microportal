@@ -4,10 +4,16 @@ class RequestsList():
     def __init__(self):
         self._requests = []
     
+    def __repr__(self):
+        return "<{name} length={len}>".format(name=type(self).__name__, len=len(self))
+    
     def createRequest(self, user, requestName, **args):
         req = Request(user, requestName, **args)
         self._requests.append(req)
         return req
+    
+    def index(self, request):
+        return self._requests.index(request)
         
     def __getitem__(self, index):
         return self._requests[ index ]
