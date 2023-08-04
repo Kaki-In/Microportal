@@ -1,5 +1,6 @@
 import time as _time
 from .requests import *
+from .script import *
 
 class Robot():
     def __init__(self):
@@ -8,6 +9,8 @@ class Robot():
         self._lastConnection = 0
         
         self._waitingRequests = RequestsList()
+        
+        self._scripts = ScriptsList()
     
     def __repr__(self):
         return "<{name} name={mac} type={type}>".format(name=type(self).__name__, mac=self.name(), type=self.type())
@@ -17,6 +20,9 @@ class Robot():
 
     def setName(self, newName):
         self._name = newName
+    
+    def scripts(self):
+        return self._scripts
 
     def type(self):
         return self._type
@@ -42,11 +48,14 @@ class Robot():
                    'type': self._type,
                    'lastConn': self._lastConnection,
                    'waitingRequests': self._waitingRequests.toJson()
+                   'scripts': self._scripts.toJson()
                }
+
     def fromJson(json):
         robot = Robot()
         robot._name = json[ 'name' ]
         robot._type = json[ 'type' ]
         robot._lastConnection = json[ 'lastConn' ]
         robot._waitingRequests = RequestsList.fromJson(json[ 'waitingRequests' ])
+        robot._scripts = ScriptsList.fromJson(json[ 'scripts' ])
         return robot

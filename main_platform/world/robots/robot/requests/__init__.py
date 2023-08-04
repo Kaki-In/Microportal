@@ -12,6 +12,11 @@ class RequestsList():
         self._requests.append(req)
         return req
     
+    def createRequestFromScript(self, user, script):
+        req = Request(user, script.name(), script.arguments())
+        self._requests.append(req)
+        return req
+    
     def index(self, request):
         return self._requests.index(request)
         

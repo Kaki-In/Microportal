@@ -66,4 +66,14 @@ class UserActionsList(ActionsList):
             message = platform.i18n().translate("USER_ACTION_ERR_BAD_PASSWORD")
             return self.createRequest("passwordChangeFailed", error=message)
     
+    async def createScript(self, client, platform, robot, title):
+        rlist = platform.world().robotsList()
+        if robot in rlist:
+            script = rlist[ robot ].scripts().createNewScripts(client.account().name())
+            script.setTitle(title)
+           return client.createRequest("scriptCreationSuccess")
+        else:
+           message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
+           return client.createRequest("scriptCreationError", error=message)
+    
 USER_ACTIONS = UserActionsList()
