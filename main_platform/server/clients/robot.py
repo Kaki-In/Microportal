@@ -22,7 +22,7 @@ class RobotClient(Client):
     
     async def mainRobotRequests(self, platform):
         while self._running:
-            await _asyncio.sleep(1)
+            await _asyncio.sleep(0.1)
             if self._robot is None:
                 continue
             rlist = self._robot.requests()
