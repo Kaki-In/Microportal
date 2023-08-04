@@ -1,6 +1,6 @@
 import time as _time
 from .requests import *
-from .script import *
+from .scripts import *
 
 class Robot():
     def __init__(self):
@@ -47,7 +47,7 @@ class Robot():
                    'name': self._name,
                    'type': self._type,
                    'lastConn': self._lastConnection,
-                   'waitingRequests': self._waitingRequests.toJson()
+                   'waitingRequests': self._waitingRequests.toJson(),
                    'scripts': self._scripts.toJson()
                }
 

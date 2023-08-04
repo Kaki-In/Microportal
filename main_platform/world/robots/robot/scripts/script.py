@@ -1,4 +1,4 @@
-class Script(self):
+class Script():
     def __init__(self, user):
         self._title = "New Script"
         self._name = ""
