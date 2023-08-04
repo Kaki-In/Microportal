@@ -27,7 +27,7 @@ class ClientWebSocket():
     
     async def mainDataSend(self):
         while self._running:
-            await _asyncio.sleep(1)
+            await _asyncio.sleep(0.05)
             if not self._toSend:
                 continue
             await self._wsock.send(self._toSend.pop(0))

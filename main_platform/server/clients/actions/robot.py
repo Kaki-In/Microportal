@@ -5,7 +5,7 @@ class RobotActionsList(ActionsList):
         super().__init__()
         self.addActionListener("setRobotName", self.setRobotName)
         self.addActionListener("setRobotType", self.setRobotType)
-        self.addActionListener("markRequestAsProcessed", self.markRequestAsProcessed)
+        self.addActionListener("markAsProcessed", self.markAsProcessed)
     
     async def setRobotName(self, client, platform, name):
         client.robot().setName(name)
@@ -13,7 +13,7 @@ class RobotActionsList(ActionsList):
     async def setRobotType(self, client, platform, type):
         client.robot().setType(type)
     
-    async def markRequestAsProcessed(self, client, platform, reqid, result):
+    async def markAsProcessed(self, client, platform, reqid, result):
         request = client.robot().requests()[ reqid ]
         request.markAsProcessed(result)
         
@@ -21,6 +21,6 @@ class RobotActionsList(ActionsList):
         for c in platform.server().users():
             user = c.account()
             if user is not None and user.name() == username:
-                c.send(c.createRequest("requestProcessed", robot=client.robot().mac(), id=reqid, result=result))
+                await c.send(c.createRequest("requestProcessed", robot=client.robot().name(), id=reqid, result=result))
 
 ROBOT_ACTIONS = RobotActionsList()

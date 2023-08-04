@@ -54,17 +54,18 @@ class Server():
     async def _registerClient(self, wsock, path):
         if   path == "/user":
             client = UserClient(wsock, self.getNewId())
-            self._users.append(client)
+            l = self._users
         elif path == "/robot":
             client = RobotClient(wsock, self.getNewId())
-            self._robots.append(client)
+            l = self._robots
         elif path == "/admin":
             client = AdminClient(wsock, self.getNewId())
-            self._admins.append(client)
+            l = self._admins
         else:
             self._platform.logWarning("SERVER_WARNING_CONNECTION_BAD_PATH", path=path)
             await wsock.close()
             return
+        l.append(client)
         await client.main(self._platform)
-        self._clients.remove(client)
+        l.remove(client)
     

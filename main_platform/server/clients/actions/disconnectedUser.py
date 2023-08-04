@@ -47,7 +47,7 @@ class DisconnectedUserActionsList(ActionsList):
                     return client.createRequest("startMailVerification")
             else:
                 message = platform.i18n().translate("ACTION_CONNECT_ERR_BAD_PASSWORD")
-                return client.createRequest("mailVerificationFailed", message=message)
+                return client.createRequest("connectionFailed", message=message)
         else:
             message = platform.i18n().translate("ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT", name=name)
             return client.createRequest("mailVerificationFailed", message=message)

@@ -12,7 +12,7 @@ class User():
         self._mail = MailAddress(mail, name)
     
     def __repr__(self):
-        return "<{name} name={username!r}>".format(type(self).__name__, self.name())
+        return "<{name} name={username!r}>".format(name=type(self).__name__, username=self.name())
         
     def name(self):
         return self._name
@@ -61,14 +61,9 @@ class User():
                }
     
     def fromJson(json):
-        j = json.copy()
-        if 'icon' in j:
-            del j[ 'icon' ]
-        print(j)
         u = User(json[ 'name' ], "", None)
         u._password = json[ 'password' ]
         u._lastConnection = json[ 'lastConnection' ]
         u._icon = UserIcon.fromJson(json[ 'icon' ])
         u._mail = MailAddress.fromJson(json[ 'mail' ])
-        print("user",u.name(),"created")
         return u

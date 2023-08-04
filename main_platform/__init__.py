@@ -38,10 +38,16 @@ class Platform():
     def handle(self):
         try:
             self._server.run(self)
+        except Exception as exc:
+            self.logFatal("PLATFORM_HANDLE_ERROR", type=type(exc).__name__, error=str(exc))
         finally:
             self.logInfo("PLATFORM_SAVING_WORLD")
-            self._shelve.save(self._world)
-            self.logInfo("PLATFORM_WORLD_SAVED")
+            try:
+                self._shelve.save(self._world)
+            except Exception as exc:
+                self.logFatal("PLATFORM_WORLD_ERROR", type=type(exc).__name__, error=str(exc))
+            else:
+                self.logInfo("PLATFORM_WORLD_SAVED")
     
     def logTrace(self, text, **args):
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_TRACE)

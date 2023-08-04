@@ -7,9 +7,13 @@ class WorldShelve():
         self._path = path
     
     def save(self, world):
-        a = open(self._path, "w")
-        a.write(_json.dumps(world.toJson()))
-        a.close()
+        try:
+            a = open(self._path, "w")
+            a.write(_json.dumps(world.toJson()))
+            a.close()
+        except:
+            _os.remove(self._path)
+            raise
     
     def load(self):
         if not _os.path.exists(self._path):
