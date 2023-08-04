@@ -4,8 +4,8 @@ class RequestsList():
     def __init__(self):
         self._requests = []
     
-    def createRequest(self, user, name, **args):
-        req = Request(user, name, **args)
+    def createRequest(self, user, requestName, **args):
+        req = Request(user, requestName, **args)
         self._requests.append(req)
         return req
         

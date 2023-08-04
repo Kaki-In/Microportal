@@ -38,7 +38,7 @@ class Robot():
                    'name': self._name,
                    'type': self._type,
                    'lastConn': self._lastConnection,
-                   'waitingRequest': self._waitingRequests.toJson()
+                   'waitingRequests': self._waitingRequests.toJson()
                }
     def fromJson(json):
         robot = Robot()
@@ -46,3 +46,4 @@ class Robot():
         robot._type = json[ 'type' ]
         robot._lastConnection = json[ 'lastConn' ]
         robot._waitingRequests = RequestsList.fromJson(json[ 'waitingRequests' ])
+        return robot

@@ -86,5 +86,5 @@ class Client(ClientWebSocket):
         except Exception as exc:
             platform.logError("CLIENT_REQUEST_ERROR", type=type(exc).__name__, error=str(exc), id=self._id)
 
-    def createRequest(self, name, **args):
-        return {"name" : name, "args" : args}
+    def createRequest(self, requestName, **args):
+        return {"name" : requestName, "args" : args}

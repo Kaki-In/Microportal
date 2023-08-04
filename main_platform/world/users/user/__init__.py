@@ -58,9 +58,14 @@ class User():
                }
     
     def fromJson(json):
-        u = User(json[ 'name' ], None, None)
+        j = json.copy()
+        if 'icon' in j:
+            del j[ 'icon' ]
+        print(j)
+        u = User(json[ 'name' ], "", None)
         u._password = json[ 'password' ]
         u._lastConnection = json[ 'lastConnection' ]
         u._icon = UserIcon.fromJson(json[ 'icon' ])
         u._mail = MailAddress.fromJson(json[ 'mail' ])
+        print("user",u.name(),"created")
         return u

@@ -13,12 +13,12 @@ class UsersList():
             return user
     
     def addUserFromJson(self, json):
+        username = json[ 'name' ]
         if username in self._users:
             raise KeyError("user already exists")
         else:
             user = User.fromJson(json)
             self._users[ username ] = user
-            user.mailAddress().startVerification()
             return user
     
     def removeUser(self, name):

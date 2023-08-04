@@ -22,7 +22,7 @@ class World():
     def fromJson(json):
         w = World()
         w._users = UsersList.fromJson(json[ 'users' ])
-        w._robots = UsersList.fromJson(json[ 'robots' ])
+        w._robots = RobotsList.fromJson(json[ 'robots' ])
         return w
 
 

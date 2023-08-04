@@ -1,4 +1,5 @@
 from . import *
+import os as _os
 import json as _json
 
 class WorldShelve():
@@ -11,7 +12,8 @@ class WorldShelve():
         a.close()
     
     def load(self):
-        return World()
+        if not _os.path.exists(self._path):
+            return World()
         a = open(self._path, "r")
         data = a.read()
         a.close()

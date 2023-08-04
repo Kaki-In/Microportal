@@ -19,7 +19,7 @@ class UserActionsList(ActionsList):
     async def sendRobotAction(self, client, platform, robot, action, args):
         rlist = platform.world().robotsList()
         if robot in rlist:
-            rlist[ robot ].requests().createRequest(client.account().name, action, args)
+            rlist[ robot ].requests().createRequest(client.account().name, action, **args)
             return client.createRequest("robotActionSent")
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=robot)
