@@ -36,11 +36,10 @@ class RobotClient(Client):
                     req = self.createRequest("executeAction", actionName=request.name(), args=request.getArguments(), reqid=reqid)
                     await self.send(req)
                     request.markAsProcessing()
-                    username = request.user()
-                    for c in platform.server().users():
-                        user = c.account()
-                        if user is not None and user.name() == username:
-                           await c.send(c.createRequest("requestProcessing", robot=self.robot().id(), id=reqid))
+
+                    user = platform.world().usersList()[ request.user() ]
+                    request = self.createRequest("requestProcessing", robot=self.robot().id(), id=reqid)
+                    await platform.server().sendToUser(user, request)
     
     async def onOpen(self, platform):
         await super().onOpen(platform)
@@ -54,9 +53,9 @@ class RobotClient(Client):
                 request = rlist[ reqid ]
                 if request.status() == request.STATUS_WAITING:
                     request.cancel()
-                    username = request.user()
-                    for c in platform.server().users():
-                        user = c.account()
-                        if user is not None and user.name() == username:
-                           await c.send(c.createRequest("requestCanceled", robot=self.robot().id(), id=reqid))
+
+                    user = platform.world().usersList()[ request.user() ]
+                    request= self.createRequest("requestCanceled", robot=self.robot().id(), id=reqid)
+                    await platform.server().sendToUser(user, request)
+
         self.setRobot(None)

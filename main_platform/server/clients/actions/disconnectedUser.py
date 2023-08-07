@@ -41,15 +41,15 @@ class DisconnectedUserActionsList(ActionsList):
             if user.passwordMatches(password):
                 if user.mailAddress().isVerified():
                     client.setAccount(user)
-                    return client.createRequest("connectionSuccess")
+                    return client.createRequest("connectionSuccess", user=user.name())
                 else:
                     user.mailAddress().startVerification(platform)
-                    return client.createRequest("startMailVerification")
+                    return client.createRequest("startMailVerification", address=user.mailAddress().address())
             else:
                 message = platform.i18n().translate("ACTION_CONNECT_ERR_BAD_PASSWORD")
                 return client.createRequest("connectionFailed", message=message)
         else:
             message = platform.i18n().translate("ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT", name=name)
-            return client.createRequest("mailVerificationFailed", message=message)
+            return client.createRequest("connectionFailed", message=message)
 
 DISCONNECTED_USER_ACTIONS = DisconnectedUserActionsList()

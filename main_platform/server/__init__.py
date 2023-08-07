@@ -19,20 +19,14 @@ class Server():
         self._robots = []
         self._admins = []
         
-    async def close(self):
-        loop = _asyncio.get_event_loop()
-        stop = loop.create_future()
-        loop.add_signal_handler(_signal.SIGTERM, stop.set_result, None)
-        await stop
-    
     def users(self):
-        return self._users
+        return self._users.copy()
     
     def robots(self):
-        return self._robots
+        return self._robots.copy()
     
     def admins(self):
-        return self._admins
+        return self._admins.copy()
     
     def getNewId(self):
         self._cid += 1
@@ -50,7 +44,38 @@ class Server():
             pass
         finally:
             platform.logInfo("SERVER_STOPPED")
-        
+    
+    def getUserClients(self, user):
+        clients = []
+        for client in self._users.copy():
+            if client.account() is user:
+                clients.append(client)
+        return clients
+    
+    def getRobotClient(self, robot):
+        for client in self._robots.copy():
+            if client.robot() is robot:
+                return client
+    
+    async def sendToUser(self, user, request):
+        clients = self.getUserClients(user)
+        for client in clients:
+            await client.send(request)
+    
+    async def sendToRobot(self, robot, request):
+        client = self.getRobotClient(robot)
+        if client is not None:
+            await client.send(request)
+   
+    async def sendToAllUsers(self, request):
+        for client in self._users:
+            await client.send(request)
+    
+    async def sendToAllUsersExcept(self, user, request):
+        for client in self._users:
+            if client.account() is not user:
+	            await client.send(request)
+    
     async def _registerClient(self, wsock, path):
         if   path == "/user":
             client = UserClient(wsock, self.getNewId())
@@ -68,4 +93,11 @@ class Server():
         l.append(client)
         await client.main(self._platform)
         l.remove(client)
+    
+    async def close(self):
+        loop = _asyncio.get_event_loop()
+        stop = loop.create_future()
+        loop.add_signal_handler(_signal.SIGTERM, stop.set_result, None)
+        await stop
+    
     
