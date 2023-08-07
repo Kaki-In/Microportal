@@ -1,6 +1,7 @@
 class ActionsList():
     def __init__(self):
         self._actions = {}
+        self.addActionListener("__ping__", self.__ping__)
     
     def loadPlatform(self, platform):
         i18n = getActionsI18n()
@@ -8,6 +9,9 @@ class ActionsList():
     
     def addActionListener(self, name, function):
         self._actions.update( { name: function } )
+    
+    async def __ping__(self, client, platform, name, args):
+        return client.createRequest("__pong__")
     
     async def execute(self, client, platform, name, args):
         verbose = platform.verbosePolicy()

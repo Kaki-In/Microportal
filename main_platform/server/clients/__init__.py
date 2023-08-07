@@ -79,9 +79,9 @@ class Client(ClientWebSocket):
         self._list = actionsList
     
     async def onMessage(self, message, platform):
-        await super().onMessage(message, platform)
         try:
             obj = _json.loads(message)
+            await super().onMessage(obj, platform)
             result = await self._list.execute(self, platform, obj[ "name" ], obj[ "args" ])
             if result[ 0 ] and result[ 1 ] is not None:
                 await self.send(result[ 1 ])
