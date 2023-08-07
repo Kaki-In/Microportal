@@ -3,9 +3,10 @@ from .requests import *
 from .scripts import *
 
 class Robot():
-    def __init__(self):
+    def __init__(self, id):
         self._name = ""
         self._type = ""
+        self._id = id
         self._lastConnection = 0
         
         self._waitingRequests = RequestsList()
@@ -13,13 +14,16 @@ class Robot():
         self._scripts = ScriptsList()
     
     def __repr__(self):
-        return "<{name} name={mac} type={type}>".format(name=type(self).__name__, mac=self.name(), type=self.type())
+        return "<{name} id={mac} name={rname} type={type}>".format(name=type(self).__name__, mac=self.id(), rname=self.name(), type=self.type())
 
     def name(self):
         return self._name
 
     def setName(self, newName):
         self._name = newName
+    
+    def id(self):
+        return self._id
     
     def scripts(self):
         return self._scripts
@@ -44,6 +48,7 @@ class Robot():
     
     def toJson(self):
         return {
+                   'id': self._id,
                    'name': self._name,
                    'type': self._type,
                    'lastConn': self._lastConnection,
@@ -52,7 +57,7 @@ class Robot():
                }
 
     def fromJson(json):
-        robot = Robot()
+        robot = Robot(json[ 'id' ])
         robot._name = json[ 'name' ]
         robot._type = json[ 'type' ]
         robot._lastConnection = json[ 'lastConn' ]

@@ -8,7 +8,7 @@ class RobotsList():
         return "<{name} length={len}>".format(name=type(self).__name__, len=len(self))
 
     def addRobot(self, macAddress):
-        robot = Robot()
+        robot = Robot(macAddress)
         self._robots[ macAddress ] = robot
         return robot
     

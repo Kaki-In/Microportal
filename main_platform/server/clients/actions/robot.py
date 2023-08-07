@@ -21,6 +21,6 @@ class RobotActionsList(ActionsList):
         for c in platform.server().users():
             user = c.account()
             if user is not None and user.name() == username:
-                await c.send(c.createRequest("requestProcessed", robot=client.robot().name(), id=reqid, result=result))
+                await c.send(c.createRequest("requestProcessed", robot=client.robot().id(), id=reqid, result=result))
 
 ROBOT_ACTIONS = RobotActionsList()

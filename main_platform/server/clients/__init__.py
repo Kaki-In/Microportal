@@ -29,6 +29,7 @@ class ClientWebSocket():
         while self._running:
             await _asyncio.sleep(0.05)
             if not self._toSend:
+                await _asyncio.sleep(1)
                 continue
             await self._wsock.send(self._toSend.pop(0))
 
@@ -48,6 +49,7 @@ class ClientWebSocket():
                 self._error.emit(exc, platform)
         self._running = False
         self._close.emit(platform)
+        await self._wsock.close()
     
     async def onOpen(self, platform):
         platform.logInfo("CLIENT_WEB_SOCKET_ON_OPEN", id=self._id)
