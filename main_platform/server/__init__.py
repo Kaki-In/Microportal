@@ -74,7 +74,7 @@ class Server():
     async def sendToAllUsersExcept(self, user, request):
         for client in self._users:
             if client.account() is not user:
-	            await client.send(request)
+                await client.send(request)
     
     async def _registerClient(self, wsock, path):
         if   path == "/user":

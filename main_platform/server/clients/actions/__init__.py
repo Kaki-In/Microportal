@@ -3,14 +3,10 @@ class ActionsList():
         self._actions = {}
         self.addActionListener("__ping__", self.__ping__)
     
-    def loadPlatform(self, platform):
-        i18n = getActionsI18n()
-        platform.i18n().loadFrom(i18n)
-    
     def addActionListener(self, name, function):
         self._actions.update( { name: function } )
     
-    async def __ping__(self, client, platform, name, args):
+    async def __ping__(self, client, platform):
         return client.createRequest("__pong__")
     
     async def execute(self, client, platform, name, args):
