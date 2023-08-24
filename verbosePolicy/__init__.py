@@ -3,7 +3,7 @@
 #
 #  __init__.py
 #
-#  Copyright 2023 Kaki In <kaki@mifamofi.net>
+#  Copyright 2023 Kaki In <91763754+Kaki-In@users.noreply.github.com>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -28,68 +28,62 @@ import types as _types
 import os as _os
 from termcolor import colored as _colored
 
-LEVEL_TRACE = 0
-LEVEL_DEBUG = 1
-LEVEL_INFO  = 2
-LEVEL_WARN  = 3
-LEVEL_ERROR = 4
-LEVEL_FATAL = 5
-
-_consts = _types.SimpleNamespace()
-_consts.LEVEL_TRACE = LEVEL_TRACE
-_consts.LEVEL_DEBUG = LEVEL_DEBUG
-_consts.LEVEL_INFO  = LEVEL_INFO
-_consts.LEVEL_WARN  = LEVEL_WARN
-_consts.LEVEL_ERROR = LEVEL_ERROR
-_consts.LEVEL_FATAL = LEVEL_FATAL
-
-
 class VerbosePolicy():
-	def __init__(self, trace = False, debug = False, info = False, warn = False, error = False, fatal = False, output = _sys.stdout):
-		self._enableLogs = (trace, debug, info, warn, error, fatal)
+	LEVEL_TRACE   = 0
+	LEVEL_DEBUG   = 1
+	LEVEL_INFO    = 2
+	LEVEL_WARNING = 3
+	LEVEL_ERROR   = 4
+	LEVEL_FATAL   = 5
+
+	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout):
+		self._enableLogs = (trace, debug, info, warning, error, fatal)
 		self._output = output
+	
+	def close(self):
+		self._output.close()
 
 	def getConstName(self, const):
 		match const:
-			case _consts.LEVEL_TRACE :
+			case self.LEVEL_TRACE :
 				return "TRACE"
-			case _consts.LEVEL_DEBUG :
+			case self.LEVEL_DEBUG :
 				return "DEBUG"
-			case _consts.LEVEL_INFO  :
+			case self.LEVEL_INFO  :
 				return "INFO"
-			case _consts.LEVEL_WARN  :
+			case self.LEVEL_WARNING  :
 				return "WARNING"
-			case _consts.LEVEL_ERROR :
+			case self.LEVEL_ERROR :
 				return "ERROR"
-			case _consts.LEVEL_FATAL :
+			case self.LEVEL_FATAL :
 				return "FATAL"
 			case _:
 				raise ValueError("unknown info level")
 
 	def getConstColor(self, const):
 		match const:
-			case _consts.LEVEL_TRACE :
+			case self.LEVEL_TRACE :
 				return "magenta"
-			case _consts.LEVEL_DEBUG :
+			case self.LEVEL_DEBUG :
 				return "blue"
-			case _consts.LEVEL_INFO  :
+			case self.LEVEL_INFO  :
 				return "green"
-			case _consts.LEVEL_WARN  :
+			case self.LEVEL_WARNING :
 				return "light_yellow"
-			case _consts.LEVEL_ERROR :
+			case self.LEVEL_ERROR :
 				return "yellow"
-			case _consts.LEVEL_FATAL :
+			case self.LEVEL_FATAL :
 				return "red"
 			case _:
 				raise ValueError("unknown info level")
 
 	def log(self, *message, infolevel = LEVEL_INFO):
 		if not self._enableLogs[infolevel] : return
-		frame = _insp.getouterframes(_insp.currentframe(), 2) [1]
+		frame = _insp.getouterframes(_insp.currentframe(), 2) [2]
 
 		logname = self.getConstName(infolevel)
 
 		while len(logname) < 10:
 			logname = " " + logname if len(logname) % 2 == 0 else logname + " "
-
+   
 		print("[" + _colored(logname, self.getConstColor(infolevel), attrs = ("bold",)) + "]", "[" + str(_os.path.abspath(frame.filename)) + ":" + str(frame.function) + ":" + str(frame.lineno) + "]", *message, file = self._output, flush = True)

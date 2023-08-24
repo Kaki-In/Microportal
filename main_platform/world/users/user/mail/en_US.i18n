@@ -1,0 +1,13 @@
+~LANGUAGE~ : en_US
+
+### Commons
+USER_EMAIL_SEND_FAILED : An error occured while sending the mail : {type} : {error}
+USER_EMAIL_SEND_SUCCESS : The mail has been succesfully sent!
+USER_EMAIL_MICROPORTAL_NAME : Microportal server of {name} {surname}
+
+### Mail verification
+USER_EMAIL_SEND_VERIFICATION_SUBJECT : Please verify your mail address
+USER_EMAIL_SEND_VERIFICATION_TITLE : Mail address verification
+USER_EMAIL_SEND_VERIFICATION_CONTENT : <p> There is the verification code allowing you to verify your mail address: </p>
+                                     : <p id="verification-code"> {code} </p>
+USER_EMAIL_NEW_VERIFICATION_CODE : User {username} has now mail code verification {code}

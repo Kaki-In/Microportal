@@ -1,0 +1,7 @@
+~LANGUAGE~ : en_US
+
+PLATFORM_SAVING_WORLD : Saving world...
+PLATFORM_WORLD_ERROR : An error occured while saving the world : {type} : {error}
+PLATFORM_WORLD_SAVED : The world has been succesfully saved
+
+PLATFORM_HANDLE_ERROR : An error occured while handling the platform : {type} : {error}

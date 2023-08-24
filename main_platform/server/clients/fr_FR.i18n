@@ -1,0 +1,12 @@
+~LANGUAGE~ : fr_FR
+
+### Websockets ###
+
+CLIENT_WEB_SOCKET_ON_OPEN : Le client {id} s'est connecté
+CLIENT_WEB_SOCKET_ON_MESSAGE : Le message {message!r} a été reçu depuis le client {id}
+CLIENT_WEB_SOCKET_ON_ERROR : Une erreur est intervenue lors de l'écoute du client {id} : {type} : {error}
+CLIENT_WEB_SOCKET_ON_CLOSE : Le client {id} s'est déconnecté
+
+### Clients ###
+
+CLIENT_REQUEST_ERROR : Une erreur est intervenue en traitant la requête du client {id} : {type} : {error}
