@@ -5,24 +5,25 @@ import base64 as _b64
 import io as _io
 
 def _pngToPillow(png):
-    b = _io.BytesIO()
-    b.(png)
+    b = _io.BytesIO(png)
 
     image = _pilimg.open(b)
-    return image.tobytes();
+    return image.tobytes()
 
-def _pillowToPng(pillow):
-    b = _io.BytesIO();
+def _pillowToPng(pillow, dim):
+    b = _io.BytesIO()
 
-    image = pillow.frombytes(pillow)
-    image.save(b, format="PNG")
-    return image.get_value()
+    image = _pilimg.frombytes("RGB", (dim, dim), pillow)
+    image.save(b, "PNG")
+    b.seek(0)
+    return b.getvalue()
 
 class UserIcon():
     def __init__(self, imageBytes):
-        dim = int(_mh.sqrt(len(imageBytes) / 3))
-        if len(imageBytes) == dim ** 2 * 3:
-            imageBytes = _pilimg.frombytes('RGB', (dim, dim), _pngToPillow(imageBytes)).resize((120, 120)).tobytes()
+        pill = _pngToPillow(imageBytes)
+        dim = int(_mh.sqrt(len(pill) / 3))
+        if len(pill) == dim ** 2 * 3:
+            imageBytes = _pillowToPng(_pilimg.frombytes('RGB', (dim, dim), pill).resize((120, 120)).tobytes(), 120)
         else:
             raise ValueError("the image isn't a square")
         self._image = imageBytes
@@ -60,7 +61,7 @@ class UserIcon():
                 line += part * 24
             b += line * 24
         b = b.encode("latin1")
-        return UserIcon(_pillowToPng(b))
+        return UserIcon(_pillowToPng(b, 120))
 
     def toJson(self):
         return _b64.b64encode(self._image).decode()
