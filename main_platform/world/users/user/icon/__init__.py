@@ -2,12 +2,27 @@ from PIL import Image as _pilimg
 import math as _mh
 import random as _rd
 import base64 as _b64
+import io as _io
+
+def _pngToPillow(png):
+    b = _io.BytesIO()
+    b.(png)
+
+    image = _pilimg.open(b)
+    return image.tobytes();
+
+def _pillowToPng(pillow):
+    b = _io.BytesIO();
+
+    image = pillow.frombytes(pillow)
+    image.save(b, format="PNG")
+    return image.get_value()
 
 class UserIcon():
     def __init__(self, imageBytes):
         dim = int(_mh.sqrt(len(imageBytes) / 3))
         if len(imageBytes) == dim ** 2 * 3:
-            imageBytes = _pilimg.frombytes('RGB', (dim, dim), imageBytes).resize((120, 120)).tobytes()
+            imageBytes = _pilimg.frombytes('RGB', (dim, dim), _pngToPillow(imageBytes)).resize((120, 120)).tobytes()
         else:
             raise ValueError("the image isn't a square")
         self._image = imageBytes
@@ -45,7 +60,7 @@ class UserIcon():
                 line += part * 24
             b += line * 24
         b = b.encode("latin1")
-        return UserIcon(b)
+        return UserIcon(_pillowToPng(b))
 
     def toJson(self):
         return _b64.b64encode(self._image).decode()
