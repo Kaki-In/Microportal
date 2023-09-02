@@ -1,4 +1,5 @@
 from . import *
+import events as _events
 
 class UserActionsList(ActionsList):
     def __init__(self):
@@ -15,16 +16,33 @@ class UserActionsList(ActionsList):
         self.addActionListener("changeName", self.changeName)
         self.addActionListener("changeIcon", self.changeIcon)
         self.addActionListener("changePassword", self.changePassword)
+        
+        self._events = {
+            "requestProcessing": _events.EventHandler(),
+            "requestProcessed": _events.EventHandler(),
+            "requestCanceled": _events.EventHandler()
+        }
+    
+    def addEventListener(self, name, function):
+        self._events[ name ].connect(function)
     
     async def sendRobotAction(self, client, platform, robot, action, args):
         rlist = platform.world().robotsList()
         if robot in rlist:
-            request = rlist[ robot ].requests().createRequest(client.account().name(), action, **args)
-            return client.createRequest("robotActionSent", robot=robot, request=rlist[ robot ].requests().index(request))
+
+            request = platform.world().requests().create(client.account().name())
+            request.setRobot(robot)
+            request.setAction(action)
+            request.updateArguments(args)
+            request.addEventListener("processing", lambda: self._events[ "requestProcessing" ].emit(request))
+            request.addEventListener("processed", lambda result: self._events[ "requestProcessed" ].emit(request))
+            request.markAsReady()
+
+            return client.createRequest("robotActionSent", robot=robot, request=request.id())
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=robot)
             return client.createRequest("robotActionError", error=message)
-     
+    
     async def getRobotsList(self, client, platform):
         rlist = platform.world().robotsList()
         return client.createRequest("updateRobotsList", robots=list(rlist))
@@ -73,7 +91,6 @@ class UserActionsList(ActionsList):
             script.setTitle(title)
             return client.createRequest("scriptCreationSuccess")
         else:
-           message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
+           message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", robot=robot)
            return client.createRequest("scriptCreationError", error=message)
     
-USER_ACTIONS = UserActionsList()

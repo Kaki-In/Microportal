@@ -36,6 +36,7 @@ class Server():
         self._platform = platform
         
         platform.logInfo("SERVER_STARTING")
+        platform.world().requests().addEventListener("requestReady", self.onRequestReady)
         
         try:
             _asyncio.get_event_loop().run_until_complete(self._serve)
@@ -44,17 +45,28 @@ class Server():
             pass
         finally:
             platform.logInfo("SERVER_STOPPED")
+        
+    async def onRequestReady(self, request):
+        await self.sendRobotRequest(request)
+    
+    async def sendRobotRequest(self, request):
+        robot = self.getRobotClient(request.robot())
+        if robot is not None:
+            await robot.sendRequest(request)
     
     def getUserClients(self, user):
         clients = []
         for client in self._users.copy():
-            if client.account() is user:
+            if client.account().name() == user:
                 clients.append(client)
         return clients
     
     def getRobotClient(self, robot):
         for client in self._robots.copy():
-            if client.robot() is robot:
+            crobot = client.robot()
+            if not crobot:
+                continue
+            if crobot.id() == robot:
                 return client
     
     async def sendToUser(self, user, request):

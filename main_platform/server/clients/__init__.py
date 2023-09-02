@@ -14,16 +14,16 @@ class ClientWebSocket():
         self._running = False
 
         self._open = _events.EventHandler()
-        self._open.addEventFunction(self.onOpen)
+        self._open.connect(self.onOpen)
 
         self._message = _events.EventHandler()
-        self._message.addEventFunction(self.onMessage)
+        self._message.connect(self.onMessage)
 
         self._error = _events.EventHandler()
-        self._error.addEventFunction(self.onError)
+        self._error.connect(self.onError)
 
         self._close = _events.EventHandler()
-        self._close.addEventFunction(self.onClose)
+        self._close.connect(self.onClose)
     
     async def mainDataSend(self):
         while self._running:
@@ -85,6 +85,7 @@ class Client(ClientWebSocket):
             result = await self._list.execute(self, platform, obj[ "name" ], obj[ "args" ])
             if result[ 0 ] and result[ 1 ] is not None:
                 await self.send(result[ 1 ])
+            platform.save()
         except Exception as exc:
             platform.logError("CLIENT_REQUEST_ERROR", type=type(exc).__name__, error=str(exc), id=self._id)
 

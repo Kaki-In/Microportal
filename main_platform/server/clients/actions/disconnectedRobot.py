@@ -11,6 +11,5 @@ class DisconnectedRobotActionsList(ActionsList):
             robot = rlist.getRobot(mac)
         else:
             robot = rlist.addRobot(mac)
-        client.setRobot(robot)
+        client.setRobot(platform, robot)
 
-DISCONNECTED_ROBOT_ACTIONS = DisconnectedRobotActionsList()

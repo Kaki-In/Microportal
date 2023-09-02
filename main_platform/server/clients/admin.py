@@ -52,6 +52,8 @@ class AdminClient(ClientWebSocket):
                 exec(message, {"platform": platform}, self._vars)
         except:
             await self.print(_traceback.format_exc(), end="")
+        finally:
+            platform.save()
     
     def run(self, promise):
         task = _asyncio.get_event_loop().create_task(promise)

@@ -52,4 +52,3 @@ class DisconnectedUserActionsList(ActionsList):
             message = platform.i18n().translate("ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT", name=name)
             return client.createRequest("connectionFailed", message=message)
 
-DISCONNECTED_USER_ACTIONS = DisconnectedUserActionsList()

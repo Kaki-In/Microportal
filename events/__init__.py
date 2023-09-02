@@ -4,8 +4,11 @@ class EventHandler():
     def __init__(self):
         self._functions = []
     
-    def addEventFunction(self, func):
+    def connect(self, func):
         self._functions.append(func)
+    
+    def disconnect(self, func):
+        self._functions.remove(func)
     
     def emit(self, *values):
         for func in self._functions:

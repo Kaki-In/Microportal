@@ -14,13 +14,6 @@ class RobotActionsList(ActionsList):
         client.robot().setType(type)
     
     async def markAsProcessed(self, client, platform, reqid, result):
-        request = client.robot().requests()[ reqid ]
+        request = platform.world().requests().getRequestById(reqid)
         request.markAsProcessed(result)
-        
-        username = request.user()
-        for c in platform.server().users():
-            user = c.account()
-            if user is not None and user.name() == username:
-                await c.send(c.createRequest("requestProcessed", robot=client.robot().id(), id=reqid, result=result))
 
-ROBOT_ACTIONS = RobotActionsList()
