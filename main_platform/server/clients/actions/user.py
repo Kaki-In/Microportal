@@ -14,8 +14,9 @@ class UserActionsList(ActionsList):
         self.addActionListener("getUserInformations", self.getUserInformations)
         
         self.addActionListener("getScriptsList", self.getScriptsList)
-        self.addActionListener("getScriptinformations", self.getScriptInformations)
+        self.addActionListener("getScriptInformations", self.getScriptInformations)
         self.addActionListener("createScript", self.createScript)
+        self.addActionListener("modifyScript", self.modifyScript)
         
         self.addActionListener("changeName", self.changeName)
         self.addActionListener("changeIcon", self.changeIcon)
@@ -79,9 +80,9 @@ class UserActionsList(ActionsList):
      
     async def getScriptInformations(self, client, platform, id):
         slist = platform.world().scripts()
-        if id in slist:
-            script = slist[ id ]
-            return client.createRequest("updateScriptInformations", id=id, user=script.user, published=script.published, robot=script.robot, action=script.action, args=script.getArguments(), creationTime=script.creationTime, modificationTime=script.modificationTime)
+        script = slist[ id ]
+        if script is not None:
+            return client.createRequest("updateScriptInformations", name=script.name(), id=id, user=script.user(), published=script.published(), robot=script.robot(), action=script.action(), args=script.getArguments(), creationTime=script.creationTime(), modificationTime=script.modificationTime())
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_SCRIPT", id=id)
             return client.createRequest("informationError", error=message)
@@ -104,9 +105,36 @@ class UserActionsList(ActionsList):
     async def createScript(self, client, platform, robot, title):
         rlist = platform.world().robotsList()
         if robot in rlist:
-            script = rlist[ robot ].scripts().createNewScripts(client.account().name())
-            script.setTitle(title)
+            script = platform.world().scripts().create(client.account().name())
+            script.setName(title)
             return client.createRequest("scriptCreationSuccess", id=script.id())
         else:
            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", robot=robot)
            return client.createRequest("scriptCreationError", error=message)
+    
+    async def modifyScript(self, client, platform, id, name=None, published=None, action=None, args=None, robot=None):
+        slist = platform.world().scripts()
+        script = slist[ id ]
+        if script is not None:
+            if script.user() == client.account().name():
+                if name is not None:
+                    script.setName(name)
+                if published is not None:
+                    if published:
+                        script.publish()
+                    else:
+                        script.unpublish()
+                if action is not None:
+                    script.setAction(action)
+                if args is not None:
+                    script.setArguments(args)
+                if robot is not None and robot in platform.world().robotsList():
+                    script.robot = robot
+                return client.createRequest("scriptModificationSuccess")
+            else:
+                message = platform.i18n().translate("USER_ACTION_ERR_PERMISSION_DENIED")
+                return client.createRequest("scriptModificationError", error=message)
+        else:
+            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_SCRIPT", id=id)
+            return client.createRequest("scriptModificationError", error=message)
+

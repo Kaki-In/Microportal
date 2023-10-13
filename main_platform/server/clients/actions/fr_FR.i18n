@@ -18,3 +18,4 @@ USER_ACTION_ERR_NO_SUCH_ROBOT : {mac!r} : robot inconnu
 USER_ACTION_ERR_NO_SUCH_USER : {name!r} : utilisateur inconnu
 USER_ACTION_ERR_NO_SUCH_SCRIPT : {id} : script non reconnu
 USER_ACTION_ERR_BAD_PASSWORD : mot de passe invalide
+USER_ACTION_ERR_PERMISSION_DENIED : action non autorisée
