@@ -8,19 +8,18 @@ import os as _os
 
 DIRNAME = _os.path.abspath(_os.path.dirname(__file__))
 
-from .mail.i18n import getMailI18n as _getMailI18n
-from .icon.i18n import getIconI18n as _getIconI18n
+from .request.i18n import getRequestI18n as _getRequestI18n
 
 LANGUAGES = ['fr_FR', 'en_US']
 
-def getUserI18n():
+def getRequestsI18n():
     i18n = _i18n.I18NTranslator()
 
     for i in LANGUAGES:
         parser = _i18n.I18NFileParser(DIRNAME + "/{}.i18n".format(i))
         i18n.addLanguage(parser.getLanguage())
 
-    for subTranslator in [_getMailI18n(), _getIconI18n()]:
+    for subTranslator in [_getRequestI18n()]:
         i18n.loadFrom(subTranslator)
 
     return i18n

@@ -9,7 +9,9 @@ import os as _os
 DIRNAME = _os.path.abspath(_os.path.dirname(__file__))
 
 from .robots.i18n import getRobotsI18n as _getRobotsI18n
+from .requests.i18n import getRequestsI18n as _getRequestsI18n
 from .users.i18n import getUsersI18n as _getUsersI18n
+from .scripts.i18n import getScriptsI18n as _getScriptsI18n
 
 LANGUAGES = ['fr_FR', 'en_US']
 
@@ -20,7 +22,7 @@ def getWorldI18n():
         parser = _i18n.I18NFileParser(DIRNAME + "/{}.i18n".format(i))
         i18n.addLanguage(parser.getLanguage())
 
-    for subTranslator in [_getRobotsI18n(), _getUsersI18n()]:
+    for subTranslator in [_getRobotsI18n(), _getRequestsI18n(), _getUsersI18n(), _getScriptsI18n()]:
         i18n.loadFrom(subTranslator)
 
     return i18n

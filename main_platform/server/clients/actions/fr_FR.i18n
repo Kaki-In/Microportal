@@ -16,4 +16,5 @@ ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT : compte {name!r} introuvable
 
 USER_ACTION_ERR_NO_SUCH_ROBOT : {mac!r} : robot inconnu
 USER_ACTION_ERR_NO_SUCH_USER : {name!r} : utilisateur inconnu
+USER_ACTION_ERR_NO_SUCH_SCRIPT : {id} : script non reconnu
 USER_ACTION_ERR_BAD_PASSWORD : mot de passe invalide

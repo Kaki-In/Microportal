@@ -15,5 +15,6 @@ ACTION_CONNECT_ERR_NO_SUCH_ACCOUNT : {name!r} : no such account
 
 USER_ACTION_ERR_NO_SUCH_ROBOT : {mac!r} : no such robot
 USER_ACTION_ERR_NO_SUCH_USER : {name!r} : no such user
+USER_ACTION_ERR_NO_SUCH_SCRIPT : {id} : unknown script
 USER_ACTION_ERR_BAD_PASSWORD : invalid password
 

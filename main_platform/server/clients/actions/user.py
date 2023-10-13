@@ -13,6 +13,10 @@ class UserActionsList(ActionsList):
         self.addActionListener("getUsersList", self.getUsersList)
         self.addActionListener("getUserInformations", self.getUserInformations)
         
+        self.addActionListener("getScriptsList", self.getScriptsList)
+        self.addActionListener("getScriptinformations", self.getScriptInformations)
+        self.addActionListener("createScript", self.createScript)
+        
         self.addActionListener("changeName", self.changeName)
         self.addActionListener("changeIcon", self.changeIcon)
         self.addActionListener("changePassword", self.changePassword)
@@ -48,26 +52,39 @@ class UserActionsList(ActionsList):
         return client.createRequest("updateRobotsList", robots=list(rlist))
      
     async def getRobotInformations(self, client, platform, mac):
-       rlist = platform.world().robotsList()
-       if mac in rlist:
-           robot = rlist[ mac ]
-           return client.createRequest("updateRobotInformations", name=robot.id(), type=robot.type(), last_connection=robot.lastConnectionDate(), mac=mac)
-       else:
-           message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
-           return client.createRequest("informationError", error=message)
+        rlist = platform.world().robotsList()
+        if mac in rlist:
+            robot = rlist[ mac ]
+            return client.createRequest("updateRobotInformations", name=robot.id(), type=robot.type(), last_connection=robot.lastConnectionDate(), mac=mac)
+        else:
+            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
+            return client.createRequest("informationError", error=message)
     
     async def getUsersList(self, client, platform):
         ulist = platform.world().usersList()
         return client.createRequest("updateUsersList", users=list(ulist))
      
     async def getUserInformations(self, client, platform, name):
-       ulist = platform.world().usersList()
-       if name in ulist:
-           user = ulist[ name ]
-           return client.createRequest("updateUserInformations", name=user.name(), icon=user.icon().toJson(), last_connection=user.lastConnectionDate())
-       else:
-           message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_USER", name=name)
-           return client.createRequest("informationError", error=message)
+        ulist = platform.world().usersList()
+        if name in ulist:
+            user = ulist[ name ]
+            return client.createRequest("updateUserInformations", name=user.name(), icon=user.icon().toJson(), last_connection=user.lastConnectionDate())
+        else:
+            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_USER", name=name)
+            return client.createRequest("informationError", error=message)
+     
+    async def getScriptsList(self, client, platform):
+        slist = platform.world().scripts()
+        return client.createRequest("updateScriptsList", scripts=[i.id() for i in slist])
+     
+    async def getScriptInformations(self, client, platform, id):
+        slist = platform.world().scripts()
+        if id in slist:
+            script = slist[ id ]
+            return client.createRequest("updateScriptInformations", id=id, user=script.user, published=script.published, robot=script.robot, action=script.action, args=script.getArguments(), creationTime=script.creationTime, modificationTime=script.modificationTime)
+        else:
+            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_SCRIPT", id=id)
+            return client.createRequest("informationError", error=message)
      
     async def changeName(self, client, platform, name):
         lastname = client.account().name()
@@ -89,8 +106,7 @@ class UserActionsList(ActionsList):
         if robot in rlist:
             script = rlist[ robot ].scripts().createNewScripts(client.account().name())
             script.setTitle(title)
-            return client.createRequest("scriptCreationSuccess")
+            return client.createRequest("scriptCreationSuccess", id=script.id())
         else:
            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", robot=robot)
            return client.createRequest("scriptCreationError", error=message)
-    

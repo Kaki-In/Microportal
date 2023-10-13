@@ -8,8 +8,8 @@ import os as _os
 
 DIRNAME = _os.path.abspath(_os.path.dirname(__file__))
 
-from .configuration.i18n import getConfigurationI18n as _getConfigurationI18n
 from .server.i18n import getServerI18n as _getServerI18n
+from .configuration.i18n import getConfigurationI18n as _getConfigurationI18n
 from .world.i18n import getWorldI18n as _getWorldI18n
 
 LANGUAGES = ['fr_FR', 'en_US']
@@ -21,7 +21,7 @@ def getMain_platformI18n():
         parser = _i18n.I18NFileParser(DIRNAME + "/{}.i18n".format(i))
         i18n.addLanguage(parser.getLanguage())
 
-    for subTranslator in [_getConfigurationI18n(), _getServerI18n(), _getWorldI18n()]:
+    for subTranslator in [_getServerI18n(), _getConfigurationI18n(), _getWorldI18n()]:
         i18n.loadFrom(subTranslator)
 
     return i18n

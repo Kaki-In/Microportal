@@ -6,6 +6,17 @@ class ScriptsList():
         self._scripts: _T.List [Script] = []
         self._givingId: int = 0
     
+    def __iter__(self) -> iter:
+        return iter(self._scripts)
+    
+    def __getitem__(self, id: int) -> Script:
+        return self.getScriptById(id)
+
+    def getScriptById(self, id: int) -> Script:
+        for script in self._scripts:
+            if script.id() == id:
+                return script
+    
     def getNewId(self) -> int:
         self._givingId += 1
         return self._givingId
