@@ -107,6 +107,7 @@ class UserActionsList(ActionsList):
         if robot in rlist:
             script = platform.world().scripts().create(client.account().name())
             script.setName(title)
+            script.setRobot(robot)
             return client.createRequest("scriptCreationSuccess", id=script.id())
         else:
            message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", robot=robot)
