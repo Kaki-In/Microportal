@@ -36,32 +36,37 @@ class UserIcon():
     
     def createNew():
         b = ""
-        l = [[[0] * 3 for _ in range(5)] for _ in range(5)]
-        color = _rd.choice([(85 * (i % 4), 85 * (i//2 % 4), 85 * (i//4 % 4)) for i in range(1, 63)])
-        backcolor = color
-        while backcolor == color:
-            backcolor = _rd.choice([(85 * (i % 4), 85 * (i//2 % 4), 85 * (i//4 % 4)) for i in range(1, 63)])
-        for y in range(5):
+        colors = [(85 * (i % 4), 85 * (i//2 % 4), 85 * (i//4 % 4)) for i in range(64)]
+
+        color = _rd.choice(colors)
+        colors.remove(color)
+        backcolor = _rd.choice(colors)
+        l = [[[0] * 3 for _ in range(7)] for _ in range(7)]
+
+        for y in range(7):
             line = ""
-            for x in range(5):
+            for x in range(7):
                 n = _rd.randrange(2)
                 part = ""
                 for k in range(3):
-                    if x <= 2:
-                        if n:
-                            intens = color [k]
-                            intens = color [k]
+                    if x <= 3:
+                        if 0 < x < 6 and 0 < y < 6:
+                            if n:
+                                intens = color [k]
+                                intens = color [k]
+                            else:
+                                intens = backcolor [k]
+                                intens = backcolor [k]
                         else:
                             intens = backcolor [k]
-                            intens = backcolor [k]
                     else:
-                        intens = l[4 - x][y][k]
+                        intens = l[6 - x][y][k]
                     l[x][y][k] = intens
                     part += chr(intens)
-                line += part * 24
-            b += line * 24
+                line += part * 50
+            b += line * 50
         b = b.encode("latin1")
-        return UserIcon(_pillowToPng(b, 120))
+        return UserIcon(_pillowToPng(b, 350))
 
     def toJson(self):
         return _b64.b64encode(self._image).decode()
