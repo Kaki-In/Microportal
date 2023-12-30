@@ -27,6 +27,7 @@ import inspect as _insp
 import types as _types
 import os as _os
 from termcolor import colored as _colored
+import datetime as _datetime
 
 class VerbosePolicy():
 	LEVEL_TRACE   = 0
@@ -36,9 +37,10 @@ class VerbosePolicy():
 	LEVEL_ERROR   = 4
 	LEVEL_FATAL   = 5
 
-	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout):
+	def __init__(self, trace = False, debug = False, info = False, warning = False, error = False, fatal = False, output = _sys.stdout, path = _os.path.abspath(_os.path.dirname(__file__) + "/..")):
 		self._enableLogs = (trace, debug, info, warning, error, fatal)
 		self._output = output
+		self._path = path
 	
 	def close(self):
 		self._output.close()
@@ -77,13 +79,18 @@ class VerbosePolicy():
 			case _:
 				raise ValueError("unknown info level")
 
-	def log(self, *message, infolevel = LEVEL_INFO):
-		if not self._enableLogs[infolevel] : return
-		frame = _insp.getouterframes(_insp.currentframe(), 2) [2]
+	def log(self, *message, infolevel = LEVEL_INFO, depth = 0):
+		if not self._enableLogs[infolevel] :
+			return
+
+		frame = _insp.getouterframes(_insp.currentframe(), 2) [ depth + 1 ]
+		fname = _os.path.abspath(frame.filename) [ len(self._path) + 1:]
 
 		logname = self.getConstName(infolevel)
 
 		while len(logname) < 10:
 			logname = " " + logname if len(logname) % 2 == 0 else logname + " "
    
-		print("[" + _colored(logname, self.getConstColor(infolevel), attrs = ("bold",), force_color=True) + "]", "[" + str(_os.path.abspath(frame.filename)) + ":" + str(frame.function) + ":" + str(frame.lineno) + "]", *message, file = self._output, flush = True)
+		dateformat = _datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+   
+		print("[" + _colored(logname, self.getConstColor(infolevel), attrs = ("bold",), force_color=True) + "]", "[" + dateformat + "]", "[" + str(fname) + ":" + str(frame.function) + ":" + str(frame.lineno) + "]", *message, file = self._output, flush = True)

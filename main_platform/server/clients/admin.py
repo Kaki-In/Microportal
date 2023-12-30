@@ -10,6 +10,12 @@ class AdminClient(ClientWebSocket):
         super().__init__(wsock, id)
         self._history = []
         self._vars = {}
+        self._globals = {
+            "platform": None,
+            "print": self.print,
+            "input": self.input
+        }
+
 
     async def main(self, platform):
         self._open.emit(platform)
@@ -37,19 +43,30 @@ class AdminClient(ClientWebSocket):
                 if data.split("\n")[ -1 ][ -1 ] == ":":
                     tab += 4
                 data += "\n" + await self.input("... ", defaultValue=" " * tab)
-                while line.endswith(" "):
-                    line = data[ : -1 ]
+                while data.endswith(" "):
+                    data = data[ : -1 ]
         return data
+
+    def moveToAFunction(self, message):
+        if message.count("\n"):
+            return "async def __execute__():\n    " + message.replace("\n", "    ") + "\n"
+        else:
+            return "async def __execute__():\n    return " + message + "\n"
     
     async def onMessage(self, message, platform):
         await super().onMessage(message, platform)
+        self._globals["platform"] = platform
+        if not message:
+            return
         try:
             try:
-                result = eval(message, {"platform": platform}, self._vars)
+                exec(self.moveToAFunction(message), self._globals, self._vars)
+                result = await self._vars["__execute__"] ()
                 if result is not None:
-                    await self.print(repr(result))
+                    await self._wsock.send(repr(result) + "\r\n")
             except SyntaxError:
-                exec(message, {"platform": platform}, self._vars)
+                exec(message, self._globals, self._vars)
+                print(self._globals, self._vars)
         except:
             await self.print(_traceback.format_exc(), end="")
         finally:
@@ -64,7 +81,7 @@ class AdminClient(ClientWebSocket):
     async def input(self, text="", defaultValue=""):
         writing = defaultValue
         lwrite = ""
-        pos = 0
+        pos = len(defaultValue)
         h = 0
         await self.print(text + defaultValue, end="")
         while True:
@@ -81,6 +98,9 @@ class AdminClient(ClientWebSocket):
                     pos -= 1
                     await self.print("\x1b[D" + writing [ pos : ] + " ", end="")
                     await self.print("\x1b[D" * (len(writing) - pos + 1), end="")
+            elif message == "\x03":
+                await self.print("^C", end="\r\n")
+                return
             elif message == "\x04":
                 await self._wsock.close()
             elif message == "\x1b[A":
@@ -118,7 +138,7 @@ class AdminClient(ClientWebSocket):
             if h == 0:
                 lwrite = writing
     
-    async def print(self, *text, end="\n", sep=" "):
+    async def print(self, *text, end="\r\n", sep=" "):
         raw_text = ""
         for i in text:
             if raw_text :

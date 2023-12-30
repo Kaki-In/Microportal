@@ -32,7 +32,7 @@ class Robot():
         self._lastConnection = date
     
     def setLastConnectionDateNow(self):
-        self._lastConnection = _time.monotonic()
+        self._lastConnection = _time.time()
     
     def toJson(self):
         return {
