@@ -27,7 +27,7 @@ class User():
         self._lastConnection = date
     
     def setLastConnectionDateNow(self):
-        self._lastConnection = _time.time()
+        self._lastConnection = _time.time() * 1000
     
     def icon(self):
         return self._icon

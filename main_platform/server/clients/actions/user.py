@@ -56,7 +56,7 @@ class UserActionsList(ActionsList):
         rlist = platform.world().robotsList()
         if mac in rlist:
             robot = rlist[ mac ]
-            return client.createRequest("updateRobotInformations", name=robot.id(), type=robot.type(), last_connection=robot.lastConnectionDate(), mac=mac)
+            return client.createRequest("updateRobotInformations", name=robot.name(), type=robot.type(), last_connection=robot.lastConnectionDate(), mac=mac)
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
             return client.createRequest("informationError", error=message)
