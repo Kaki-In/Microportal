@@ -56,7 +56,8 @@ class UserActionsList(ActionsList):
         rlist = platform.world().robotsList()
         if mac in rlist:
             robot = rlist[ mac ]
-            return client.createRequest("updateRobotInformations", name=robot.name(), type=robot.type(), last_connection=robot.lastConnectionDate(), mac=mac)
+            robotClient = platform.server().getRobotClient(mac)
+            return client.createRequest("updateRobotInformations", name=robot.name(), type=robot.type(), last_connection=robot.lastConnectionDate(), mac=mac, connected=(robotClient is not None))
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_ROBOT", mac=mac)
             return client.createRequest("informationError", error=message)
@@ -69,7 +70,8 @@ class UserActionsList(ActionsList):
         ulist = platform.world().usersList()
         if name in ulist:
             user = ulist[ name ]
-            return client.createRequest("updateUserInformations", name=user.name(), icon=user.icon().toJson(), last_connection=user.lastConnectionDate())
+            userClients = platform.server().getUserClients(name)
+            return client.createRequest("updateUserInformations", name=user.name(), icon=user.icon().toJson(), last_connection=user.lastConnectionDate(), connected=(len(userClients) > 0))
         else:
             message = platform.i18n().translate("USER_ACTION_ERR_NO_SUCH_USER", name=name)
             return client.createRequest("informationError", error=message)
