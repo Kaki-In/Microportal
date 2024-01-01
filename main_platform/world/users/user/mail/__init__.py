@@ -46,9 +46,9 @@ class MailAddress():
         return self._verified
 
     def send(self, platform, subject, title, content):
-        sender = platform.configuration().ownerConfiguration.getSenderMail()
-        sendername = platform.configuration().ownerConfiguration.getSenderName()
-        sendersurname = platform.configuration().ownerConfiguration.getSenderSurname()
+        sender = platform.configuration().ownerConfiguration.getOwnerMail()
+        sendername = platform.configuration().ownerConfiguration.getOwnerName()
+        sendersurname = platform.configuration().ownerConfiguration.getOwnerSurname()
         
         html = platform.configuration().resources.mail.getFile( "index.html" )
         style = platform.configuration().resources.mail.getFile( "style.css" )

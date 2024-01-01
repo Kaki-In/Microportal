@@ -41,7 +41,7 @@ class Request():
     def id(self):
         return self._id
 
-    def addEventListener(self, event: str, function: _T.Callable [[_T.Optional[_jsonObject]], _T.Any]) -> _T.NoReturn:
+    def addEventListener(self, event: str, function: _T.Callable [[_T.Optional[_jsonObject]], _T.Any]) -> None:
         self._events[ event ].connect(function)
     
     def state(self) -> int:
@@ -53,7 +53,7 @@ class Request():
     def action(self) -> str:
         return self._action
 
-    def setAction(self, action) -> _T.NoReturn:
+    def setAction(self, action) -> None:
         if self._state != self.STATE_CREATING: 
             raise TypeError("request already created")
         self._action = action
@@ -61,7 +61,7 @@ class Request():
     def robot(self) -> str:
         return self._robot
     
-    def setRobot(self, robot: str) -> _T.NoReturn:
+    def setRobot(self, robot: str) -> None:
         if self._state != self.STATE_CREATING: 
             raise TypeError("request already created")
         self._robot = robot
@@ -69,12 +69,12 @@ class Request():
     def getArguments(self) -> dict:
         return self._args.copy()
     
-    def setArgument(self, key: str, value: _jsonObject) -> _T.NoReturn:
+    def setArgument(self, key: str, value: _jsonObject) -> None:
         if self._state != self.STATE_CREATING: 
             raise TypeError("request already created")
         self._args[ key ] = value
     
-    def updateArguments(self, args: _T.Dict [str, _jsonObject]) -> _T.NoReturn:
+    def updateArguments(self, args: _T.Dict [str, _jsonObject]) -> None:
         if self._state != self.STATE_CREATING: 
             raise TypeError("request already created")
         self._args.update(args)
@@ -82,19 +82,19 @@ class Request():
     def getArgument(self, key: str) -> _jsonObject:
         return self._args[ key ]
         
-    def removeArgument(self, key: str) -> _T.NoReturn:
+    def removeArgument(self, key: str) -> None:
         del self._args[ key ]
     
     def __getitem__(self, key: str) -> _jsonObject:
         return self.getArgument(key)
     
-    def __setitem__(self, key: str, value: _jsonObject) -> _T.NoReturn:
+    def __setitem__(self, key: str, value: _jsonObject) -> None:
         self.setArgument(key, value)
     
     def __delitem__(self, key: str):
         self.removeArgument(key)
         
-    def cancel(self) -> _T.NoReturn:
+    def cancel(self) -> None:
         if self._state in (self.STATE_PROCESSING, self.STATE_PROCESSED):
             raise TypeError("request already sent")
         self._canceledTime = _time.monotonic()
@@ -102,7 +102,7 @@ class Request():
 
         self._events[ "canceled" ].emit()
     
-    def markAsReady(self) -> _T.NoReturn:
+    def markAsReady(self) -> None:
         if self._state != self.STATE_CREATING:
             raise TypeError("request already created")
         if self._robot is None:
@@ -114,7 +114,7 @@ class Request():
 
         self._events[ "created" ].emit()
     
-    def markAsProcessing(self) -> _T.NoReturn:
+    def markAsProcessing(self) -> None:
         if self._state != self.STATE_WAITING:
             raise TypeError("request not waiting")
         self._sendTime = _time.monotonic()
@@ -122,7 +122,7 @@ class Request():
 
         self._events[ "processing" ].emit()
 
-    def markAsProcessed(self, result: _jsonObject) -> _T.NoReturn:
+    def markAsProcessed(self, result: _jsonObject) -> None:
         if self._state != self.STATE_PROCESSING:
             raise TypeError("request not processing")
         self._state = self.STATE_PROCESSED
@@ -131,7 +131,7 @@ class Request():
 
         self._events[ "processed" ].emit(result)
 
-    def result(self) -> _T.NoReturn:
+    def result(self) -> None:
         if self._state != self.STATE_PROCESSED:
             raise TypeError("request not processed yet")
         return self._result

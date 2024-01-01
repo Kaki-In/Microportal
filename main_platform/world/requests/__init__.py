@@ -16,7 +16,7 @@ class RequestsList():
             "delete": _events.EventHandler()
         }
     
-    def addEventListener(self, event: str, function: _T.Callable [[Request], _T.Any]) -> _T.NoReturn:
+    def addEventListener(self, event: str, function: _T.Callable [[Request], _T.Any]) -> None:
         self._events[ event ].connect(function)
         
     def getNewId(self) -> int:
@@ -35,7 +35,7 @@ class RequestsList():
         self._events[ "create" ].emit(request)
         return request
 
-    def delete(self, request: Request) -> _T.NoReturn:
+    def delete(self, request: Request) -> None:
         if request.state() != request.STATE_PROCESSED:
             request.cancel()
 

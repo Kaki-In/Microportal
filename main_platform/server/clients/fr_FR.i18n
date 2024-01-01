@@ -10,3 +10,10 @@ CLIENT_WEB_SOCKET_ON_CLOSE : Le client {id} s'est déconnecté
 ### Clients ###
 
 CLIENT_REQUEST_ERROR : Une erreur est intervenue en traitant la requête du client {id} : {type} : {error}
+
+### Admins ###
+
+ADMIN_WELCOMING_MESSAGE : Bienvenue dans l'espace administrateur de {surname} {name}!
+ADMIN_ASK_PASSWORD_MESSAGE : Veuillez entrer votre mot de passe
+ADMIN_ACCESS_GRANTED : Accès autorisé. Bonne exploration!
+ADMIN_ACCESS_DENIED : Accès refusé. Au revoir!

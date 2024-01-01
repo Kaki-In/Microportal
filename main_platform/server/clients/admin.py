@@ -19,6 +19,23 @@ class AdminClient(ClientWebSocket):
 
     async def main(self, platform):
         self._open.emit(platform)
+        ownerConfiguration = platform.configuration().ownerConfiguration
+        await self.print(platform.i18n().translate("ADMIN_WELCOMING_MESSAGE", surname = ownerConfiguration.getOwnerSurname(), name = ownerConfiguration.getOwnerName()))
+        try:
+            password = await self.input(platform.i18n().translate("ADMIN_ASK_PASSWORD_MESSAGE"), display = False)
+        except (_websockets.ConnectionClosedOK, _websockets.ConnectionClosedError) :
+            self._close.emit(platform)
+            return
+
+        except KeyboardInterrupt:
+            password = None
+        if password == platform.configuration().ownerConfiguration.getOwnerPassword():
+            await self.print(platform.i18n().translate("ADMIN_ACCESS_GRANTED"))
+        else:
+            await self.print(platform.i18n().translate("ADMIN_ACCESS_DENIED"))
+            self._close.emit(platform)
+            return
+
         while True:
             try:
                 data = await self.getCommandLine()
@@ -66,7 +83,6 @@ class AdminClient(ClientWebSocket):
                     await self._wsock.send(repr(result) + "\r\n")
             except SyntaxError:
                 exec(message, self._globals, self._vars)
-                print(self._globals, self._vars)
         except:
             await self.print(_traceback.format_exc(), end="")
         finally:
@@ -78,40 +94,43 @@ class AdminClient(ClientWebSocket):
             _tm.sleep(0.1)
         return task.result()
     
-    async def input(self, text="", defaultValue=""):
+    async def input(self, text="", defaultValue="", display = True):
         writing = defaultValue
         lwrite = ""
         pos = len(defaultValue)
         h = 0
-        await self.print(text + defaultValue, end="")
+        await self.print(text, end="")
+        if display:
+            await self.print(defaultValue, end="")
         while True:
             message = await self._wsock.recv()
             if message == "\t":
                 message = " " * 4
             if message == "\r":
                 await self.print("\r\n", end="")
-                self._history.append(writing)
+                if display: self._history.append(writing)
                 return writing
             elif message == "\x7f":
                 if pos > 0:
                     writing = writing[ : pos - 1] + writing[pos : ]
                     pos -= 1
-                    await self.print("\x1b[D" + writing [ pos : ] + " ", end="")
-                    await self.print("\x1b[D" * (len(writing) - pos + 1), end="")
+                    if display:
+                        await self.print("\x1b[D" + writing [ pos : ] + " ", end="")
+                        await self.print("\x1b[D" * (len(writing) - pos + 1), end="")
             elif message == "\x03":
                 await self.print("^C", end="\r\n")
-                return
+                raise KeyboardInterrupt()
             elif message == "\x04":
                 await self._wsock.close()
-            elif message == "\x1b[A":
-                if h < len(self._history):
+            elif message == "\x1b[A" :
+                if display and h < len(self._history):
                     await self.print("\x1b[D" * pos + " " * len(writing) + "\x1b[D" * len(writing), end="")
                     h += 1
                     writing = self._history[ - h ]
                     pos = len(writing)
                     await self.print(writing, end="")
             elif message == "\x1b[B":
-                if h > 0:
+                if display and h > 0:
                     await self.print("\x1b[D" * pos + " " * len(writing) + "\x1b[D" * len(writing), end="")
                     h -= 1
                     if h > 0:
@@ -121,20 +140,22 @@ class AdminClient(ClientWebSocket):
                     pos = len(writing)
                     await self.print(writing, end="")
             elif message == "\x1b[C":
-                if pos < len(writing):
+                if display and pos < len(writing):
                     pos += 1
                     await self.print(message, end="")
             elif message == "\x1b[D":
-                if pos > 0:
+                if display and pos > 0:
                     pos -= 1
                     await self.print(message, end="")
             else:
                 if message[0] == "\x1b":
                     message = message[ 1 : ]
                 writing = writing[ : pos] + message + writing [ pos : ]
-                await self.print(writing [ pos : ], end="")
+                if display: 
+                    await self.print(writing [ pos : ], end="")
                 pos += len(message)
-                await self.print("\x1b[D" * (len(writing) - pos), end="")
+                if display: 
+                    await self.print("\x1b[D" * (len(writing) - pos), end="")
             if h == 0:
                 lwrite = writing
     

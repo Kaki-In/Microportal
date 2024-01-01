@@ -6,7 +6,7 @@ class UserClient(Client):
     def __init__(self, wsock, id):
         super().__init__(wsock, DisconnectedUserActionsList(), id)
         self._user = None
-    
+        
     def setAccount(self, user):
         if user is None:
             self._user = None
@@ -20,7 +20,7 @@ class UserClient(Client):
             self.actionsList().addEventListener("requestCanceled", self.onRequestCanceled)
             
             user.setLastConnectionDateNow()
-    
+        
     def account(self):
         return self._user
 

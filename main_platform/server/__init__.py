@@ -1,42 +1,47 @@
 import websockets as _websockets
 import asyncio as _asyncio
 import signal as _signal
+import ssl as _ssl
 
 from .clients.user import *
 from .clients.robot import *
 from .clients.admin import *
 
 class Server():
-    def __init__(self, host="", port=8266, sslContext=None):
-        self._host = host
-        self._port = port
-        self._context = sslContext
+    def __init__(self, host: str="", port: int=8266, sslContext: _ssl.SSLContext=None) -> "Server":
+        self._host: str = host
+        self._port: int = port
+        self._context: _ssl.SSLContext = sslContext
         self._serve = _websockets.serve(self._registerClient, self._host, self._port, ssl=sslContext)
         
-        self._cid = 0
+        self._cid: int = 0
         
-        self._users = []
-        self._robots = []
-        self._admins = []
+        self._users: list[ UserClient ] = []
+        self._robots: list[ RobotClient ] = []
+        self._admins: list[ AdminClient ] = []
         
-    def users(self):
+    def users(self) -> list[ UserClient ]:
         return self._users.copy()
     
-    def robots(self):
+    def robots(self) -> list[ UserClient ]:
         return self._robots.copy()
     
-    def admins(self):
+    def admins(self) -> list[ AdminClient ]:
         return self._admins.copy()
     
-    def getNewId(self):
+    def getNewId(self) -> int:
         self._cid += 1
         return self._cid
         
-    def run(self, platform):
+    def run(self, platform: "_Platform") -> None:
         self._platform = platform
         
         platform.logInfo("SERVER_STARTING")
         platform.world().requests().addEventListener("requestReady", self.onRequestReady)
+        
+        platform.world().usersList().addEventListener("userModified", self.onUserModified)
+        platform.world().usersList().addEventListener("userAdded", self.onUserModified)
+        platform.world().usersList().addEventListener("userRemoved", self.onUserRemoved)
         
         try:
             _asyncio.get_event_loop().run_until_complete(self._serve)
@@ -45,6 +50,18 @@ class Server():
             pass
         finally:
             platform.logInfo("SERVER_STOPPED")
+    
+    async def onUserModified(self, user: "User") -> None:
+        for client in self._users:
+            if client.account() is not None:
+                await client.send(await client.actionsList().getUserInformations(client, self._platform, user.name()))
+        
+    async def onUserRemoved(self, user) -> None:
+        for userClient in self.getUserClients(user.name()):
+            await userClient._wsock.close()
+        for client in self._users:
+            if client.account() is not None:
+                await client.send(await client.actionsList().getUsersList(client, self._platform))
         
     async def onRequestReady(self, request):
         await self.sendRobotRequest(request)
@@ -57,16 +74,15 @@ class Server():
     def getUserClients(self, user):
         clients = []
         for client in self._users.copy():
-            if client.account().name() == user:
+            account = client.account()
+            if account and account.name() == user:
                 clients.append(client)
         return clients
     
     def getRobotClient(self, robot):
         for client in self._robots.copy():
             crobot = client.robot()
-            if not crobot:
-                continue
-            if crobot.id() == robot:
+            if crobot and crobot.id() == robot:
                 return client
     
     async def sendToUser(self, user, request):
@@ -105,6 +121,14 @@ class Server():
         l.append(client)
         await client.main(self._platform)
         l.remove(client)
+
+        if  path == "/user":
+            # inform the others that the user has been disconnected.
+            # unuseful for the connection because of the last_connection time that
+            # already calls a refresh of the user
+            account = client.account()
+            if account:
+                await self.onUserModified(account)
     
     async def close(self):
         loop = _asyncio.get_event_loop()
