@@ -53,20 +53,20 @@ class Platform():
         else:
             self.logInfo("PLATFORM_WORLD_SAVED")
     
-    def logTrace(self, text: str, depth: int = 1, **args) -> None:
+    def logTrace(self, text: str, depth: int = 0, **args) -> None:
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_TRACE, depth = depth + 1)
     
-    def logDebug(self, text: str, depth: int = 1, **args) -> None:
+    def logDebug(self, text: str, depth: int = 0, **args) -> None:
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_DEBUG, depth = depth + 1)
     
-    def logInfo(self, text: str, depth: int = 1, **args) -> None:
+    def logInfo(self, text: str, depth: int = 0, **args) -> None:
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_INFO, depth = depth + 1)
     
-    def logWarning(self, text: str, depth: int = 1, **args) -> None:
+    def logWarning(self, text: str, depth: int = 0, **args) -> None:
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_WARNING, depth = depth + 1)
     
-    def logError(self, text: str, depth: int = 1, **args) -> None:
+    def logError(self, text: str, depth: int = 0, **args) -> None:
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_ERROR, depth = depth + 1)
     
-    def logFatal(self, text: str, depth: int = 1, **args) -> None:
+    def logFatal(self, text: str, depth: int = 0, **args) -> None:
         self._vpol.log(self._i18n.translate(text, **args), infolevel=self._vpol.LEVEL_FATAL, depth = depth + 1)

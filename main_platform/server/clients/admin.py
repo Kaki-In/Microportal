@@ -9,13 +9,11 @@ class AdminClient(ClientWebSocket):
     def __init__(self, wsock, id):
         super().__init__(wsock, id)
         self._history = []
-        self._vars = {}
-        self._globals = {
+        self._vars = {
             "platform": None,
             "print": self.print,
             "input": self.input
         }
-
 
     async def main(self, platform):
         self._open.emit(platform)
@@ -26,8 +24,7 @@ class AdminClient(ClientWebSocket):
         except (_websockets.ConnectionClosedOK, _websockets.ConnectionClosedError) :
             self._close.emit(platform)
             return
-
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, EOFError):
             password = None
         if password == platform.configuration().ownerConfiguration.getOwnerPassword():
             await self.print(platform.i18n().translate("ADMIN_ACCESS_GRANTED"))
@@ -40,10 +37,16 @@ class AdminClient(ClientWebSocket):
             try:
                 data = await self.getCommandLine()
                 await self.onMessage(data, platform)
-            except (_websockets.ConnectionClosedOK, _websockets.ConnectionClosedError) :
+            except (_websockets.ConnectionClosedOK, _websockets.ConnectionClosedError, SystemExit, EOFError) :
                 break
+            except KeyboardInterrupt:
+                await self.print(_traceback.format_exc(), end="")
             except Exception as exc:
                 self._error.emit(exc, platform)
+        try:
+            await self.print("\n" + platform.i18n().translate("ADMIN_GOODBYE_MESSAGE"))
+        except:
+            pass
         self._close.emit(platform)
     
     async def getCommandLine(self):
@@ -66,23 +69,26 @@ class AdminClient(ClientWebSocket):
 
     def moveToAFunction(self, message):
         if message.count("\n"):
-            return "async def __execute__():\n    " + message.replace("\n", "    ") + "\n"
+            return "async def __execute__():\n    " + message.replace("\n", "    ") + "\n    return locals()\n"
         else:
-            return "async def __execute__():\n    return " + message + "\n"
+            return "async def __execute__():\n    return " + message + ", locals()\n"
     
     async def onMessage(self, message, platform):
         await super().onMessage(message, platform)
-        self._globals["platform"] = platform
+        self._vars["platform"] = platform
         if not message:
             return
         try:
             try:
-                exec(self.moveToAFunction(message), self._globals, self._vars)
+                exec(self.moveToAFunction(message), self._vars, self._vars)
                 result = await self._vars["__execute__"] ()
-                if result is not None:
-                    await self._wsock.send(repr(result) + "\r\n")
+                if result[ 0 ] is not None:
+                    await self._wsock.send(repr(result[ 0 ]) + "\r\n")
+                self._vars.update(result[ 1 ])
             except SyntaxError:
-                exec(message, self._globals, self._vars)
+                exec(message, self._vars, self._vars)
+        except SystemExit:
+            raise
         except:
             await self.print(_traceback.format_exc(), end="")
         finally:
@@ -121,7 +127,7 @@ class AdminClient(ClientWebSocket):
                 await self.print("^C", end="\r\n")
                 raise KeyboardInterrupt()
             elif message == "\x04":
-                await self._wsock.close()
+                raise EOFError()
             elif message == "\x1b[A" :
                 if display and h < len(self._history):
                     await self.print("\x1b[D" * pos + " " * len(writing) + "\x1b[D" * len(writing), end="")
