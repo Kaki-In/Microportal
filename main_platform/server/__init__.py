@@ -146,6 +146,10 @@ class Server():
             account = client.account()
             if account:
                 await self.onUserModified(account)
+        elif path == "/robot":
+            robot = client.robot()
+            if robot:
+                await self.onRobotModified(robot)
     
     async def close(self):
         loop = _asyncio.get_event_loop()
