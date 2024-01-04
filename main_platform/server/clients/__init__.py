@@ -66,6 +66,9 @@ class ClientWebSocket():
     async def send(self, jsonObject):
         message = _json.dumps(jsonObject)
         self._toSend.append(message)
+    
+    async def close(self):
+        await self._wsock.close()
 
 class Client(ClientWebSocket):
     def __init__(self, wsock, actionsList, id):

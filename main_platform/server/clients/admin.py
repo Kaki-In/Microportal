@@ -69,7 +69,7 @@ class AdminClient(ClientWebSocket):
 
     def moveToAFunction(self, message):
         if message.count("\n"):
-            return "async def __execute__():\n    " + message.replace("\n", "    ") + "\n    return locals()\n"
+            return "async def __execute__():\n    " + message.replace("\n", "    ") + "\n    return None, locals()\n"
         else:
             return "async def __execute__():\n    return " + message + ", locals()\n"
     
@@ -170,7 +170,7 @@ class AdminClient(ClientWebSocket):
         for i in text:
             if raw_text :
                 raw_text += sep
-            raw_text += i
+            raw_text += str(i)
         raw_text += end
         await self._wsock.send(raw_text.replace("\n", "\r\n"))
 

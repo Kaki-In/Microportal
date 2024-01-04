@@ -20,16 +20,18 @@ class UsersList():
         else:
             user = User(username, password, mail)
             self._users[ username ] = user
-
-            onUserReload = lambda *args: self._events[ "userModified" ].emit(user)
-            user.addEventListener("nameChanged", onUserReload)
-            user.addEventListener("lastConnectionChanged", onUserReload)
-            user.addEventListener("iconChanged", onUserReload)
-            user.addEventListener("mailChanged", onUserReload)
-            user.addEventListener("passwordChanged", onUserReload)
+            self._plugOnUserEvents(user)
 
             self._events[ "userAdded" ].emit( user )
             return user
+    
+    def _plugOnUserEvents(self, user: User) -> None:
+        onUserReload = lambda *args: self._events[ "userModified" ].emit(user)
+        user.addEventListener("nameChanged", onUserReload)
+        user.addEventListener("lastConnectionChanged", onUserReload)
+        user.addEventListener("iconChanged", onUserReload)
+        user.addEventListener("mailChanged", onUserReload)
+        user.addEventListener("passwordChanged", onUserReload)
     
     def __repr__(self) -> str:
         return "<{name} length={len}>".format(name=type(self).__name__, len=len(self))
@@ -37,20 +39,15 @@ class UsersList():
     def __len__(self) -> int:
         return len(self._users)
     
-    def addUserFromJson(self, json: _jsonObject) -> None:
+    def addUserFromJson(self, json: _jsonObject) -> User:
         username = json[ 'name' ]
         if username in self._users:
             raise ValueError("user already exists")
         else:
             user = User.fromJson(json)
             self._users[ username ] = user
-
-            onUserReload = lambda *args: self._events[ "userModified" ].emit(user)
-            user.addEventListener("nameChanged", onUserReload)
-            user.addEventListener("lastConnectionChanged", onUserReload)
-            user.addEventListener("iconChanged", onUserReload)
-            user.addEventListener("mailChanged", onUserReload)
-            user.addEventListener("passwordChanged", onUserReload)
+            self._plugOnUserEvents(user)
+            self._events[ "userAdded" ].emit( user )
 
             return user
     

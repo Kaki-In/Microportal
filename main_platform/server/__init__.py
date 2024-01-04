@@ -43,6 +43,10 @@ class Server():
         platform.world().usersList().addEventListener("userAdded", self.onUserModified)
         platform.world().usersList().addEventListener("userRemoved", self.onUserRemoved)
         
+        platform.world().robotsList().addEventListener("robotModified", self.onRobotModified)
+        platform.world().robotsList().addEventListener("robotAdded", self.onRobotModified)
+        platform.world().robotsList().addEventListener("robotRemoved", self.onRobotRemoved)
+        
         try:
             _asyncio.get_event_loop().run_until_complete(self._serve)
             _asyncio.get_event_loop().run_forever()
@@ -58,10 +62,23 @@ class Server():
         
     async def onUserRemoved(self, user) -> None:
         for userClient in self.getUserClients(user.name()):
-            await userClient._wsock.close()
+            await userClient.close()
         for client in self._users:
             if client.account() is not None:
                 await client.send(await client.actionsList().getUsersList(client, self._platform))
+        
+    async def onRobotModified(self, robot: "Robot") -> None:
+        for client in self._users:
+            if client.account() is not None:
+                await client.send(await client.actionsList().getRobotInformations(client, self._platform, robot.id()))
+        
+    async def onRobotRemoved(self, robot) -> None:
+        robotClient = self.getRobotClient(robot.id())
+        if robotClient:
+            await robotClient.close()
+        for client in self._users:
+            if client.account() is not None:
+                await client.send(await client.actionsList().getRobotsList(client, self._platform))
         
     async def onRequestReady(self, request):
         await self.sendRobotRequest(request)
