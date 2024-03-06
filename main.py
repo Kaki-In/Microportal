@@ -23,9 +23,9 @@ def openEditor(file):
     if foundEditor:
         if content == new_content:
             if askYesOrNo("Are you sure not to modify this file?"):
-                return openEditor(file)
-            else:
                 return False
+            else:
+                return openEditor(file)
     else:
         raise OSError("couldn't found any editor")
     
