@@ -12,7 +12,6 @@ class Server():
         self._host: str = host
         self._port: int = port
         self._context: _ssl.SSLContext = sslContext
-        self._serve = _websockets.serve(self._registerClient, self._host, self._port, ssl=sslContext)
         
         self._cid: int = 0
         
@@ -48,12 +47,17 @@ class Server():
         platform.world().robotsList().addEventListener("robotRemoved", self.onRobotRemoved)
         
         try:
-            _asyncio.get_event_loop().run_until_complete(self._serve)
-            _asyncio.get_event_loop().run_forever()
+            loop = _asyncio.new_event_loop()
+            loop.run_until_complete(self.run_server())
+            loop.run_forever()
         except KeyboardInterrupt:
             pass
         finally:
             platform.logInfo("SERVER_STOPPED")
+
+    async def run_server(self) -> None:
+        self._serve = _websockets.serve(self._registerClient, self._host, self._port, ssl=self._context)
+        await self._serve
     
     async def onUserModified(self, user: "User") -> None:
         for client in self._users:
@@ -121,7 +125,9 @@ class Server():
             if client.account() is not user:
                 await client.send(request)
     
-    async def _registerClient(self, wsock, path):
+    async def _registerClient(self, wsock):
+        path = wsock.request.path
+
         if   path == "/user":
             client = UserClient(wsock, self.getNewId())
             l = self._users

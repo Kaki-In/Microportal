@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3.10
 
 from main_platform import *
-import sys, os, termcolor
+import sys, os, termcolor, asyncio
 
 def openEditor(file):
     file = os.path.abspath(file)
@@ -85,6 +85,7 @@ Options :
 
 def main(args):
     platform = Platform()
+
     if not args[ 1 : ]:
         return printHelp()
     command = args[1]

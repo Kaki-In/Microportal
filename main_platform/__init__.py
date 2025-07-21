@@ -41,6 +41,7 @@ class Platform():
             self._server.run(self)
         except Exception as exc:
             self.logFatal("PLATFORM_HANDLE_ERROR", type=type(exc).__name__, error=str(exc))
+            raise
         finally:
             self.save()
     
